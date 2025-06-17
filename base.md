@@ -15,6 +15,7 @@
 *   **Prompt Templating Engine:** Use a standard syntax (like Jinja2) for creating reusable prompts with variables.
 *   **Dependency Declaration:** Formally link prompts that depend on each other (e.g., a summarizer prompt that uses a classification prompt first).
 *   **Archival & Deprecation Lifecycle:** Mark prompts as deprecated or archive them to clean up the library without losing history.
+*   **Flags** Active, Inactive, Waste, Old, New, etc.
 
 ### 3. Development & Optimization
 *   **Interactive Prompt IDE/Playground:** A web interface or IDE plugin to build and test prompts in real-time.

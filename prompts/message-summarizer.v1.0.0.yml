@@ -1,0 +1,25 @@
+id: prm_351bcbadbca1450fa618353f03af87cd
+name: message-summarizer
+version: 1.0.0
+description: 'a prompt that summarizes a large conversation into a concise version'
+namespace:
+- Utility
+tags:
+- Summarization
+status: Draft
+author: ananya868 <ananya8154@gmail.com>
+last_update: '2025-06-10T20:07:13.178089+00:00'
+intended_model: 'gemini-1.5-pro '
+model_parameters: {}
+linked_prompts: []
+notes: ""
+default_inputs: 
+  name: 'world'
+template: 'You are a helpful assistant.
+
+
+  {# This is a Jinja2 template. Start editing here! #}
+
+  Hello, {{ name | default("world") }}!
+
+  '

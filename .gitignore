@@ -8,6 +8,7 @@ __pycache__/
 
 # .env 
 .env 
+.venv/
 
 # Distribution / packaging
 .Python
@@ -195,3 +196,5 @@ cython_debug/
 #  refer to https://docs.cursor.com/context/ignore-files
 .cursorignore
 .cursorindexingignore
+# Ignore PromptLockbox internal directory
+.plb/

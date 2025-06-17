@@ -1,0 +1,30 @@
+[tool.poetry]
+name = "prompt-lockbox"
+version = "0.1.0"
+description = "An AI toolkit to supercharge your prompts."
+authors = ["ananya868 <ananya8154@gmail.com>"]
+readme = "README.md"
+
+[tool.poetry.dependencies]
+python = ">=3.10"
+typer = {extras = ["all"], version = "^0.16.0"}
+pyyaml = "^6.0.2"
+tomli = "^2.2.1"
+tomli-w = "^1.2.0"
+packaging = "^25.0"
+jinja2 = "^3.1.6"
+whoosh = "^2.7.4"
+sentence-transformers = "^4.1.0"
+tzdata = "^2025.2"
+lunr = "^0.8.0"
+ipykernel = "^6.29.5"
+faiss-cpu = "^1.11.0"
+
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
+
+
+[tool.poetry.scripts] 
+plb = "prompt_lockbox.cli:app"

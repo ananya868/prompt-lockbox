@@ -1,0 +1,44 @@
+# PROMPT IDENTITY
+# --------------------
+id: prm_fe98df33304e4445b35be13e0cda841a
+name: "tico"             # Your prompt's unique, short name.
+version: "1.0.0"     # Let's start with version 1.0.0!
+
+# DOCUMENTATION
+# --------------------  
+description: ""      # What does this prompt do? (e.g., "Summarizes user feedback into bullet points.")
+namespace: []        # Where does this prompt live? (e.g., [Support, Tickets])
+tags: []             # Add some search tags! (e.g., [Summarization, Triage])
+
+# OWNERSHIP & STATUS
+# --------------------
+status: "Draft"      # Current stage: Draft, In-Review, Production, etc.
+author: "ananya868 <ananya8154@gmail.com>"           # Who created this? (e.g., your-name@email.com)
+last_update: "2025-06-13T11:06:18.262656+00:00"      # When was this last edited?
+
+# CONFIGURATION
+# --------------------
+intended_model: ""   # Which AI model is this for? (e.g., anthropic/claude-3-opus)
+model_parameters:
+  temperature: 0.7   # You can set model params like temperature, top_p, etc. here.
+
+# NOTES & LINKS
+# --------------------
+linked_prompts: []   # Any other prompts related to this one?
+notes: ""
+
+# ✨ THE PROMPT ✨
+# --------------------
+default_inputs:
+  user_input: "Sample Input"
+
+template: "  You are a helpful assistant.
+
+  -- Now you can start writing your prompt template! --
+
+  How to use this template:
+  - To input a value: ${user_input}
+  - To add a comment: {# This is a comment #}
+
+  Create awesome prompts! :)
+"

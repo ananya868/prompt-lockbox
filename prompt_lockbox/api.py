@@ -87,16 +87,51 @@ class Prompt:
             del lock_data["locked_prompts"][relative_path]
             core_integrity.write_lockfile(lock_data, self._project_root)
 
-    def render(self, **kwargs: Any) -> str:
+    def render(self, strict: bool = True, **kwargs: Any) -> str:
         """
         Renders the prompt's template with the given variables.
+
+        This method intelligently combines the prompt's `default_inputs`
+        with any variables provided as keyword arguments.
+
+        Args:
+            strict: If True (default), raises an error for missing variables.
+                    If False, substitutes missing variables with a placeholder.
+            **kwargs: Keyword arguments corresponding to the variables
+                      in the prompt's template.
+
+        Returns:
+            The final, rendered prompt text.
+
+        Raises:
+            jinja2.exceptions.TemplateSyntaxError: If the template has syntax errors.
+            jinja2.exceptions.UndefinedError: If a required variable is not provided
+                                              and `strict` is True.
         """
         template_string = self.data.get("template", "")
         if not template_string:
             return ""
+
+        # Smartly merge default variables with user-provided ones.
+        # User-provided kwargs take precedence.
         default_vars = self.data.get("default_inputs", {})
         final_vars = {**default_vars, **kwargs}
-        return core_templating.render_prompt(template_string, final_vars)
+
+        if strict:
+            # The original, safe behavior
+            return core_templating.render_prompt(template_string, final_vars)
+        else:
+            # New "partial" rendering behavior
+            env = core_templating.get_jinja_env()
+            
+            # Create a custom Undefined class that returns a placeholder
+            class PlaceholderUndefined(jinja2.Undefined):
+                def __str__(self):
+                    return f"<<{self._undefined_name}>>"
+
+            env.undefined = PlaceholderUndefined
+            template = env.from_string(template_string)
+            return template.render(final_vars)
     
     # --- NEW METHOD START HERE ---
 
@@ -245,3 +280,42 @@ class Project:
         
     def __repr__(self) -> str:
         return f"<Project root='{self.root}'>"
+
+    def get_status_report(self) -> dict:
+        """
+        Checks the integrity status of all prompts in the project.
+
+        Returns:
+            A dictionary containing lists of prompts categorized by status:
+            'locked', 'unlocked', and 'tampered'.
+        """
+        report = {
+            "locked": [],
+            "unlocked": [],
+            "tampered": [],
+            "missing": [] # For locked files that have been deleted
+        }
+        
+        all_prompts = self.list_prompts()
+        for prompt in all_prompts:
+            is_secure, status = prompt.verify()
+            
+            if status == "OK":
+                report["locked"].append(prompt)
+            elif status == "UNLOCKED":
+                report["unlocked"].append(prompt)
+            elif status == "TAMPERED":
+                report["tampered"].append(prompt)
+        
+        # Now, check for missing files that are still in the lockfile
+        lock_data = core_integrity.read_lockfile(self.root)
+        locked_paths = set(lock_data.get("locked_prompts", {}).keys())
+        found_paths = {str(p.path.relative_to(self.root)) for p in all_prompts}
+        
+        missing_paths = locked_paths - found_paths
+        for path_str in missing_paths:
+            report["missing"].append({"path": path_str}) # Add placeholder for missing prompts
+
+        return report
+
+

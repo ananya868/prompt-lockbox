@@ -1,16 +1,122 @@
 #
-# In FILE: prompt_lockbox/core/prompt.py
-# ADD THE FOLLOWING FUNCTIONS to the bottom of the file:
+# FILE: prompt_lockbox/core/prompt.py (Complete Final Version)
 #
 
+import yaml
+import re
 import uuid
 import copy
 import textwrap
 import json
-from datetime import datetime, timezone
+from pathlib import Path
 from packaging.version import Version, InvalidVersion
+from datetime import datetime, timezone
 
-# (Your existing functions like load_prompt_data, find_prompt_file, etc., remain at the top)
+
+
+def load_prompt_data(file_path: Path) -> dict:
+    """
+    Safely loads and parses a YAML prompt file into a dictionary.
+    
+    Returns an empty dictionary if the file is invalid or cannot be read.
+    """
+    if not file_path.is_file():
+        return {}
+    try:
+        with open(file_path, "r", encoding="utf-8") as f:
+            data = yaml.safe_load(f)
+            return data if data else {}
+    except (yaml.YAMLError, IOError):
+        return {}
+
+
+def find_prompt_file(
+    project_root: Path,
+    name: str | None = None,
+    id: str | None = None,
+    path: Path | None = None
+) -> Path | None:
+    """
+    Scans the prompts/ directory to find a prompt file by name, id, or path.
+    
+    If found by name, it returns the path to the latest version.
+    """
+    prompts_dir = project_root / "prompts"
+    if not prompts_dir.exists():
+        return None
+
+    # Handle direct path identifier first
+    if path:
+        # Resolve path relative to project root for consistency
+        absolute_path = (project_root / path).resolve()
+        return absolute_path if absolute_path.exists() else None
+
+    # If not a direct path, scan all .yml files
+    all_prompt_files = list(prompts_dir.glob("**/*.yml"))
+    
+    # If an ID is provided, it's a fast and exact match.
+    if id:
+        for f in all_prompt_files:
+            data = load_prompt_data(f)
+            if data.get("id") == id:
+                return f
+        return None
+
+    # If a name is provided, find all candidates and select the latest version.
+    if name:
+        candidate_files = []
+        for f in all_prompt_files:
+            data = load_prompt_data(f)
+            if data.get("name") == name:
+                try:
+                    version = Version(data.get("version", "0.0.0"))
+                    candidate_files.append((f, version))
+                except InvalidVersion:
+                    continue # Ignore files with malformed versions
+        
+        if not candidate_files:
+            return None
+
+        # Sort by version, descending, to find the latest
+        candidate_files.sort(key=lambda x: x[1], reverse=True)
+        return candidate_files[0][0]
+
+    return None
+
+
+def find_all_prompt_files(project_root: Path) -> list[Path]:
+    """Returns a sorted list of all .yml prompt files in the project."""
+    prompts_dir = project_root / "prompts"
+    if not prompts_dir.is_dir():
+        return []
+    return sorted(list(prompts_dir.glob("**/*.yml")))
+
+
+def validate_prompt_file(file_path: Path) -> dict:
+    """
+    Validates a single prompt file against a strict schema and best practices.
+    
+    Returns a dictionary of results categorized by check type.
+    We will fully implement this when we refactor the `lint` command.
+    """
+    # This is a placeholder implementation for now.
+    # The full logic from your original _validate_prompt_file will go here.
+    results = {
+        "YAML Structure & Parsing": {"errors": [], "warnings": []},
+        "Schema: Required Keys": {"errors": [], "warnings": []},
+        "Schema: Data Types": {"errors": [], "warnings": []},
+        "Schema: Value Formats": {"errors": [], "warnings": []},
+        "Template: Jinja2 Syntax": {"errors": [], "warnings": []},
+        "Best Practices & Logic": {"errors": [], "warnings": []},
+    }
+    
+    data = load_prompt_data(file_path)
+    if not data:
+        results["YAML Structure & Parsing"]["errors"].append("File is empty or contains invalid YAML.")
+    
+    # We will add the full, detailed validation rules when refactoring `lint`.
+    return results
+
 
 def generate_prompt_file_content(
     name: str,
@@ -23,36 +129,19 @@ def generate_prompt_file_content(
     notes: str = "",
 ) -> str:
     """
-    Generates the complete, formatted string content for a new prompt YAML file,
-    including the helpful comments and structure from the CLI.
+    Generates the complete, formatted string content for a new prompt YAML file.
     """
-    if namespace is None:
-        namespace = []
-    if tags is None:
-        tags = []
+    if namespace is None: namespace = []
+    if tags is None: tags = []
         
     prompt_id = f"prm_{uuid.uuid4().hex}"
     last_update = datetime.now(timezone.utc).isoformat()
-
-    # The default template that will be embedded in the new file
-    default_template_str = """\
-You are a helpful assistant.
-
--- Now you can start writing your prompt template! --
-
-How to use this template:
-- To input a value: ${user_input}
-- To add a comment: {# This is a comment #}
-
-Create awesome prompts! :)"""
-
-    # Format lists into YAML-compatible strings, ensuring quotes for safety
+    default_template_str = "You are a helpful assistant.\n\n-- Now you can start writing your prompt template! --\n\nHow to use this template:\n- To input a value: ${user_input}\n- To add a comment: {# This is a comment #}\n\nCreate awesome prompts! :)"
+    
     namespace_str = f"[{', '.join(json.dumps(n) for n in namespace)}]"
     tags_str = f"[{', '.join(json.dumps(t) for t in tags)}]"
     indented_template = textwrap.indent(default_template_str, '  ')
 
-    # Use an f-string to build the exact file layout, using json.dumps
-    # to safely handle quotes in any of the string inputs.
     file_content = f"""\
 # PROMPT IDENTITY
 # --------------------
@@ -101,16 +190,6 @@ def create_new_version_data(
 ) -> tuple[dict, str]:
     """
     Takes existing prompt data and returns new data and a new filename for a version bump.
-
-    Args:
-        source_data: The dictionary data from the source prompt.
-        bump_type: 'major', 'minor', or 'patch'.
-
-    Returns:
-        A tuple of (new_data_dict, new_filename_string).
-
-    Raises:
-        ValueError: If bump_type is invalid or source data is missing keys.
     """
     current_version_str = source_data.get("version")
     prompt_name = source_data.get("name")
@@ -120,14 +199,10 @@ def create_new_version_data(
 
     try:
         v = Version(current_version_str)
-        if bump_type == "major":
-            new_version_str = f"{v.major + 1}.0.0"
-        elif bump_type == "patch":
-            new_version_str = f"{v.major}.{v.minor}.{v.patch + 1}"
-        elif bump_type == "minor":
-            new_version_str = f"{v.major}.{v.minor + 1}.0"
-        else:
-            raise ValueError("bump_type must be 'major', 'minor', or 'patch'.")
+        if bump_type == "major": new_version_str = f"{v.major + 1}.0.0"
+        elif bump_type == "patch": new_version_str = f"{v.major}.{v.minor}.{v.patch + 1}"
+        elif bump_type == "minor": new_version_str = f"{v.major}.{v.minor + 1}.0"
+        else: raise ValueError("bump_type must be 'major', 'minor', or 'patch'.")
     except InvalidVersion:
         raise ValueError(f"Invalid version format '{current_version_str}' in source file.")
 
@@ -137,7 +212,25 @@ def create_new_version_data(
     new_data['version'] = new_version_str
     new_data['status'] = 'Draft'
     new_data['last_update'] = datetime.now(timezone.utc).isoformat()
-    # Each prompt version gets its own unique ID
     new_data['id'] = f"prm_{uuid.uuid4().hex}"
 
     return (new_data, new_filename)
+
+
+def find_next_template_index(prompts_dir: Path) -> int:
+    """Finds the highest index for existing prompt_template_*.yml files."""
+    if not prompts_dir.exists():
+        return 1
+    
+    highest_index = 0
+    for f in prompts_dir.glob("prompt_template_*.yml"):
+        try:
+            # Assumes filename like 'prompt_template_123.v1.0.0.yml'
+            base_name = f.name.split('.v')[0]
+            index_str = base_name.split('_')[-1]
+            index = int(index_str)
+            if index > highest_index:
+                highest_index = index
+        except (ValueError, IndexError):
+            continue
+    return highest_index + 1

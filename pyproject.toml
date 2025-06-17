@@ -27,4 +27,4 @@ build-backend = "poetry.core.masonry.api"
 
 
 [tool.poetry.scripts] 
-plb = "prompt_lockbox.cli:app"
+plb = "prompt_lockbox.cli.main:run"

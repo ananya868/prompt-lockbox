@@ -7,8 +7,8 @@ version: "1.0.0"     # Let's start with version 1.0.0!
 # DOCUMENTATION
 # --------------------
 description: ""      # What does this prompt do? (e.g., "Summarizes user feedback into bullet points.")
-namespace: []        # Where does this prompt live? (e.g., [Support, Tickets])
-tags: []             # Add some search tags! (e.g., [Summarization, Triage])
+namespace: ['Support']        # Where does this prompt live? (e.g., [Support, Tickets])
+tags: ['light']             # Add some search tags! (e.g., [Summarization, Triage])
 
 # OWNERSHIP & STATUS
 # --------------------
@@ -18,14 +18,14 @@ last_update: "2025-06-16T13:31:26.213489+00:00"      # When was this last edited
 
 # CONFIGURATION
 # --------------------
-intended_model: ""   # Which AI model is this for? (e.g., anthropic/claude-3-opus)
+intended_model: "gpt-3"   # Which AI model is this for? (e.g., anthropic/claude-3-opus)
 model_parameters:
   temperature: 0.7   # You can set model params like temperature, top_p, etc. here.
 
 # NOTES & LINKS
 # --------------------
 linked_prompts: []   # Any other prompts related to this one?
-notes: ""
+notes: "Do not use in prod"
 
 # - - - 💖 THE PROMPT 💖 - - - 
 # ---------------------------------
@@ -35,7 +35,7 @@ default_inputs:
 
 template: |
   You are a helpful assistant.
-
+  
   -- Now you can start writing your prompt template! --
 
   How to use this template:

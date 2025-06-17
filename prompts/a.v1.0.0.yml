@@ -1,0 +1,45 @@
+# PROMPT IDENTITY
+# --------------------
+id: prm_677f3a000a4e44a3a5ee84af9da0feb3
+name: "a"
+version: "1.0.0"
+
+# DOCUMENTATION
+# --------------------
+description: ""
+namespace: []
+tags: []
+
+# OWNERSHIP & STATUS
+# --------------------
+status: "Draft"
+author: "ananya868 <ananya8154@gmail.com>"
+last_update: "2025-06-17T20:49:33.458152+00:00"
+
+# CONFIGURATION
+# --------------------
+intended_model: ""
+model_parameters:
+  temperature: 0.7
+
+# NOTES & LINKS
+# --------------------
+linked_prompts: []
+notes: ""
+
+# - - - 💖 THE PROMPT 💖 - - -
+# ---------------------------------
+# NOTE - Comments inside the prompt are automatically removed on prompt call.
+default_inputs:
+  user_input: "Sample Input"
+
+template: |
+  You are a helpful assistant.
+
+  -- Now you can start writing your prompt template! --
+
+  How to use this template:
+  - To input a value: ${user_input}
+  - To add a comment: {# This is a comment #}
+
+  Create awesome prompts! :)

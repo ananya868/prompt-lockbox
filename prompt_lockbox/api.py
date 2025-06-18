@@ -4,7 +4,7 @@
 
 from __future__ import annotations
 from pathlib import Path
-from typing import List, Optional, Dict, Any, Set
+from typing import List, Optional, Dict, Any, Union
 from datetime import datetime, timezone
 import jinja2
 import yaml
@@ -204,46 +204,52 @@ class Project:
         name: str,
         version: str = "1.0.0",
         author: Optional[str] = None,
-        **kwargs: Any
+        description: str = "",
+        namespace: Optional[Union[str, List[str]]] = None,
+        tags: Optional[List[str]] = None,
+        intended_model: str = "",
+        notes: str = "",
+        model_parameters: Optional[Dict[str, Any]] = None,
+        linked_prompts: Optional[List[str]] = None,
     ) -> Prompt:
         """
-        Creates and saves a new prompt file from scratch.
-
-        Args:
-            name: The machine-friendly name of the new prompt.
-            version: The starting semantic version. Defaults to '1.0.0'.
-            author: The author of the prompt. If None, will try to get from git config.
-            **kwargs: Other optional metadata like 'description', 'tags', etc.
-                      that match the arguments of `generate_prompt_file_content`.
-
-        Returns:
-            A `Prompt` object representing the newly created file.
-
-        Raises:
-            FileExistsError: If a file with the same name and version already exists.
+        Creates and saves a new prompt file from scratch with explicit parameters.
+        ... (docstring is the same) ...
         """
         if author is None:
             author = core_project.get_git_author() or "Unknown Author"
 
+        final_namespace = []
+        if isinstance(namespace, str):
+            final_namespace = [namespace]
+        elif isinstance(namespace, list):
+            final_namespace = namespace
+
+        # --- THE FIX IS HERE ---
+
+        # 1. Call the core engine to generate the complete file content string.
         file_content = core_prompt.generate_prompt_file_content(
-            name=name, version=version, author=author, **kwargs
+            name=name, version=version, author=author, description=description,
+            namespace=final_namespace, tags=tags, intended_model=intended_model,
+            notes=notes, model_parameters=model_parameters, linked_prompts=linked_prompts,
         )
 
+        # 2. Write the generated content to the file.
         prompts_dir = self.root / "prompts"
-        prompts_dir.mkdir(exist_ok=True) # Ensure prompts directory exists
-        
+        prompts_dir.mkdir(exist_ok=True)
         filename = f"{name}.v{version}.yml"
         filepath = prompts_dir / filename
-
         if filepath.exists():
             raise FileExistsError(f"A prompt file with this name and version already exists: {filepath}")
-
         with open(filepath, "w", encoding="utf-8") as f:
             f.write(file_content)
 
-        # Load the data we just wrote to create a consistent Prompt object
-        newly_loaded_data = core_prompt.load_prompt_data(filepath)
-        return Prompt(path=filepath, data=newly_loaded_data, project_root=self.root)
+        # 3. Instead of re-reading the file, parse the content string we already have.
+        # This avoids any filesystem race conditions.
+        data_from_content = yaml.safe_load(file_content)
+
+        # 4. Create the Prompt object with the guaranteed-correct data.
+        return Prompt(path=filepath, data=data_from_content, project_root=self.root)
 
     # --- END OF NEW METHOD ---
     

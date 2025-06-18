@@ -1,6 +1,6 @@
 # 📦 Prompt Metadata — Translator-prompt
 
-## 🆔 Prompt Identity
+## 👤 Prompt Identity
 - **ID**: `prm_d089d63d4f154fec8e992fb93a7b09a3`  
   > A unique identifier assigned to this prompt instance.
 - **Name**: `Translator-prompt`  
@@ -23,7 +23,7 @@
 
 ---
 
-## 👤 Ownership & Status
+## 🕤 Ownership & Status
 - **Author**: `ananya868 <ananya8154@gmail.com>`  
   > Person who created or maintains this prompt.
 - **Status**: `Draft`  
@@ -42,7 +42,7 @@
 
 ---
 
-## 🔗 Notes & Links
+## 📜 Notes & Links
 - **Linked Prompts**: None  
   > Other prompts related or connected to this one.
 - **Notes**:  
@@ -51,13 +51,13 @@
 
 ---
 
-## 📋 Default Inputs
+## 📍 Default Inputs
 - `user_input`: `"Sample Input"`  
   > Predefined variable placeholder with a sample value.
 
 ---
 
-## 💬 Template Preview
+## 📓 Template Preview
 ```text
 You are a helpful assistant.
 

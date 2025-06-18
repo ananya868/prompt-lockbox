@@ -180,17 +180,20 @@ def generate_prompt_file_content(
     tags: list[str] | None = None,
     intended_model: str = "",
     notes: str = "",
+    model_parameters: dict | None = None,
+    linked_prompts: list[str] | None = None
 ) -> str:
     """
     Generates the complete, formatted string content for a new prompt YAML file.
     """
     if namespace is None: namespace = []
     if tags is None: tags = []
-        
+    if model_parameters is None: model_parameters = {"temperature": 0.7}
+
     prompt_id = f"prm_{uuid.uuid4().hex}"
     last_update = datetime.now(timezone.utc).isoformat()
     default_template_str = "You are a helpful assistant.\n\n-- Now you can start writing your prompt template! --\n\nHow to use this template:\n- To input a value: ${user_input}\n- To add a comment: {# This is a comment #}\n\nCreate awesome prompts! :)"
-    
+    linked_prompts_str = f"[{', '.join(json.dumps(lp) for lp in linked_prompts)}]"
     namespace_str = f"[{', '.join(json.dumps(n) for n in namespace)}]"
     tags_str = f"[{', '.join(json.dumps(t) for t in tags)}]"
     indented_template = textwrap.indent(default_template_str, '  ')
@@ -218,11 +221,11 @@ last_update: "{last_update}"
 # --------------------
 intended_model: {json.dumps(intended_model)}
 model_parameters:
-  temperature: 0.7
+{textwrap.indent(yaml.dump(model_parameters, indent=2), '  ')}
 
 # NOTES & LINKS
 # --------------------
-linked_prompts: []
+linked_prompts: {linked_prompts_str}
 notes: {json.dumps(notes)}
 
 # - - - 💖 THE PROMPT 💖 - - -

@@ -14,6 +14,7 @@ from .core import project as core_project
 from .core import prompt as core_prompt
 from .core import integrity as core_integrity
 from .core import templating as core_templating
+from .search import hybrid, splade
 
 
 class Prompt:
@@ -318,4 +319,51 @@ class Project:
 
         return report
 
+    def lint(self) -> dict:
+        """
+        Validates all prompts in the project for schema and best practice compliance.
 
+        Returns:
+            A dictionary containing aggregated errors and warnings from all files.
+        """
+        all_prompts = self.list_prompts()
+        
+        categories = [
+            "YAML Structure & Parsing", "Schema: Required Keys", "Schema: Data Types",
+            "Schema: Value Formats", "Template: Jinja2 Syntax", "Best Practices & Logic",
+        ]
+        project_results = {cat: {"errors": [], "warnings": []} for cat in categories}
+        
+        for prompt in all_prompts:
+            file_results = core_prompt.validate_prompt_file(prompt.path)
+            relative_path = str(prompt.path.relative_to(self.root))
+            for cat in categories:
+                for error in file_results[cat]["errors"]:
+                    project_results[cat]["errors"].append((relative_path, error))
+                for warning in file_results[cat]["warnings"]:
+                    project_results[cat]["warnings"].append((relative_path, warning))
+                    
+        return project_results
+
+    def index(self, method: str = "hybrid"):
+        """Builds a search index for all prompts in the project."""
+        prompt_paths = [p.path for p in self.list_prompts()]
+        if not prompt_paths:
+            raise ValueError("No prompts found to index.")
+
+        if method.lower() == 'hybrid':
+            hybrid.build_hybrid_index(prompt_paths, self.root)
+        elif method.lower() == 'splade':
+            splade.build_splade_index(prompt_paths, self.root)
+        else:
+            raise ValueError(f"Invalid indexing method: '{method}'. Choose 'hybrid' or 'splade'.")
+
+    def search(self, query: str, method: str = "hybrid", limit: int = 10, **kwargs) -> list[dict]:
+        """Searches for prompts using a specified search engine."""
+        if method.lower() == 'hybrid':
+            alpha = kwargs.get('alpha', 0.5)
+            return hybrid.search_hybrid(query, limit, self.root, alpha=alpha)
+        elif method.lower() == 'splade':
+            return splade.search_with_splade(query, limit, self.root)
+        else:
+            raise ValueError(f"Invalid search method: '{method}'. Choose 'hybrid' or 'splade'.")

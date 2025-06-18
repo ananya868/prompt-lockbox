@@ -12,6 +12,7 @@ from pathlib import Path
 from packaging.version import Version, InvalidVersion
 from datetime import datetime, timezone
 
+from . import templating as core_templating # Ensure this import is at the top of the file
 
 
 def load_prompt_data(file_path: Path) -> dict:
@@ -97,24 +98,76 @@ def validate_prompt_file(file_path: Path) -> dict:
     Validates a single prompt file against a strict schema and best practices.
     
     Returns a dictionary of results categorized by check type.
-    We will fully implement this when we refactor the `lint` command.
     """
-    # This is a placeholder implementation for now.
-    # The full logic from your original _validate_prompt_file will go here.
-    results = {
-        "YAML Structure & Parsing": {"errors": [], "warnings": []},
-        "Schema: Required Keys": {"errors": [], "warnings": []},
-        "Schema: Data Types": {"errors": [], "warnings": []},
-        "Schema: Value Formats": {"errors": [], "warnings": []},
-        "Template: Jinja2 Syntax": {"errors": [], "warnings": []},
-        "Best Practices & Logic": {"errors": [], "warnings": []},
+    categories = [
+        "YAML Structure & Parsing", "Schema: Required Keys", "Schema: Data Types",
+        "Schema: Value Formats", "Template: Jinja2 Syntax", "Best Practices & Logic",
+    ]
+    results = {cat: {"errors": [], "warnings": []} for cat in categories}
+
+    REQUIRED_KEYS = {
+        "id", "name", "version", "description", "namespace", "tags",
+        "status", "author", "last_update", "intended_model",
+        "model_parameters", "linked_prompts", "notes", "default_inputs", "template"
     }
-    
+    EXPECTED_TYPES = {
+        "namespace": list, "tags": list, "model_parameters": dict,
+        "linked_prompts": list, "default_inputs": dict
+    }
+    VALID_STATUSES = {"Draft", "In-Review", "Staging", "Production", "Deprecated", "Archived"}
+
     data = load_prompt_data(file_path)
     if not data:
         results["YAML Structure & Parsing"]["errors"].append("File is empty or contains invalid YAML.")
+        return results
+
+    # CHECK 2: Required Keys
+    missing_keys = REQUIRED_KEYS - set(data.keys())
+    for key in sorted(list(missing_keys)):
+        results["Schema: Required Keys"]["errors"].append(f"Missing required key: '{key}'")
+
+    # CHECK 3: Data Types
+    for key, expected_type in EXPECTED_TYPES.items():
+        if key in data and data.get(key) is not None and not isinstance(data[key], expected_type):
+            results["Schema: Data Types"]["errors"].append(
+                f"Key '{key}' must be a {expected_type.__name__}, but found {type(data[key]).__name__}."
+            )
+
+    # CHECK 4: Value Formats
+    if "version" in data and data.get("version"):
+        try:
+            Version(str(data["version"]))
+        except InvalidVersion:
+            results["Schema: Value Formats"]["errors"].append(f"Invalid semantic version for 'version': '{data['version']}'.")
     
-    # We will add the full, detailed validation rules when refactoring `lint`.
+    if "status" in data and data.get("status") and data["status"] not in VALID_STATUSES:
+        results["Schema: Value Formats"]["errors"].append(f"Value '{data['status']}' is not a valid status.")
+        
+    if "last_update" in data and data.get("last_update"):
+        try:
+            datetime.fromisoformat(str(data["last_update"]).replace("Z", "+00:00"))
+        except (ValueError, TypeError):
+            results["Schema: Value Formats"]["errors"].append(f"Invalid ISO 8601 format for 'last_update': '{data['last_update']}'.")
+            
+    if "id" in data and data.get("id"):
+        if not re.match(r"^prm_[a-f0-9]{32}$", str(data["id"])):
+            results["Schema: Value Formats"]["errors"].append(f"Invalid 'id' format: '{data['id']}'.")
+            
+    # CHECK 5: Jinja2 Syntax
+    if "template" in data and data.get("template"):
+        try:
+            env = core_templating.get_jinja_env()
+            env.parse(data["template"])
+        except Exception as e: # Catching generic Jinja2 exception
+            results["Template: Jinja2 Syntax"]["errors"].append(f"Invalid Jinja2 syntax: {e}")
+            
+    # CHECK 6: Best Practices & Logic
+    if "template" in data and data.get("template") and "default_inputs" in data and data.get("default_inputs"):
+        template_vars = core_templating.get_template_variables(data["template"])
+        for key in data["default_inputs"]:
+            if key not in template_vars:
+                results["Best Practices & Logic"]["warnings"].append(f"Default input '{key}' is defined but not used in the template.")
+
     return results
 
 
@@ -199,10 +252,19 @@ def create_new_version_data(
 
     try:
         v = Version(current_version_str)
-        if bump_type == "major": new_version_str = f"{v.major + 1}.0.0"
-        elif bump_type == "patch": new_version_str = f"{v.major}.{v.minor}.{v.patch + 1}"
-        elif bump_type == "minor": new_version_str = f"{v.major}.{v.minor + 1}.0"
-        else: raise ValueError("bump_type must be 'major', 'minor', or 'patch'.")
+        
+        # --- THE FIX IS HERE ---
+        if bump_type == "major":
+            new_version_str = f"{v.major + 1}.0.0"
+        elif bump_type == "patch":
+            # Access the patch number using v.release[2]
+            patch_num = v.release[2] if len(v.release) > 2 else 0
+            new_version_str = f"{v.major}.{v.minor}.{patch_num + 1}"
+        elif bump_type == "minor":
+            new_version_str = f"{v.major}.{v.minor + 1}.0"
+        else:
+            raise ValueError("bump_type must be 'major', 'minor', or 'patch'.")
+            
     except InvalidVersion:
         raise ValueError(f"Invalid version format '{current_version_str}' in source file.")
 
@@ -211,7 +273,9 @@ def create_new_version_data(
     new_data = copy.deepcopy(source_data)
     new_data['version'] = new_version_str
     new_data['status'] = 'Draft'
+    # Use the existing ID and author unless specified otherwise, but create a new update time.
     new_data['last_update'] = datetime.now(timezone.utc).isoformat()
+    # Let's give each version its own unique ID. This is better practice.
     new_data['id'] = f"prm_{uuid.uuid4().hex}"
 
     return (new_data, new_filename)

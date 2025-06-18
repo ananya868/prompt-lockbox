@@ -301,3 +301,22 @@ def version(
     except FileNotFoundError:
         print("❌ [bold red]Error:[/bold red] Not a PromptLockbox project.")
         raise typer.Exit(code=1)
+
+
+def tree():
+    """Displays a hierarchical tree of prompts based on their namespace."""
+    try:
+        project = Project()
+        prompts = project.list_prompts()
+        
+        if not prompts:
+            print("✅ [green]The 'prompts' directory is empty. Nothing to display.[/green]")
+            raise typer.Exit()
+            
+        # Delegate tree creation to a UI helper
+        namespace_tree = display.create_tree_view(prompts)
+        print(namespace_tree)
+
+    except FileNotFoundError:
+        print("❌ [bold red]Error:[/bold red] Not a PromptLockbox project.")
+        raise typer.Exit(code=1)

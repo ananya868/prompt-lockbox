@@ -1,31 +1,31 @@
 # PROMPT IDENTITY
 # --------------------
-id: prm_677f3a000a4e44a3a5ee84af9da0feb3
-name: "a"
+id: prm_d089d63d4f154fec8e992fb93a7b09a3
+name: "Translator-prompt"
 version: "1.0.0"
 
 # DOCUMENTATION
 # --------------------
-description: ""
-namespace: []
-tags: []
+description: "A prompt hat translates ancient greek lingual to modern english"
+namespace: ["Utility"]
+tags: ["translation", "greek-to-eng"]
 
 # OWNERSHIP & STATUS
 # --------------------
 status: "Draft"
 author: "ananya868 <ananya8154@gmail.com>"
-last_update: "2025-06-17T20:49:33.458152+00:00"
+last_update: "2025-06-18T10:13:42.238538+00:00"
 
 # CONFIGURATION
 # --------------------
-intended_model: ""
+intended_model: "gpt-4.1-nano"
 model_parameters:
   temperature: 0.7
 
 # NOTES & LINKS
 # --------------------
 linked_prompts: []
-notes: ""
+notes: "Use this for only testing purpose!"
 
 # - - - 💖 THE PROMPT 💖 - - -
 # ---------------------------------

@@ -10,6 +10,9 @@ from rich.panel import Panel
 from rich.text import Text
 import textwrap
 import json
+from rich.tree import Tree
+from rich import print # <--- Make sure `print` is imported from `rich` at the top of the file
+
 
 
 def create_status_table(status_report: dict, project_root) -> Table:
@@ -161,3 +164,91 @@ def create_show_panels(prompt) -> tuple[Panel, Panel]:
     )
 
     return metadata_panel, template_panel
+
+
+
+def print_lint_report(report_data: dict):
+    """Takes linting data from the SDK and prints a rich report."""
+    summary_table = Table(title="Linting Report Summary", show_header=True)
+    summary_table.add_column("Status", justify="center")
+    summary_table.add_column("Checklist", style="bright_white")
+    summary_table.add_column("Details")
+
+    total_errors = 0
+    total_warnings = 0
+    
+    for category, results in report_data.items():
+        errors = results["errors"]
+        warnings = results["warnings"]
+        total_errors += len(errors)
+        total_warnings += len(warnings)
+
+        status_emoji, style = ("✅", "green")
+        if errors: status_emoji, style = ("❌", "red")
+        elif warnings: status_emoji, style = ("🟡", "yellow")
+
+        details = f"{len(errors)} errors, {len(warnings)} warnings"
+        summary_table.add_row(f"[{style}]{status_emoji}[/]", category, details)
+        
+    # This part was already correct
+    print(summary_table)
+
+    if total_errors == 0 and total_warnings == 0:
+        return
+
+    print("\n" + "-"*50 + "\n[bold]Detailed Report:[/bold]")
+    for category, results in report_data.items():
+        errors, warnings = results["errors"], results["warnings"]
+        if not errors and not warnings:
+            continue
+
+        panel_content = ""
+        if errors:
+            panel_content += "[red]Errors:[/red]\n"
+            for path, msg in errors:
+                panel_content += f"  - [cyan]{escape(path)}[/cyan]: {escape(msg)}\n"
+        if warnings:
+            panel_content += "\n[yellow]Warnings:[/yellow]\n" if errors else "[yellow]Warnings:[/yellow]\n"
+            for path, msg in warnings:
+                panel_content += f"  - [cyan]{escape(path)}[/cyan]: {escape(msg)}\n"
+                
+        border_style = "red" if errors else "yellow"
+
+        # --- THE FIX IS HERE ---
+        # We need to wrap the Panel object in a print() call.
+        print(Panel(panel_content.strip(), title=f"[bold]{category}[/bold]", border_style=border_style))
+
+
+def create_tree_view(prompts: list) -> Tree:
+    """Takes a list of Prompt objects and returns a Rich Tree."""
+    namespace_map = {}
+    no_namespace = []
+
+    for p in prompts:
+        namespace = p.data.get("namespace")
+        if namespace and isinstance(namespace, list) and namespace[0]:
+            current_level = namespace_map
+            for part in namespace:
+                current_level = current_level.setdefault(part, {})
+            current_level.setdefault("_prompts_", []).append(p.path.name)
+        else:
+            no_namespace.append(p.path.name)
+
+    tree = Tree("🥡 [bold]Prompt Library[/bold]", guide_style="cyan")
+
+    def build_tree(branch, data):
+        # Sort keys so folders appear before prompts
+        sorted_keys = sorted(data.keys(), key=lambda k: (k.startswith('_'), k))
+        for key in sorted_keys:
+            if key == "_prompts_":
+                for name in sorted(data[key]):
+                    branch.add(f"📄 {escape(name)}")
+            else:
+                new_branch = branch.add(f"🗂 [bold]{escape(key)}[/bold]")
+                build_tree(new_branch, data[key])
+
+    build_tree(tree, namespace_map)
+    for name in sorted(no_namespace):
+        tree.add(f"📄 {escape(name)} [dim](No Namespace)[/dim]")
+        
+    return tree

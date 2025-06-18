@@ -180,3 +180,25 @@ def verify():
         raise typer.Exit(code=1)    
 
 
+def lint():
+    """Validates all prompts for compliance and consistency."""
+    try:
+        project = Project()
+        print(f"🔍 [bold]Scanning all prompts for issues...[/bold]\n")
+        
+        report_data = project.lint()
+        
+        # Delegate all the complex printing to a UI helper
+        display.print_lint_report(report_data)
+
+        # Exit with an error code if there were critical errors
+        total_errors = sum(len(cat["errors"]) for cat in report_data.values())
+        if total_errors > 0:
+            print(f"\n❌ [bold red]Linting failed with {total_errors} critical error(s).[/bold red]")
+            raise typer.Exit(code=1)
+        else:
+            print("\n✅ [bold green]Linting passed successfully.[/bold green]")
+
+    except FileNotFoundError:
+        print("❌ [bold red]Error:[/bold red] Not a PromptLockbox project.")
+        raise typer.Exit(code=1)

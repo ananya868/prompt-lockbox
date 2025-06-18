@@ -3,8 +3,9 @@
 #
 
 import typer
-from .project import init, status, lock, unlock, verify
-from .manage import list_prompts, show, create, run, version
+from .project import init, status, lock, unlock, verify, lint
+from .manage import list_prompts, show, create, run, version, tree
+from .search import index, search_app # <--- Import new search commands
 
 app = typer.Typer(
     name="plb",
@@ -20,6 +21,7 @@ app.command(rich_help_panel="Project & Integrity")(status) # <--- Add this line
 app.command(rich_help_panel="Project & Integrity")(lock)      # <--- Add this
 app.command(rich_help_panel="Project & Integrity")(unlock)    # <--- Add this
 app.command(rich_help_panel="Project & Integrity")(verify)    # <--- Add this
+app.command(rich_help_panel="Project & Integrity")(lint) # <--- Add this
 
 
 # Prompt Management Commands
@@ -29,7 +31,13 @@ app.command(rich_help_panel="Prompt Management")(show)
 app.command(rich_help_panel="Prompt Management")(create)  # <--- Add this
 app.command(rich_help_panel="Prompt Management")(run)     # <--- Add this
 app.command(rich_help_panel="Prompt Management")(version) # <--- Add this
+app.command(rich_help_panel="Prompt Management")(tree) # <--- Add this
 
+# Add the standalone `index` command
+app.command(rich_help_panel="Search & Indexing")(index)
+
+# Add the `search` command group
+app.add_typer(search_app, name="search", rich_help_panel="Search & Indexing")
 
 
 def run():

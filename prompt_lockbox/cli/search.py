@@ -41,7 +41,7 @@ def _print_search_results(results: list, title: str):
 @search_app.command("hybrid")
 def search_hybrid_cli(
     query: str = typer.Argument(..., help="The natural language search query."),
-    limit: int = typer.Option(10, "--limit", "-l", help="Number of results to return."),
+    limit: int = typer.Option(3, "--limit", "-l", help="Number of results to return."),
     alpha: float = typer.Option(0.5, "--alpha", "-a", help="Balance: 1.0=semantic, 0.0=keyword."),
 ):
     """Search using the Hybrid (TF-IDF + FAISS) engine."""
@@ -56,7 +56,7 @@ def search_hybrid_cli(
 @search_app.command("splade")
 def search_splade_cli(
     query: str = typer.Argument(..., help="The search query."),
-    limit: int = typer.Option(10, "--limit", "-l", help="Number of results to return."),
+    limit: int = typer.Option(3, "--limit", "-l", help="Number of results to return."),
 ):
     """Search using the powerful SPLADE sparse vector engine."""
     try:
@@ -64,5 +64,23 @@ def search_splade_cli(
         results = project.search(query, method="splade", limit=limit)
         _print_search_results(results, f"SPLADE Search Results for \"{escape(query)}\"")
     except (ImportError, FileNotFoundError, ValueError) as e:
+        print(f"❌ [bold red]Error:[/bold red] {e}")
+        raise typer.Exit(code=1)
+
+@search_app.command("fuzzy")
+def search_fuzzy_cli(
+    query: str = typer.Argument(..., help="The search query."),
+    limit: int = typer.Option(3, "--limit", "-l", help="Number of results to return."),
+):
+    """(Default) Perform a quick, lightweight fuzzy search on prompt names and metadata."""
+    try:
+        project = Project()
+        # The SDK now defaults to 'fuzzy', so we don't even need to specify the method.
+        results = project.search(query, method="fuzzy", limit=limit)
+        
+        # We can reuse our existing UI helper for printing results
+        _print_search_results(results, f"Fuzzy Search Results for \"{escape(query)}\"")
+        
+    except Exception as e:
         print(f"❌ [bold red]Error:[/bold red] {e}")
         raise typer.Exit(code=1)

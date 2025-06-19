@@ -14,7 +14,7 @@ from .core import project as core_project
 from .core import prompt as core_prompt
 from .core import integrity as core_integrity
 from .core import templating as core_templating
-from .search import hybrid, splade
+from .search import hybrid, splade, fuzzy
 
 
 class Prompt:
@@ -189,6 +189,7 @@ class Project:
         if not self._root:
             raise FileNotFoundError(
                 "Could not find a PromptLockbox project. "
+                "If not initialized, run 'plb init' in your project directory."
                 "Ensure you are inside a directory with a 'plb.toml' file."
             )
 
@@ -364,12 +365,29 @@ class Project:
         else:
             raise ValueError(f"Invalid indexing method: '{method}'. Choose 'hybrid' or 'splade'.")
 
-    def search(self, query: str, method: str = "hybrid", limit: int = 10, **kwargs) -> list[dict]:
-        """Searches for prompts using a specified search engine."""
-        if method.lower() == 'hybrid':
+    def search(self, query: str, method: str = "fuzzy", limit: int = 10, **kwargs) -> list[dict]:
+        """
+        Searches for prompts using a specified search engine.
+
+        Args:
+            query: The search query.
+            method: The search method ('fuzzy', 'hybrid', or 'splade'). Defaults to 'fuzzy'.
+            limit: The maximum number of results to return.
+            **kwargs: Additional options for specific engines (e.g., alpha for hybrid).
+
+        Returns:
+            A list of result dictionaries, each containing score, name, path, etc.
+        """
+        # --- THE CHANGE IS HERE ---
+        if method.lower() == 'fuzzy':
+            # Fuzzy search operates on the loaded Prompt objects directly
+            all_prompts = self.list_prompts()
+            return fuzzy.search_fuzzy(query, all_prompts, limit=limit)
+        # --- END OF CHANGE ---
+        elif method.lower() == 'hybrid':
             alpha = kwargs.get('alpha', 0.5)
             return hybrid.search_hybrid(query, limit, self.root, alpha=alpha)
         elif method.lower() == 'splade':
             return splade.search_with_splade(query, limit, self.root)
         else:
-            raise ValueError(f"Invalid search method: '{method}'. Choose 'hybrid' or 'splade'.")
+            raise ValueError(f"Invalid search method: '{method}'. Choose 'fuzzy', 'hybrid', or 'splade'.")

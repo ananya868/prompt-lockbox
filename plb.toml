@@ -1,2 +1,6 @@
 [search]
 active_index = "whoosh"
+
+[ai]
+provider = "openai"
+model = "gpt-4o-mini"

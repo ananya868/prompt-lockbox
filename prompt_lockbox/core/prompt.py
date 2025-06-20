@@ -188,11 +188,14 @@ def generate_prompt_file_content(
     """
     if namespace is None: namespace = []
     if tags is None: tags = []
+    if linked_prompts is None: linked_prompts = []
     if model_parameters is None: model_parameters = {"temperature": 0.7}
 
     prompt_id = f"prm_{uuid.uuid4().hex}"
     last_update = datetime.now(timezone.utc).isoformat()
+    
     default_template_str = "You are a helpful assistant.\n\n-- Now you can start writing your prompt template! --\n\nHow to use this template:\n- To input a value: ${user_input}\n- To add a comment: {# This is a comment #}\n\nCreate awesome prompts! :)"
+    
     linked_prompts_str = f"[{', '.join(json.dumps(lp) for lp in linked_prompts)}]"
     namespace_str = f"[{', '.join(json.dumps(n) for n in namespace)}]"
     tags_str = f"[{', '.join(json.dumps(t) for t in tags)}]"

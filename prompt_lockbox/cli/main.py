@@ -1,11 +1,13 @@
 #
 # FILE: prompt_lockbox/cli/main.py (Updated again)
 #
-
+from dotenv import load_dotenv
+load_dotenv()
 import typer
 from .project import init, status, lock, unlock, verify, lint
 from .manage import list_prompts, show, create, run, version, tree
 from .search import index, search_app # <--- Import new search commands
+from .ai_cli import prompt_app 
 
 app = typer.Typer(
     name="plb",
@@ -38,6 +40,7 @@ app.command(rich_help_panel="Search & Indexing")(index)
 
 # Add the `search` command group
 app.add_typer(search_app, name="search", rich_help_panel="Search & Indexing")
+app.add_typer(prompt_app, name="prompt", rich_help_panel="AI Superpowers")
 
 
 def run():

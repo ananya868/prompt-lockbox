@@ -6,9 +6,15 @@ version: "1.0.0"     # Let's start with version 1.0.0!
 
 # DOCUMENTATION
 # --------------------
-description: ""      # What does this prompt do? (e.g., "Summarizes user feedback into bullet points.")
+description: A customizable prompt template for creating engaging user prompts with
+  input and comments.
 namespace: []        # Where does this prompt live? (e.g., [Support, Tickets])
-tags: []             # Add some search tags! (e.g., [Summarization, Triage])
+tags:
+- prompt
+- template
+- user input
+- comments
+- engagement
 
 # OWNERSHIP & STATUS
 # --------------------

@@ -1,36 +1,42 @@
 # PROMPT IDENTITY
 # --------------------
-id: prm_d089d63d4f154fec8e992fb93a7b09a3
-name: "Translator-prompt"
+id: prm_85cf147a16b745d9b5a59a70160f522d
+name: "prompt_template_2"
 version: "1.0.0"
 
 # DOCUMENTATION
 # --------------------
-description: A template for creating engaging prompts with user input integration.
-namespace: ["Utility"]
+description: Generate songs based on a provided theme.
+namespace: []
 tags:
-- prompt
-- template
-- user input
-- assistant
-- engagement
+- song generation
+- theme based
+- creative writing
+- music creation
+- assistance
+- song generation
+- music creation
+- lyric writing
+- creative prompts
+- theme-based
 
 # OWNERSHIP & STATUS
 # --------------------
 status: "Draft"
 author: "ananya868 <ananya8154@gmail.com>"
-last_update: "2025-06-18T10:13:42.238538+00:00"
+last_update: "2025-06-21T13:36:38.543625+00:00"
 
 # CONFIGURATION
 # --------------------
-intended_model: "gpt-4.1-nano"
+intended_model: ""
 model_parameters:
   temperature: 0.7
+
 
 # NOTES & LINKS
 # --------------------
 linked_prompts: []
-notes: "Use this for only testing purpose!"
+notes: "Your notes here!"
 
 # - - - 💖 THE PROMPT 💖 - - -
 # ---------------------------------
@@ -41,10 +47,6 @@ default_inputs:
 template: |
   You are a helpful assistant.
 
-  -- Now you can start writing your prompt template! --
+  Your task is to generate songs based on the given theme. 
 
-  How to use this template:
-  - To input a value: ${user_input}
-  - To add a comment: {# This is a comment #}
-
-  Create awesome prompts! :)
+  User provided theme: {{ theme }}

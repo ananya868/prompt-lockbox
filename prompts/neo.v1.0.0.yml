@@ -1,36 +1,48 @@
 # PROMPT IDENTITY
 # --------------------
-id: prm_d089d63d4f154fec8e992fb93a7b09a3
-name: "Translator-prompt"
+id: prm_9494f7593ee44acc9b413588dc424405
+name: "neo"
 version: "1.0.0"
 
 # DOCUMENTATION
 # --------------------
-description: A template for creating engaging prompts with user input integration.
-namespace: ["Utility"]
+description: A prompt template designed for creating interactive and user-friendly
+  prompts.
+  from a helpful assistant.
+namespace: []
 tags:
+- prompt template
+- assistant
+- interactive
+- user-friendly
+- communication
 - prompt
 - template
+- assistant
 - user input
 - assistant
-- engagement
+- prompt
+- template
+- user_input
+- comment
 
 # OWNERSHIP & STATUS
 # --------------------
 status: "Draft"
 author: "ananya868 <ananya8154@gmail.com>"
-last_update: "2025-06-18T10:13:42.238538+00:00"
+last_update: "2025-06-21T13:44:04.406218+00:00"
 
 # CONFIGURATION
 # --------------------
-intended_model: "gpt-4.1-nano"
+intended_model: ""
 model_parameters:
   temperature: 0.7
+
 
 # NOTES & LINKS
 # --------------------
 linked_prompts: []
-notes: "Use this for only testing purpose!"
+notes: ""
 
 # - - - 💖 THE PROMPT 💖 - - -
 # ---------------------------------

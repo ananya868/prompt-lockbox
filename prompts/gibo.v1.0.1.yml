@@ -1,9 +1,26 @@
 id: prm_f8694f13d0994409841122f6a4aa2d63
 name: gibo
 version: 1.0.1
-description: A prompt created by the SDK test.
+description: This template is designed to assist users in crafting effective prompts
+  by providing a structure for input and comments.
+  as helpful and supportive.
 namespace: []
 tags:
+- prompt
+- template
+- assistant
+- crafting
+- comments
+- prompt template
+- assistant
+- helpful
+- prompt engineering
+- creative prompts
+- prompt
+- template
+- guidance
+- user_interaction
+- assistant
 - testing
 - sdk
 status: Draft

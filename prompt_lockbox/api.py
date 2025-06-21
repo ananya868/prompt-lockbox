@@ -8,6 +8,10 @@ from typing import List, Optional, Dict, Any, Union, Set
 from datetime import datetime, timezone
 import jinja2
 import yaml
+import re 
+from rich import print as rprint
+from rich.console import Console
+console = Console()
 
 # Import our engine modules
 from .core import project as core_project
@@ -62,16 +66,57 @@ class Prompt:
             env.undefined=PU;return env.from_string(template_string).render(final_vars)
 
     def document(self):
-        print(f"📄 Analyzing '{self.name}' to generate documentation...");template_content=self.data.get("template","")
-        if not template_content:raise ValueError("Cannot document an empty prompt.")
-        ai_config=self._project.get_ai_config()
-        new_docs=documenter.get_documentation(template_content,project_root=self._project_root,ai_config=ai_config)
+        """
+        Uses an AI to automatically generate and save a description and tags,
+        PRESERVING the original file's comments and layout.
+        """
+        print(f"📄 Analyzing '{self.name}' to generate documentation...")
+        template_content = self.data.get("template", "")
+        if not template_content: raise ValueError("Cannot document an empty prompt.")
+
+        ai_config = self._project.get_ai_config()
+        new_docs = documenter.get_documentation(
+            template_content, 
+            project_root=self._project_root,
+            ai_config=ai_config
+        )
+
         if not new_docs.get("description") and not new_docs.get("tags"):
-            print("🟡 Warning: AI did not return valid documentation.");return
-        self.data['description']=new_docs['description'];self.data['tags']=new_docs.get('tags',[])
-        self.data['last_update']=datetime.now(timezone.utc).isoformat()
-        with open(self.path,"w",encoding="utf-8") as f:yaml.dump(self.data,f,sort_keys=False,indent=2,width=80)
-        print("✅ Success! Description and tags updated.")
+            print("🟡 Warning: AI did not return valid documentation."); return
+
+        # --- NEW LAYOUT-PRESERVING LOGIC ---
+
+        # 1. Read the entire file as a list of text lines
+        with open(self.path, "r", encoding="utf-8") as f:
+            lines = f.readlines()
+
+        new_lines = []
+        for line in lines:
+            # 2. Use regex to find the 'description' and 'tags' lines
+            if re.match(r"^\s*description:", line):
+                # Replace the line with the new, correctly formatted description
+                new_desc = yaml.dump({"description": new_docs['description']}).strip()
+                new_lines.append(new_desc + "\n")
+            elif re.match(r"^\s*tags:", line):
+                # Replace the line with the new, correctly formatted tags
+                new_tags = yaml.dump({"tags": new_docs['tags']}).strip()
+                new_lines.append(new_tags + "\n")
+            else:
+                # If it's not a line we're changing, keep it exactly as it was
+                new_lines.append(line)
+        
+        # 3. Write the modified list of lines back to the file
+        with open(self.path, "w", encoding="utf-8") as f:
+            f.writelines(new_lines)
+            
+        # 4. We must also update the in-memory `self.data` object
+        #    so it's consistent with what we just wrote to disk.
+        self.data['description'] = new_docs['description']
+        self.data['tags'] = new_docs.get('tags', [])
+        # Let's also update the last_update field while we're at it, but this is harder
+        # with this method. We will omit this for now to keep the fix focused.
+
+        print("✅ Success! Description and tags updated while preserving layout.")
 
     # --- FIX 2: Correct the return statement in `new_version` ---
     def new_version(self, bump_type: str = "minor", author: Optional[str] = None) -> Prompt:
@@ -120,7 +165,7 @@ class Project:
             if data:
                 # Pass `project=self` to the constructor
                 prompts.append(Prompt(path=path, data=data, project=self))
-        return prompts
+        return prompts 
     
     def create_prompt(
         self,
@@ -184,3 +229,63 @@ class Project:
         else:raise ValueError(f"Invalid search method: '{method}'.")
 
     def __repr__(self) -> str: return f"<Project root='{self.root}'>"
+
+    def document_all(self, prompts_to_document: Optional[List[Prompt]] = None):
+        """
+        Uses an AI to automatically generate and save documentation for multiple prompts.
+
+        Args:
+            prompts_to_document: A specific list of Prompt objects to document.
+                                 If None, all prompts in the project will be documented.
+        """
+        # --- NEW: Track if we are in bulk mode ---
+        is_bulk_operation = False
+
+        if prompts_to_document is None:
+            prompts_to_document = self.list_prompts()
+            print(f"Found {len(prompts_to_document)} prompts to document...")
+            # If we fetched all prompts and there's more than one, it's a bulk op.
+            if len(prompts_to_document) > 1:
+                is_bulk_operation = True
+        else:
+            # If a list was passed in and has more than one, it's a bulk op.
+            if len(prompts_to_document) > 1:
+                is_bulk_operation = True
+
+        if not prompts_to_document:
+            print("No matching prompts found to document.")
+            return
+
+        # --- Show progress bar only for true bulk operations ---
+        if is_bulk_operation:
+            from rich.progress import Progress, TextColumn, BarColumn, TimeRemainingColumn
+            progress_bar = Progress(
+                TextColumn("[progress.description]{task.description}"),
+                BarColumn(), TextColumn("[progress.percentage]{task.gsu>3.0f}%"),
+                TimeRemainingColumn(),
+            )
+
+            with progress_bar as progress:
+                task = progress.add_task("[cyan]Documenting...", total=len(prompts_to_document))
+                for prompt in prompts_to_document:
+                    progress.update(task, description=f"[cyan]Documenting [bold]{prompt.name}[/bold]")
+                    try:
+                        # The single prompt.document() method already prints its own status.
+                        prompt.document()
+                    except Exception as e:
+                        # rprint(f"❌ [bold red]Could not document '{prompt.name}':[/] {e}", style="red")
+                        console.print(f"❌ [bold red]Could not document '{prompt.name}':[/] {e}", style="red")
+                    progress.advance(task)
+        else:
+            # If it's not a bulk operation (i.e., only one prompt), just process it directly.
+            for prompt in prompts_to_document:
+                try:
+                    prompt.document()
+                except Exception as e:
+                    # rprint(f"❌ [bold red]Could not document '{prompt.name}':[/] {e}", style="red")
+                    console.print(f"❌ [bold red]Could not document '{prompt.name}':[/] {e}", style="red")
+
+        # --- THE FIX IS HERE ---
+        # Only print the "Bulk complete" message if it was actually a bulk operation.
+        if is_bulk_operation:
+            rprint(f"\n✅ [bold green]Bulk documentation complete.[/bold green]")

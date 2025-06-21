@@ -1,36 +1,43 @@
 # PROMPT IDENTITY
 # --------------------
-id: prm_d089d63d4f154fec8e992fb93a7b09a3
-name: "Translator-prompt"
+id: prm_7b2d49da115443eca4c87940f6aeb010
+name: "prompt_template_1"
 version: "1.0.0"
 
 # DOCUMENTATION
 # --------------------
-description: A template for creating engaging prompts with user input integration.
-namespace: ["Utility"]
+description: This prompt template facilitates retrieving specific student details
+  from school data.
+namespace: []
 tags:
-- prompt
-- template
-- user input
-- assistant
-- engagement
+- student data
+- education
+- student details
+- school records
+- data retrieval
+- student details
+- data extraction
+- school data
+- assistance
+- education
 
 # OWNERSHIP & STATUS
 # --------------------
 status: "Draft"
 author: "ananya868 <ananya8154@gmail.com>"
-last_update: "2025-06-18T10:13:42.238538+00:00"
+last_update: "2025-06-21T13:36:38.461629+00:00"
 
 # CONFIGURATION
 # --------------------
-intended_model: "gpt-4.1-nano"
+intended_model: ""
 model_parameters:
   temperature: 0.7
+
 
 # NOTES & LINKS
 # --------------------
 linked_prompts: []
-notes: "Use this for only testing purpose!"
+notes: "Your notes here!"
 
 # - - - 💖 THE PROMPT 💖 - - -
 # ---------------------------------
@@ -41,10 +48,10 @@ default_inputs:
 template: |
   You are a helpful assistant.
 
-  -- Now you can start writing your prompt template! --
-
-  How to use this template:
-  - To input a value: ${user_input}
-  - To add a comment: {# This is a comment #}
-
-  Create awesome prompts! :)
+  Your task is to read a school data and return student details.
+  Student details include:
+  - Name
+  - Age
+  - Class
+  - Subjects
+  - Marks

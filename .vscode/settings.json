@@ -1,6 +1,7 @@
 {
     "cSpell.words": [
         "ananya",
+        "dotenv",
         "faiss",
         "gigi",
         "lastrowid",
@@ -8,6 +9,7 @@
         "Multifield",
         "qparser",
         "renderable",
+        "rprint",
         "SPLADE",
         "tico"
     ]

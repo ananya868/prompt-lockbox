@@ -1,25 +1,25 @@
 # PROMPT IDENTITY
 # --------------------
-id: prm_6b18b71064d64dc3b006a20d5803343d
-name: "gibo"
+id: prm_9dad0e061e74449ba8157917018d1278
+name: "sample-2 "
 version: "1.0.0"
 
 # DOCUMENTATION
 # --------------------
-description: A template for creating helpful assistant prompts that allow user input
-  and comments.
+description: A prompt for generating emails based on user-provided topics.
 namespace: []
 tags:
-- prompt template
-- assistant
-- user input
-- helpful
+- email
+- writing
+- communication
+- automation
+- topic-based
 
 # OWNERSHIP & STATUS
 # --------------------
 status: "Draft"
 author: "ananya868 <ananya8154@gmail.com>"
-last_update: "2025-06-20T15:37:15.907974+00:00"
+last_update: "2025-06-21T13:17:32.945648+00:00"
 
 # CONFIGURATION
 # --------------------
@@ -40,12 +40,11 @@ default_inputs:
   user_input: "Sample Input"
 
 template: |
-  You are a helpful assistant.
+  You are an email writer.
 
-  -- Now you can start writing your prompt template! --
+  Your task is to write an email based on the user's input.
+  The user will provide you with a topic and you will write an email on that topic.
+  User input: {{ user_input }}
 
-  How to use this template:
-  - To input a value: ${user_input}
-  - To add a comment: {# This is a comment #}
+  Your output: 
 
-  Create awesome prompts! :)

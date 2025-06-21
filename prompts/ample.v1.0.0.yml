@@ -6,9 +6,9 @@ version: "1.0.0"     # Let's start with version 1.0.0!
 
 # DOCUMENTATION
 # --------------------
-description: ""      # What does this prompt do? (e.g., "Summarizes user feedback into bullet points.")
+description: : ""
 namespace: ['Support']        # Where does this prompt live? (e.g., [Support, Tickets])
-tags: ['light']             # Add some search tags! (e.g., [Summarization, Triage])
+tags: []
 
 # OWNERSHIP & STATUS
 # --------------------

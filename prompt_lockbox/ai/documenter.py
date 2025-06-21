@@ -9,6 +9,9 @@ from typing import List
 # Import our logger setup
 from .logging import setup_ai_logger
 from pathlib import Path
+from openai import OpenAI, OpenAIError
+
+
 
 # 1. Define the desired structured output using Pydantic
 class PromptDocumentation(BaseModel):
@@ -58,9 +61,31 @@ def get_documentation(prompt_template: str, project_root: Path, ai_config: dict)
         
         # Step 2: Call the function just like a normal decorated function.
         response: llm.CallResponse = documenter_fn(prompt_template)
+        
+    except OpenAIError as e:
+        # This specifically catches errors from the OpenAI library
+        if "api_key" in str(e).lower():
+            # This is almost certainly an API key issue.
+            raise ConnectionError(
+                "OpenAI API key is missing or invalid. "
+                "Please set the OPENAI_API_KEY environment variable."
+            )
+        else:
+            # It's a different OpenAI error (e.g., rate limit, server error)
+            raise ConnectionError(f"An error occurred with the OpenAI API: {e}")
+    
+    except ImportError as e:
+        # This can happen if the user configures a provider they haven't installed
+        raise ImportError(
+            f"The '{provider}' provider is configured but its library may be missing. "
+            f"Please install it (e.g., `pip install openai anthropic`). Original error: {e}"
+        )
+            
     except Exception as e:
-        # This could be an API key error, connection error, etc.
-        raise ConnectionError(f"Failed to call LLM: {e}")
+        # A catch-all for other unexpected errors (e.g., network issues)
+        import traceback
+        traceback.print_exc()
+        raise ConnectionError(f"Failed to call LLM provider '{provider}': {e}")
 
     # 4. Log the usage information
     logger = setup_ai_logger(project_root)

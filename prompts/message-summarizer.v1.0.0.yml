@@ -1,10 +1,15 @@
 id: prm_351bcbadbca1450fa618353f03af87cd
 name: message-summarizer
 version: 1.0.0
-description: 'a prompt that summarizes a large conversation into a concise version'
+description: A friendly greeting template that personalizes the message based on the
+  provided name.
 namespace:
 - Utility
 tags:
+- greeting
+- template
+- personalization
+- assistant
 - Summarization
 status: Draft
 author: ananya868 <ananya8154@gmail.com>

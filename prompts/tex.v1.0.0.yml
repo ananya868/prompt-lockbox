@@ -1,9 +1,14 @@
 id: prm_bb64c421743643afad18020bc8f22e55
 name: tex
 version: 1.0.0
-description: Converts plain text descriptions into LaTeX format.
+description: A prompt for converting plain text descriptions into LaTeX code.
 namespace: []
 tags:
+- latex
+- text conversion
+- assistant
+- formatting
+- code generation
 - latex
 - text conversion
 - formatting

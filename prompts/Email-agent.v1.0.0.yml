@@ -1,0 +1,52 @@
+# PROMPT IDENTITY
+# --------------------
+id: prm_183817f76ca74304969726f76c725139
+name: "Email-agent"
+version: "1.0.0"
+
+# DOCUMENTATION
+# --------------------
+description: Generate a professional email template to attract tech industry clients
+  by highlighting product benefits and unique selling points.
+namespace: []
+tags:
+- email marketing
+- client engagement
+- tech industry
+- small business
+- product promotion
+
+# OWNERSHIP & STATUS
+# --------------------
+status: "Draft"
+author: "ananya868 <ananya8154@gmail.com>"
+last_update: "2025-06-21T17:33:16.332009+00:00"
+
+# CONFIGURATION
+# --------------------
+intended_model: "gpt-9"
+model_parameters:
+  temperature: 0.7
+
+
+# NOTES & LINKS
+# --------------------
+linked_prompts: []
+notes: ""
+
+# - - - 💖 THE PROMPT 💖 - - -
+# ---------------------------------
+# NOTE - Comments inside the prompt are automatically removed on prompt call.
+default_inputs:
+  product: "chatbot"
+
+template: |
+  You are an email agent tasked with writing a professional email to attract clients interested in our product: {{product}}. Your email should be concise, persuasive, and tailored to small business owners in the tech industry. 
+
+  Structure the email as follows:
+  1. A brief introduction that establishes your credibility and highlights your company’s mission.
+  2. A clear description of the product or service, focused on its unique selling points (USPs).
+  3. A list of benefits that detail how the product solves common problems faced by clients.
+  4. A strong call to action (CTA), such as scheduling a meeting or inviting them to download an informative brochure. 
+
+  For example, you might say: "Our chatbot, designed specifically for small businesses, enhances customer engagement and streamlines support, allowing you to focus on growth."

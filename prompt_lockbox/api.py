@@ -9,6 +9,7 @@ from datetime import datetime, timezone
 import jinja2
 import yaml
 import re 
+import textwrap
 from rich import print as rprint
 from rich.console import Console
 console = Console()
@@ -20,7 +21,7 @@ from .core import integrity as core_integrity
 from .core import templating as core_templating
 from .search import hybrid, splade, fuzzy
 # Let's be consistent with the filename
-from .ai import documenter
+from .ai import documenter, improver
 
 class Prompt:
     """Represents a single, versioned prompt file within a project."""
@@ -131,6 +132,77 @@ class Prompt:
         return Prompt(path=new_filepath, data=new_data, project=self._project)
     
     def __repr__(self) -> str: return f"<Prompt name='{self.name}' version='{self.version}'>"
+
+    def get_critique(self, note: str = "General improvements") -> dict:
+        """
+        Calls an AI to get a critique and an improved version of the prompt,
+        providing the prompt's description and default inputs as context.
+        This method does NOT save any changes.
+
+        Args:
+            note: A specific instruction for the AI on how to improve the prompt.
+
+        Returns:
+            A dictionary containing the critique, suggestions, and improved_template.
+        """
+        template_content = self.data.get("template", "")
+        if not template_content:
+            raise ValueError("Cannot get critique for an empty prompt.")
+        
+        ai_config = self._project.get_ai_config()
+        
+        # --- NEW: Gather the extra context from the prompt object ---
+        critique_data = improver.get_critique(
+            prompt_template=template_content,
+            note=note,
+            project_root=self._project_root,
+            ai_config=ai_config,
+            # Pass the description and default_inputs to the AI engine
+            description=self.data.get("description"),
+            default_inputs=self.data.get("default_inputs")
+        )
+        # --- END OF NEW CONTEXT ---
+        
+        return critique_data
+
+    def improve(self, improved_template: str):
+        """
+        Overwrites the prompt's template and updates the last_update timestamp,
+        PRESERVING the original file's comments and layout.
+        """
+        try:
+            with open(self.path, "r", encoding="utf-8") as f:
+                lines = f.readlines()
+        except FileNotFoundError:
+            print(f"❌ Error: Could not find file {self.path} to save improvements.")
+            return
+            
+        new_last_update = datetime.now(timezone.utc).isoformat()
+        new_lines = []
+        in_template_block = False
+
+        for line in lines:
+            if in_template_block:
+                continue  # Skip all old lines of the template block
+
+            # Use regex to find and replace specific keys
+            if re.match(r"^\s*template:", line):
+                in_template_block = True
+                new_lines.append("template: |\n") # Ensure the line ends correctly
+                # Add the new, improved template, correctly indented
+                indented_template = textwrap.indent(improved_template, '  ')
+                new_lines.append(indented_template + "\n") # Add a newline for spacing
+            elif re.match(r"^\s*last_update:", line):
+                new_lines.append(f'last_update: "{new_last_update}"\n')
+            else:
+                new_lines.append(line) # Keep all other lines as they are
+
+        with open(self.path, "w", encoding="utf-8") as f:
+            f.writelines(new_lines)
+            
+        # Update the in-memory object to match the file
+        self.data['template'] = improved_template
+        self.data['last_update'] = new_last_update
 
 
 class Project:

@@ -6,10 +6,16 @@ version: "1.0.0"
 
 # DOCUMENTATION
 # --------------------
-description: Generate a professional email template to attract tech industry clients
+description: Generate a persuasive email targeting small business owners in the tech
+  industry to promote a specific product.
   by highlighting product benefits and unique selling points.
 namespace: []
 tags:
+- email
+- marketing
+- small business
+- tech industry
+- sales
 - email marketing
 - client engagement
 - tech industry
@@ -20,7 +26,7 @@ tags:
 # --------------------
 status: "Draft"
 author: "ananya868 <ananya8154@gmail.com>"
-last_update: "2025-06-21T17:33:16.332009+00:00"
+last_update: "2025-06-25T05:52:43.152944+00:00"
 
 # CONFIGURATION
 # --------------------
@@ -41,12 +47,9 @@ default_inputs:
   product: "chatbot"
 
 template: |
-  You are an email agent tasked with writing a professional email to attract clients interested in our product: {{product}}. Your email should be concise, persuasive, and tailored to small business owners in the tech industry. 
-
-  Structure the email as follows:
-  1. A brief introduction that establishes your credibility and highlights your company’s mission.
-  2. A clear description of the product or service, focused on its unique selling points (USPs).
-  3. A list of benefits that detail how the product solves common problems faced by clients.
-  4. A strong call to action (CTA), such as scheduling a meeting or inviting them to download an informative brochure. 
-
-  For example, you might say: "Our chatbot, designed specifically for small businesses, enhances customer engagement and streamlines support, allowing you to focus on growth."
+  Draft a persuasive email targeting small business owners in the tech industry to promote a specific product like a 'chatbot'. The email should be friendly yet professional, focusing on the benefits of the product, including any recent success stories or testimonials. Structure the email as follows:
+  1. Subject Line: Catchy and relevant to the product.
+  2. Opening: A warm greeting and a brief introduction.
+  3. Body: Clearly outline the benefits of the chatbot, addressing common pain points for tech small business owners.
+  4. Call to Action: Encourage them to either schedule a demo or visit the website for more information.
+  5. Closing: A friendly sign-off with contact information.

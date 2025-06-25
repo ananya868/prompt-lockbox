@@ -11,6 +11,7 @@
         "renderable",
         "rprint",
         "SPLADE",
-        "tico"
+        "tico",
+        "venv"
     ]
 }

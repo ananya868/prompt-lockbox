@@ -6,9 +6,10 @@ __pycache__/
 # C extensions
 *.so
 
-# .env 
+# Project Specific
 .env 
 .venv/
+.plb/
 
 # Distribution / packaging
 .Python

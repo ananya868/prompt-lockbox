@@ -3,11 +3,10 @@
 
 &nbsp;&nbsp;&nbsp;***Your friendly AI toolkit for storing, managing, and supercharging prompts!***
 
-&nbsp;&nbsp;&nbsp; `PromptLockbox brings structure and reproducibility to prompt engineering by`
-&nbsp;&nbsp;&nbsp; `treating prompts as code`
-&nbsp;&nbsp;&nbsp; `This toolkit lets you version, secure, and scale your entire prompt library,` 
-&nbsp;&nbsp;&nbsp; `complete with integrity locking, advanced semantic search, and AI-powered quality improvements.`
-<br></br>
-<br></br> 
+&nbsp;&nbsp;&nbsp; ***Brings structure and reproducibility to prompt engineering***
 
+&nbsp;&nbsp;&nbsp; *`Local-First & Filesystem-Native` `Prompts-as-Code` `Open Source & Extensible`*
+
+&nbsp;&nbsp;&nbsp; *`Integrity Locking` `Developer-Centric CLI` `LLM-based tools (ollama Support)`*
+ 
 Some content 

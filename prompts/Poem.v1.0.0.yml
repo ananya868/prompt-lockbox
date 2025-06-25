@@ -1,0 +1,46 @@
+# PROMPT IDENTITY
+# --------------------
+id: prm_f441dbc54e764d979d21cf81c7fe99ca
+name: "Poem"
+version: "1.0.0"
+
+# DOCUMENTATION
+# --------------------
+description: "A poem writer that writes for 10 yo kids"
+namespace: ["Kid"]
+tags: ["poem-writer", "8-yo"]
+
+# OWNERSHIP & STATUS
+# --------------------
+status: "Draft"
+author: "ananya868 <ananya8154@gmail.com>"
+last_update: "2025-06-25T09:47:29.274742+00:00"
+
+# CONFIGURATION
+# --------------------
+intended_model: "gpt-4.1-nano"
+model_parameters:
+  temperature: 0.7
+
+
+# NOTES & LINKS
+# --------------------
+linked_prompts: []
+notes: "Use in development only"
+
+# - - - 💖 THE PROMPT 💖 - - -
+# ---------------------------------
+# NOTE - Comments inside the prompt are automatically removed on prompt call.
+default_inputs:
+  user_input: "Sample Input"
+
+template: |
+  You are a helpful assistant.
+
+  -- Now you can start writing your prompt template! --
+
+  How to use this template:
+  - To input a value: ${user_input}
+  - To add a comment: {# This is a comment #}
+
+  Create awesome prompts! :)

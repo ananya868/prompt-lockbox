@@ -1,0 +1,37 @@
+id: prm_591e2dca2cd54b82942b4d3cb64e02da
+name: Poem
+version: 1.1.0
+description: A template for creating prompts to define a helpful assistant role.
+namespace:
+- Kid
+tags:
+- prompt
+- template
+- assistant
+- helpful
+- prompt engineering
+- poem-writer
+- 8-yo
+status: Draft
+author: ananya868 <ananya8154@gmail.com>
+last_update: "2025-06-25T09:50:37.172567+00:00"
+intended_model: gpt-4.1-nano
+model_parameters:
+  temperature: 0.7
+linked_prompts: []
+notes: Use in development only
+default_inputs:
+  user_input: Sample Input
+template: |
+  You are a helpful assistant specializing in providing clear and informative responses across various topics including technology, health, and education.
+
+  -- Now you can start writing your prompt template! --
+
+  1. **User Input:**: ${user_input}  
+     - *Please provide your query or request here (e.g., 'How can I improve my productivity?')*
+
+  2. **Comments:**: {# This is a comment #}  
+     - *You can add comments here for clarity or additional context.*
+
+  Create awesome prompts that evoke detailed and insightful responses! :)
+

@@ -1,5 +1,5 @@
 #
-# FILE: prompt_lockbox/ai/proompt_documenter.py (Mirascope Version)
+# FILE: prompt_lockbox/ai/documenter.py (Mirascope Version)
 #
 
 from mirascope import llm
@@ -12,10 +12,12 @@ from pathlib import Path
 from openai import OpenAI, OpenAIError
 
 
-
-# 1. Define the desired structured output using Pydantic
 class PromptDocumentation(BaseModel):
-    """A model for the generated documentation of a prompt."""
+    """A Pydantic model defining the structured output for AI-generated documentation.
+
+    This schema ensures that the language model returns data in a predictable
+    and validated format.
+    """
     description: str = Field(
         ..., description="A concise, one-sentence description of the prompt's purpose."
     )
@@ -25,9 +27,19 @@ class PromptDocumentation(BaseModel):
 
 
 def _get_dynamic_documenter(ai_config: dict):
-    """
-    Dynamically creates and returns a mirascope-decorated function
-    based on the provided AI configuration.
+    """A factory to dynamically create a Mirascope-decorated function.
+
+    This function allows the AI provider and model to be configured at runtime
+    based on the project's configuration, rather than being hardcoded in the
+    decorator.
+
+    Args:
+        ai_config: A dictionary containing 'provider' and 'model' keys to
+                   configure the LLM call.
+
+    Returns:
+        A callable function decorated with `mirascope.llm.call` and configured
+        with the specified provider, model, and response model.
     """
     # Get provider and model from config, with sane defaults
     provider = ai_config.get("provider", "openai")
@@ -39,6 +51,9 @@ def _get_dynamic_documenter(ai_config: dict):
         response_model=PromptDocumentation
     )
     def generate(prompt_template: str) -> str:
+        """The internal function that crafts the prompt for the LLM."""
+        # This prompt instructs the AI on its role and task.
+        # The user's prompt template is injected for analysis.
         prompt = f"""
             You are a documentation expert for a prompt engineering framework.
             Your task is to analyze a user-provided prompt template and generate a concise,
@@ -51,19 +66,34 @@ def _get_dynamic_documenter(ai_config: dict):
     return generate
 
 def get_documentation(prompt_template: str, project_root: Path, ai_config: dict) -> dict:
+    """Generates structured documentation for a given prompt template using an LLM.
+
+    This is the main public function of the module. It orchestrates the AI call,
+    handles potential errors, logs the interaction, and returns the structured
+    output.
+
+    Args:
+        prompt_template: The string content of the prompt template to be documented.
+        project_root: The root path of the PromptLockbox project, used for logging.
+        ai_config: A dictionary specifying the 'provider' and 'model' for the AI call.
+
+    Returns:
+        A dictionary containing the 'description' and 'tags' for the prompt.
+
+    Raises:
+        ConnectionError: If there is an issue with the OpenAI API key, a general
+                         API error, or other network-related problems.
+        ImportError: If the configured AI provider's library is not installed.
     """
-    The main function that gets documentation and logs the interaction.
-    """
-    # 3. Call the mirascope-decorated function
     try:
-        # Step 1: Get the dynamically configured function from our factory.
+        # Get the dynamically configured function from our factory.
         documenter_fn = _get_dynamic_documenter(ai_config)
         
-        # Step 2: Call the function just like a normal decorated function.
+        # Call the Mirascope-decorated function to interact with the LLM.
         response: llm.CallResponse = documenter_fn(prompt_template)
         
     except OpenAIError as e:
-        # This specifically catches errors from the OpenAI library
+        # Specifically catch errors from the OpenAI library for better feedback.
         if "api_key" in str(e).lower():
             # This is almost certainly an API key issue.
             raise ConnectionError(
@@ -75,19 +105,19 @@ def get_documentation(prompt_template: str, project_root: Path, ai_config: dict)
             raise ConnectionError(f"An error occurred with the OpenAI API: {e}")
     
     except ImportError as e:
-        # This can happen if the user configures a provider they haven't installed
+        # Catch errors if the configured provider library (e.g., 'anthropic') is missing.
         raise ImportError(
             f"The '{provider}' provider is configured but its library may be missing. "
             f"Please install it (e.g., `pip install openai anthropic`). Original error: {e}"
         )
             
     except Exception as e:
-        # A catch-all for other unexpected errors (e.g., network issues)
+        # Catch-all for other unexpected errors (e.g., network issues, provider downtime).
         import traceback
         traceback.print_exc()
         raise ConnectionError(f"Failed to call LLM provider '{provider}': {e}")
 
-    # 4. Log the usage information
+    # Set up and use the logger to record AI usage statistics.
     logger = setup_ai_logger(project_root)
     if response._response.usage:
         log_data = {
@@ -98,6 +128,6 @@ def get_documentation(prompt_template: str, project_root: Path, ai_config: dict)
         }
         logger.info("generate_documentation", extra=log_data)
     
-    # 5. Return the structured data
-    # The response object *is* an instance of our Pydantic model
+    # Mirascope automatically parses the LLM's response into the Pydantic model.
+    # .model_dump() converts it to a standard dictionary for external use.
     return response.model_dump()

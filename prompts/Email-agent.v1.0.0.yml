@@ -6,27 +6,21 @@ version: "1.0.0"
 
 # DOCUMENTATION
 # --------------------
-description: Generate a persuasive email targeting small business owners in the tech
-  industry to promote a specific product.
-  by highlighting product benefits and unique selling points.
+description: Create a persuasive email template for small tech business owners to
+  promote a chatbot product.
 namespace: []
 tags:
 - email
-- marketing
+- persuasive
 - small business
 - tech industry
-- sales
-- email marketing
-- client engagement
-- tech industry
-- small business
-- product promotion
+- chatbot
 
 # OWNERSHIP & STATUS
 # --------------------
 status: "Draft"
 author: "ananya868 <ananya8154@gmail.com>"
-last_update: "2025-06-25T05:52:43.152944+00:00"
+last_update: "2025-06-25T09:23:08.922255+00:00"
 
 # CONFIGURATION
 # --------------------
@@ -47,9 +41,9 @@ default_inputs:
   product: "chatbot"
 
 template: |
-  Draft a persuasive email targeting small business owners in the tech industry to promote a specific product like a 'chatbot'. The email should be friendly yet professional, focusing on the benefits of the product, including any recent success stories or testimonials. Structure the email as follows:
-  1. Subject Line: Catchy and relevant to the product.
-  2. Opening: A warm greeting and a brief introduction.
-  3. Body: Clearly outline the benefits of the chatbot, addressing common pain points for tech small business owners.
-  4. Call to Action: Encourage them to either schedule a demo or visit the website for more information.
-  5. Closing: A friendly sign-off with contact information.
+  Draft a compelling email targeting small tech business owners (e.g., startups or established tech companies) to promote a specific product like a 'chatbot'. The email should maintain a friendly yet professional tone and focus on the advantages of the product. Incorporate the following structure:
+  1. Subject Line: Craft a catchy and relevant line, such as 'Transform Your Business with Our Cutting-Edge Chatbot' or 'Discover How Our Chatbot Can Engage Your Customers 24/7'.
+  2. Opening: Start with a warm greeting and a brief introduction that addresses the reader’s industry and needs.
+  3. Body: Clearly outline the benefits of the chatbot, addressing common pain points like customer engagement or operational efficiency. Include specific examples, statistics, and a success story or testimonial from a satisfied client who experienced tangible results after implementing the chatbot.
+  4. Call to Action: Encourage them to take action, such as scheduling a demo or visiting the website for more information.
+  5. Closing: End with a friendly sign-off, including your contact information, and invite them to reach out with any questions.

@@ -3,73 +3,105 @@ title: "Introduction"
 description: "Welcome to Prompt Lockbox! From chaotic text files to well kept prompt templates."
 ---
 
-## What is it ?
+<Warning> 
+  This project is currently under development. If you encounter any bugs, please report them in the 'Report' section.
+</Warning>
 
-Prompt Lockbox is a **command-line tool** and **Python SDK** for **bringing structure, security, and version-controlled management** to your prompt engineering workflow.
+### What is Prompt Lockbox ? 
 
-<Card title="Core">
-  - **Centralize & Standardize**: Stop chasing prompts scattered across code, documents, and notes. Create a single source of truth.
-  - **Version & Secure**: Track prompt history like Git commits and lock production prompts from accidental changes.
-  - **Discover & Reuse**: Instantly find any prompt with powerful search instead of rewriting them from scratch.
-  - **Automate & Improve**: Use AI to automatically document and strengthen your prompts, saving you time and effort.
-</Card>
+As language models become central to our applications, the prompts that control them are often treated as an afterthought—scattered across code, text files, and documents. This chaos leads to inconsistency, lost work, and a lack of security for your most critical AI assets.
 
-## What problems does it solve ?
+Prompt Lockbox is a **command-line tool** and **Python SDK** designed to fix this. It provides a professional framework for bringing **structure**, **security**, and **version-controlled** management to your entire prompt engineering workflow, transforming your prompts from simple text into robust, reliable, and manageable code.
+
+<Tip>
+Prompt Lockbox is available as both a command-line tool (plb) and a Python SDK. 
+Because all project configuration and state are stored in centralized files, you can use the two interchangeably. Actions performed with one are immediately reflected when using the other.
+</Tip>
+
+
+### What problems does it solve ?
 
 Here’s what it fixes for you -
 
-- **Scattered Prompts Problem**
+<AccordionGroup>
+  <Accordion title="Scattered Prompts Problem"> 
+      - **Problem**: Your team's best prompts are lost in a chaotic mess of text files, Slack messages, and Google Docs. No one knows where the "official" version is, leading to confusion and duplicated effort
+      - **Solution**: It creates a centralized and structured library, making it effortless for your entire team to find and use the correct prompt.
+  </Accordion>
+  <Accordion title="Which Version Was That? Problem">
+    - **Problem**: You tweak a great prompt and accidentally make it worse, with **no way to go back to the version that worked**.
+    - **Solution**: It provides Git-like versioning for prompts. Safely create new versions and manage modifications, just like code.
+  </Accordion>
+  <Accordion title="Did Someone Change This? Problem">
+    - **Problem**: A critical prompt is changed without approval, breaking your application and causing unpredictable outputs..
+    - **Solution**: It lets you lock and secure key prompts. The system instantly detects any unauthorized edits, ensuring production reliability.
+  </Accordion>
+  <Accordion title="Reinventing the Wheel Problem">
+    - **Problem**: Your team wastes time building prompts that already exist because they're impossible to find.
+    - **Solution**: It makes your entire library instantly searchable. Find what you need in seconds with powerful, context-aware search.
+  </Accordion>
+  <Accordion title="Good Prompt, Bad Documentation Problem">
+    - **Problem**: You write a brilliant prompt but have no time to document it, making it unusable for others (or your future self).
+    - **Solution**: It uses AI to automate documentation. One command generates a clear description and search tags, turning your prompts into reusable assets.
+  </Accordion>
+</AccordionGroup>
 
-<Card>
-  - **The Pain**: Your team's best **prompts are lost** in a chaotic mess of text files, Slack messages, and Google Docs. No one knows where the "official" version is, **leading to confusion and duplicated effort**.
-  - **The Lockbox Solution**: It creates a **centralized and structured library**, making it effortless for your entire team to find and use the correct prompt.
-</Card>
+### Core Features in a nutshell 
+A brief look at what Prompt Lockbox can do for you.
 
-- **"Which Version Was That?" Problem**
+<Note>
+  This is just an overview of the features. Please checkout [CLI](www.google.com) or [Python SDK](www.google.com) for detailed usage !
+</Note>
 
-<Card>
-  - **The Pain**: You tweak a great prompt and accidentally make it worse, with **no way to go back to the version that worked**.
-  - **The Lockbox Solution**: It provides Git-like versioning for prompts. Safely **create new versions** and **manage modifications**, just like code.
-</Card>
+<CardGroup col={3}>
+  <Card title="Standardized Structure">
+    Define every prompt in a clean, lintable **YML format**. This enforces consistency, separates logic from metadata, and makes your entire prompt library easy to understand and maintain.
+  </Card>
+  <Card title="Python SDK Integration">
+    A lightweight and intuitive Python SDK allows you to seamlessly **load**, **render**, and **execute** your version-controlled prompts directly within your applications.
+  </Card>
+  <Card title=" Versioning & History">
+    Treat your prompts like code. Create new versions with **semantic versioning** (v1.0.0 -> v1.1.0) to build a complete audit trail and safely experiment without breaking what works.
+  </Card>
+  <Card title="Integrity & Security">
+    Lock your production-ready prompts to protect them from accidental or unauthorized changes. The framework will instantly **detect any tampering**, ensuring application's reliability.
+  </Card>
+  <Card title="Powerful Search">
+    Stop reinventing the wheel. Instantly find any prompt in your library with **fuzzy, keyword, or advanced semantic search** that understands the intent behind your query.
+  </Card>
+  <Card title="AI Features">
+    Let AI do the tedious work. Automatically **generate documentation**, get expert **critiques on your prompts**, and receive **suggestions for improvement**, all from a single command.
+  </Card>
+</CardGroup> 
 
-- **"Did Someone Change This?" Problem**
-
-<Card>
-  - **The Pain**: A critical prompt is **changed without approval**, **breaking your application** and causing unpredictable outputs..
-  - **The Lockbox Solution**: It lets you **lock and secure** key prompts. The system instantly detects any unauthorized edits, ensuring production reliability.
-</Card>
-
-- **Reinventing the Wheel Problem**
-
-<Card>
-  - **The Pain**: Your team wastes time building prompts that already exist because they're impossible to find.
-  - **The Lockbox Solution**: It makes your **entire library instantly searchable**. Find what you need in seconds with powerful, **context-aware search**.
-</Card>
-
-- **Good Prompt, Bad Documentation Problem**
-
-<Card>
-  - **The Pain**: You write a brilliant prompt but have no time to document it, making it unusable for others (or your future self).
-  - **The Lockbox Solution**: It uses **AI to automate documentation**. One command generates a clear description and search tags, turning your prompts into reusable assets.
-</Card>
-
-## Usage
-
-Ways to get started with the toolkit -
+### Quickly Access Documentation
 
 <CardGroup cols={2}>
-  <Card title="CLI" href="https://mintlify.com/docs/quickstart">
-    Get your docs set up locally for easy development
+  <Card title="Command Line Interface" href="https://mintlify.com/docs/quickstart">
+    Access the toolkit from your terminal.
   </Card>
-  <Card title="SDK" href="https://mintlify.com/docs/development">
-    Preview your changes before you push to make sure they're perfect
+  <Card title="Python SDK" href="https://mintlify.com/docs/development">
+    Work programmatically using a simple SDK.
+  </Card>
+  <Card title="Features" href="www.google.com">
+    Explore the core features in the toolkit.
+  </Card>
+  <Card title="API Reference" href="www.google.com">
+    Complete technical docs for the Python API.
+  </Card>
+  <Card title="Contribution" href="www.google.com">
+    Contribute to the toolkit!
   </Card>
 </CardGroup>
+
+<Info>
+  To contribute to this open source toolkit. Please follow guidelines described at [contribution](www.google.com) ! 
+</Info> 
 
 ## Next Steps ?
 
 Here's how to install and get started with the toolkit -
 
 <Card title="Quickstart" href="https://mintlify.com/docs/settings/global">
-  Setup the toolkit and explore the basics.<br></br>
+  Setup the toolkit and explore the basics.
 </Card>

@@ -1,75 +1,208 @@
 ---
 title: "Quickstart"
-description: "Start building awesome documentation in under 5 minutes"
+description: "Here's how you can build your first prompt in 5 minutes !"
 ---
+
+**Prompt Lockbox is quite easy to install**. Its available on [pypi](https://pypi.org/) index, so all you need is a python package installer \!
+
+<Note>
+**Supported Python version**: `> 3.10`
+</Note>
 
 ## How to install ?
 
-Here's how you can install prompt lockbox package in your local system. 
+You can directly install the toolkit using [pip](https://pip.pypa.io/en/stable/installation/) or from our github [prompt-lockbox](https://github.com/ananya868/prompt-lockbox/tree/main).
 
-```
+**Note:** It is advised to **create a new virtual environment** to avoid any unnecessary package conflict.
+
+Install using command
+
+```bash
 pip install prompt-lockbox
 ```
 
-Now, prompt lock box is setup in your environment 
+This will setup Prompt Lockbox and all related dependencies.
 
-**To Initiate a new project. **
+Alternatively -
 
-```
+<Accordion title="Install from GitHub repo" icon="github">
+  Navigate to your local directory, open command pallete and **clone the repo using** -
+
+  ```bash
+  git clone https://github.com/ananya868/prompt-lockbox.git
+  ```
+
+  Then install the toolkit using pip -
+
+  ```bash
+  pip install -e prompt-lockbox/ 
+  ```
+
+  This will install the package in your python environment.
+</Accordion>
+
+Setup is done. We can now create a new Prompt Lockbox Project \!
+
+## Create a new project
+
+The first step is to create a project, which is nothing but **setting up the necessary directories and configuration files** for you.
+
+To do this, **we will use CLI for this guide**. Well, you can also use the SDK for these tasks, checkout [SDK](www.google.com). In your project directory, run -
+
+```bash
 plb init . 
 ```
 
-### Edit and preview
+This command will initialize a Prompt Lockbox project and build these files -
+
+- **prompts/**: The directory where all your versioned .yml prompt files will live.
+- **.plb/**: A hidden directory for internal data in toolkit like search indexes, logs etc.
+- **plb.toml**: The main configuration file for your project. You can use it to set project-wide settings, like the AI model for automated tasks.
+- **.plb.lock**: The lockfile that stores the secure hashes of your production-ready prompts, protecting them from unauthorized changes.
+
+We have created a Project. Now we can start building prompts \!
+
+### Create a Prompt
+
+Now that we have our project, let's create our first prompt. We'll use the interactive create command, which guides you through setting up all the required metadata.
+
+In your terminal, run -
+
+```bash
+plb create 
+```
+
+Answer the entries as required. For most, you can just press Enter to accept the default value.
+
+Let's say prompt name is **'Customer-support-agent'**. The `create` command creates a new file named `prompts/Customer-support-agent.v1.0.0.yml`
+
+Hurray\! You have created your first prompt. **But note that its just a template and the actual content and other metadata should be filled by the user.**
+
+Before moving on to other features, let's have a look at how our prompt template looks \!
+
+### Template
+
+Here are two templates for your reference — one is blank, and the other is a completed customer support agent prompt template with content and metadata -
 
 <AccordionGroup>
-  <Accordion title="Clone your docs locally" icon="github">
-    During the onboarding process, we created a repository on your Github with
-    your docs content. You can find this repository on our
-    [dashboard](https://dashboard.mintlify.com). To clone the repository
-    locally, follow these
-    [instructions](https://docs.github.com/en/repositories/creating-and-managing-repositories/cloning-a-repository)
-    in your terminal.
+  <Accordion title="Empty Template (Created by Default)" icon="airplay">
+    ```yaml
+    # PROMPT IDENTITY
+    # --------------------
+    id: prm_524a1cb9cccd4129b57db8b2f3d9a291
+    name: "Email-customer-support-agent"
+    version: "1.0.0"
+    
+    # DOCUMENTATION
+    # --------------------
+    description: ""
+    namespace: []
+    tags: []
+    
+    # OWNERSHIP & STATUS
+    # --------------------
+    status: "Draft"
+    author: "ananya868 <ananya8154@gmail.com>"
+    last_update: "2025-06-27T15:00:00.000000+00:00"
+    
+    # CONFIGURATION
+    # --------------------
+    intended_model:
+    model_parameters:
+      temperature: 0.7
+    
+    # NOTES & LINKS
+    # --------------------
+    linked_prompts: []
+    notes: ""
+    
+    # - - - 💖 THE PROMPT 💖 - - -
+    # ---------------------------------
+    # NOTE - Comments inside the prompt are automatically removed on prompt call.
+    default_inputs:
+      user_input: "Sample Input"
+    
+    template: |
+      You are a helpful assistant.
+
+  -- Now you can start writing your prompt template! --
+
+  How to use this template:
+  - To input a value: ${user_input}
+  - To add a comment: {# This is a comment #}
+
+  Create awesome prompts! :)
+    ```
   </Accordion>
-  <Accordion title="Preview changes" icon="rectangle-terminal">
-    Previewing helps you make sure your changes look as intended. We built a
-    command line interface to render these changes locally.
-
-    1. Install the
-       [Mintlify CLI](https://www.npmjs.com/package/mintlify) to preview the
-       documentation changes locally with this command: `npm i -g mintlify`
-    2. Run the following command at the root of your documentation (where
-       `docs.json` is): `mintlify dev`
-
-    <Note>
-      If you’re currently using the legacy `mint.json` configuration file, please update the Mintlify CLI:
-
-      `npm i -g mintlify@latest`
-      And run the new upgrade command in your docs repository:
-
-      `mintlify upgrade`
-      You should now be using the new `docs.json` configuration file. Feel free to delete the `mint.json` file from your repository.
-    </Note>
+  <Accordion title="Filled Template" icon="calendar-range">
+    ```yaml
+    # PROMPT IDENTITY
+    # --------------------
+    id: prm_524a1cb9cccd4129b57db8b2f3d9a291
+    name: "Customer-support-agent"
+    version: "1.0.0"
+    
+    # DOCUMENTATION
+    # --------------------
+    description: Create a short persuasive email for small tech business owners to
+      promote a customer support agent product.
+    namespace: [Customer-Support, AI-tool]
+    tags:
+    - email
+    - persuasive
+    - small business
+    - customer support
+    - automation
+    
+    # OWNERSHIP & STATUS
+    # --------------------
+    status: "Draft"
+    author: "ananya868 <ananya8154@gmail.com>"
+    last_update: "2025-06-27T15:00:00.000000+00:00"
+    
+    # CONFIGURATION
+    # --------------------
+    intended_model: "gpt-4.1"
+    model_parameters:
+      temperature: 0.7
+      max_tokens: 1024
+    
+    # NOTES & LINKS
+    # --------------------
+    linked_prompts: [Customer-monitor-agent]
+    notes: "Do not push to production."
+    
+    # - - - 💖 THE PROMPT 💖 - - -
+    # ---------------------------------
+    default_inputs:
+      product: "AI customer support agent"
+    
+    template: |
+      Write a short, persuasive email to small tech business owners promoting an '{{product}}'. Keep the tone friendly and professional. Follow this structure:
+      1. Subject Line: Eye-catching and relevant (e.g., '24/7 Support Without Hiring More Staff').
+      2. Opening: Greet the reader and mention a common support challenge.
+      3. Body: Highlight how the product improves response time, reduces workload, and boosts customer satisfaction. Add a brief success story or stat.
+      4. Call to Action: Invite them to book a demo or try it out.
+      5. Closing: Sign off warmly with contact info.
+    ```
   </Accordion>
 </AccordionGroup>
 
-### Deploy your changes
+The `create` command builds an empty template. Open the prompts/Customer-support-agent.v1.0.0.yml file in your code editor. **Find the template: key and replace the placeholder content with the filled example above or write your own !** 
 
-<AccordionGroup>
-  <Accordion title="Install our Github app" icon="message-bot">
-    Our Github app automatically deploys your changes to your docs site, so you
-    don't need to manage deployments yourself. You can find the link to install on
-    your [dashboard](https://dashboard.mintlify.com). Once the bot has been
-    successfully installed, there should be a check mark next to the commit hash
-    of the repo.
-  </Accordion>
-  <Accordion title="Push your changes" icon="rocket">
-    [Commit and push your changes to
-    Git](https://docs.github.com/en/get-started/using-git/pushing-commits-to-a-remote-repository#about-git-push)
-    for your changes to update in your docs site. If you push and don't see that
-    the Github app successfully deployed your changes, you can also manually
-    update your docs through our [dashboard](https://dashboard.mintlify.com).
-  </Accordion>
-</AccordionGroup>
+
+### Run the prompt
+
+Let's execute our prompt using the `run` command. The command will see the required variables and ask you for them.
+
+**It will run the prompt against a LLM of your choice**. Checkout [LLMs](www.google.com) to find a list of supported models. 
+
+In your terminal, run -
+
+```bash
+plb run Customer-support-agent gpt-4.1-nano 
+```
+It will render the filled prompt and the output generated using the specified LLM.
 
 ## Update your docs
 

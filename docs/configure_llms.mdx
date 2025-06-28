@@ -1,0 +1,111 @@
+---
+title: "Configure LLM"
+description: "Guide on how to configure LLMs."
+---
+
+This guide will walk you through setting up LLMs for use within the toolkit. Whether you're connecting to a popular cloud-based provider, running a local model, or integrating your own custom model. Follow the steps below to get started with the setup that best fits your workflow.
+
+<Note>
+  This is a must-to-do setup to use any AI feature in the toolkit.
+</Note>
+
+There are two ways you can configure LLMs in this toolkit -
+
+1. **Automated Setup (Recommended)**: Use the interactive `plb configure-ai` command.
+2. **Mannual Setup**: Manually create a `.env` file for secrets and edit your `plb.toml` for settings.
+
+We recommend using the command for a guided, error-free experience.
+
+## Automated Setup
+
+**This interactive command is the easiest and safest way to set up your LLM**. It will guide you through selecting a provider, entering your API key securely, choosing a model and configuring additional settings.
+
+Here's the steps:
+
+<Steps>
+  <Step title="Start the Configuration Panel">
+    In your terminal, run the command:
+
+    ```bash
+    plb configure-ai
+    ```
+  </Step>
+  <Step title="Choose Your Provider">
+    The command will present a list of common providers. Use the arrow keys to make a selection and press Enter.
+
+    ```shell
+    ? Select your LLM Provider: 
+    > OpenAI
+      Anthropic
+      Ollama (Local)
+      Huggingface
+      ...
+    ```
+  </Step>
+  <Step title="Configure Your Settings">
+    Based on your choice of the provider, follow the guided instructions in the CLI.
+
+    <Note>
+      Configuring mainstream, lightweight and cloud based LLMs is straightforward, but local models and Hugging Face setups require few additional steps. Please see the details below.
+    </Note>
+
+    Once you select the provider, follow these steps: 
+
+    1. **Enter your API key**: 
+    ```bash 
+    ? Please enter your OpenAI API Key (will be stored in .env): 
+    sk-********************
+    ```
+    2. **Select a Model**: 
+    ```bash    
+    ? Enter the default model name (e.g., gpt-4o-mini): gpt-4o-mini
+    ```
+    You can also set custom model parameters like `max_tokens`, `temperature`, etc. in `plb.toml` file.
+
+    For Local or Huggingface Setup:
+
+    <AccordionGroup>
+      <Accordion title="Local Model Configuration (Ollama)"> 
+        <Info>
+          You can checkout this awesome [blog post](https://medium.com/@arunpatidar26/run-llm-locally-ollama-8ea296747505) to learn how to download and use ollama.
+        </Info>
+        Using a local model via Ollama requires an extra step:
+        1. **Ensure Ollama is Running**: The wizard will first remind you to start the Ollama server in a separate terminal.
+        ```bash   
+        ? To use Ollama, first run `ollama serve` in a new terminal.
+Press Enter to continue once your server is running...
+        ```
+        2. **Set the Model Name**: Enter the name of the Ollama model you have pulled (e.g., llama3). No API key is needed.
+       ```bash     
+      ? Please enter the Ollama model name to use: llama3
+       ```
+      </Accordion>
+      <Accordion title="Huggingface Model Configuration">
+        <Info> 
+        Using huggingface model requires you to create an account at [huggingface](https://huggingface.co/) and generate an access token. You can checkout this awesome [blog post](https://medium.com/@aroman11/how-to-use-hugging-face-api-token-in-python-for-ai-application-step-by-step-be0ed00d315c) to learn more.
+        </Info>
+        To use models from Huggingface:
+        1. **Enter Your HF Token**: Provide your HF Token when prompted. This will be securely stored in your `.env` file.
+        ```bash  
+        ? Please enter your Hugging Face Token (will be stored in .env): hf_********************
+        ```
+        2. **Set the Model Repository ID**: Enter the full repository ID of the model you want to use.
+        ```bash             
+        ? Enter the Hugging Face model repo ID (e.g., mistralai/Mistral-7B-Instruct-v0.2): mistralai/Mistral-7B-Instruct-v0.2
+        ```
+      </Accordion>
+    </AccordionGroup>
+  </Step>
+  <Step title="Configuration Complete!">
+    Once you've completed the steps for your chosen provider, the command will save all settings to your `plb.toml` and `.env files` and confirm that the setup is complete.
+    ```bash
+    Success! Configuration saved. You are now ready to use AI features!
+    ```
+  </Step>
+</Steps>
+
+## Mannual Setup
+
+```toml
+new: 102
+```

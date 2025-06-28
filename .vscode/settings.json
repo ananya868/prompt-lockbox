@@ -5,6 +5,7 @@
         "faiss",
         "gigi",
         "lastrowid",
+        "llms",
         "mirascope",
         "Multifield",
         "qparser",

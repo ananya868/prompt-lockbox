@@ -18,8 +18,8 @@
             "pages": [
               "index",
               "quickstart",
-              "development",
-              "features"
+              "configure_llms",
+              "ai_features"
             ]
           },
           {

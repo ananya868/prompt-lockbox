@@ -1,0 +1,97 @@
+---
+title: "AI Features"
+description: "Learn about the intelligent features built into this toolkit. "
+---
+
+<Note>
+  LLM configuration is required before using any AI feature. Check the guide at [Configure LLMs](www.google.com).
+</Note>
+
+<Tip>
+  You can suggest us more AI features at [feature request](www.google.com). We would love feedbacks \!
+</Tip>
+
+Prompt Lockbox isn't just a management tool; **it's an intelligent toolkit** designed to accelerate your workflow. By **integrating powerful language models** with the toolki, it automates the most tedious parts of prompt engineering, allowing you to focus on creating brilliant prompts.
+
+The toolkit supports LLMs from various providers like `OpenAI`, `Anthropic`, `Mistral` etc. It also support `local models` that runs completely offline.
+
+### Supported Models
+
+Here's the complete list of supported models.
+
+<Tabs>
+  <Tab title="Mainstream LLMs">
+    Widely adopted models from leading providers.
+
+    <AccordionGroup>
+      <Accordion title="OpenAI">
+        **Models**: `gpt-4.1`, `gpt-4.1-nano`, `gpt-4o-mini`
+        **Api key config**: `OPENAI_API_KEY`
+      </Accordion>
+      <Accordion title="Google">
+        **Models**: `gemini-2.5-pro` `gemini-2.0-flash`
+        **Api key config**: `GOOGLE_API_KEY`
+      </Accordion>
+      <Accordion title="Mistral">
+        **Models**: `mistral-3b` `mistral-8b`
+        **Api key config**: `MISTRAL_API_KEY`
+      </Accordion>
+      <Accordion title="Anthropic">
+        **Models**: `claude-3.5-sonnet` `claude-3.7-sonnet` `claude-4`
+        **Api key config**: `ANTHROPIC_API_KEY`
+      </Accordion>
+    </AccordionGroup>
+  </Tab>
+  <Tab title="Lightweight LLMs">
+    Fast, resource-efficient models ideal for quick tasks or limited environments.
+
+    <AccordionGroup>
+      <Accordion title="Groq">
+        **Models**: `a`
+        **Api key config**: `GROQ_API_KEY`
+      </Accordion>
+      <Accordion title="Cohere">
+        **Models**: `b`, `c`
+        **Api key config**: `COHERE_API_KEY`
+      </Accordion>
+      <Accordion title="LiteLLM">
+        **Models**: Check the full list at [LiteLLM Models](https://docs.litellm.ai/docs/providers).
+        **Api key config**: `LITELLM_API_KEY`
+      </Accordion>
+    </AccordionGroup>
+  </Tab>
+  <Tab title="Huggingface">
+    To use Hf models, please checkout the guide \!
+  </Tab>
+  <Tab title="Cloud">
+    Fully managed, scalable LLMs hosted by cloud platforms for seamless integration.
+
+    <AccordionGroup>
+      <Accordion title="Azure AI">
+        **Models**: Check the full list at [Azure AI](www.google.com)
+        **Api key config**: `AZURE_API_KEY`
+      </Accordion>
+      <Accordion title="AWS Bedrock">
+        **Models**: Check the full list at [Bedrock Models](www.google.com)
+        **Api key config**: `BEDROCK_API_KEY`
+      </Accordion>
+    </AccordionGroup>
+  </Tab>
+  <Tab title="Local">
+    Models you can run on your own hardware for maximum control and data privacy.
+
+    **Ollama**
+
+    You can use local models via [Ollama](https://ollama.com/).
+
+    **Models**: Checkout the complete list at [ollama library](www.google.com)
+
+    <Warning>
+      Local models require few additional configuration steps before it can be used. Checkout [Local LLM Configuration](/local_config)
+    </Warning>
+  </Tab>
+</Tabs>
+
+Let's explore some intelligent features the toolkit provides \!
+
+## Features

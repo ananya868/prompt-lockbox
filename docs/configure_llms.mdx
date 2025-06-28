@@ -48,49 +48,60 @@ Here's the steps:
     <Note>
       Configuring mainstream, lightweight and cloud based LLMs is straightforward, but local models and Hugging Face setups require few additional steps. Please see the details below.
     </Note>
+    Once you select the provider, follow these steps:
 
-    Once you select the provider, follow these steps: 
+    1. **Enter your API key**:
 
-    1. **Enter your API key**: 
-    ```bash 
+    ```bash
     ? Please enter your OpenAI API Key (will be stored in .env): 
     sk-********************
     ```
-    2. **Select a Model**: 
-    ```bash    
+
+    2. **Select a Model**:
+
+    ```bash
     ? Enter the default model name (e.g., gpt-4o-mini): gpt-4o-mini
     ```
+
     You can also set custom model parameters like `max_tokens`, `temperature`, etc. in `plb.toml` file.
 
     For Local or Huggingface Setup:
 
     <AccordionGroup>
-      <Accordion title="Local Model Configuration (Ollama)"> 
+      <Accordion title="Local Model Configuration (Ollama)">
         <Info>
           You can checkout this awesome [blog post](https://medium.com/@arunpatidar26/run-llm-locally-ollama-8ea296747505) to learn how to download and use ollama.
         </Info>
         Using a local model via Ollama requires an extra step:
+
         1. **Ensure Ollama is Running**: The wizard will first remind you to start the Ollama server in a separate terminal.
-        ```bash   
+
+        ```bash
         ? To use Ollama, first run `ollama serve` in a new terminal.
-Press Enter to continue once your server is running...
+        Press Enter to continue once your server is running...
         ```
+
         2. **Set the Model Name**: Enter the name of the Ollama model you have pulled (e.g., llama3). No API key is needed.
-       ```bash     
-      ? Please enter the Ollama model name to use: llama3
-       ```
+
+        ```bash
+        ? Please enter the Ollama model name to use: llama3
+        ```
       </Accordion>
       <Accordion title="Huggingface Model Configuration">
-        <Info> 
-        Using huggingface model requires you to create an account at [huggingface](https://huggingface.co/) and generate an access token. You can checkout this awesome [blog post](https://medium.com/@aroman11/how-to-use-hugging-face-api-token-in-python-for-ai-application-step-by-step-be0ed00d315c) to learn more.
+        <Info>
+          Using huggingface model requires you to create an account at [huggingface](https://huggingface.co/) and generate an access token. You can checkout this awesome [blog post](https://medium.com/@aroman11/how-to-use-hugging-face-api-token-in-python-for-ai-application-step-by-step-be0ed00d315c) to learn more.
         </Info>
         To use models from Huggingface:
+
         1. **Enter Your HF Token**: Provide your HF Token when prompted. This will be securely stored in your `.env` file.
-        ```bash  
+
+        ```bash
         ? Please enter your Hugging Face Token (will be stored in .env): hf_********************
         ```
+
         2. **Set the Model Repository ID**: Enter the full repository ID of the model you want to use.
-        ```bash             
+
+        ```bash
         ? Enter the Hugging Face model repo ID (e.g., mistralai/Mistral-7B-Instruct-v0.2): mistralai/Mistral-7B-Instruct-v0.2
         ```
       </Accordion>
@@ -98,14 +109,73 @@ Press Enter to continue once your server is running...
   </Step>
   <Step title="Configuration Complete!">
     Once you've completed the steps for your chosen provider, the command will save all settings to your `plb.toml` and `.env files` and confirm that the setup is complete.
+
     ```bash
     Success! Configuration saved. You are now ready to use AI features!
     ```
   </Step>
 </Steps>
 
-## Mannual Setup
+## Manual Setup
 
-```toml
-new: 102
-```
+If you prefer to manage your configuration files directly, you can set them up manually.
+
+<Warning>
+  Always add .env to your .gitignore file to prevent your secret keys from being committed to version control.
+</Warning>
+
+<Steps>
+  <Step title="Create the .env file for API Keys/Tokens">
+    In your project's root directory, create a `.env` file and add the corresponding environment variable for your provider.
+
+    ```powershell
+    # Inside your .env file
+    
+    # For OpenAI
+    OPENAI_API_KEY="sk-..."
+    
+    # For Hugging Face
+    HUGGING_FACE_HUB_TOKEN="hf_..."
+    ```
+  </Step>
+  <Step title="Edit the plb.toml file">
+    Next, open your project's plb.toml file. Add or edit the [ai] section to specify the provider and model you intend to use.
+
+    <Tabs>
+      <Tab title="OpenAI Example">
+        ```toml
+        [ai]
+        # In plb.toml
+        [ai]
+        provider = "openai"
+        model = "gpt-4o-mini"    
+        ```
+      </Tab>
+      <Tab title="Ollama Example">
+        ```toml
+        [ai]
+        # In plb.toml
+        [ai]
+        provider = "ollama"
+        model = "llama3"    
+        ```
+      </Tab>
+      <Tab title="Huggingface Example">
+        ```toml
+        [ai]
+        # In plb.toml
+        [ai]
+        provider = "huggingface"
+        model = "mistralai/Mistral-7B-Instruct-v0.2"    
+        ```
+      </Tab>
+    </Tabs>
+    Once both files are created and saved, your manual configuration is complete.
+
+    However, you can check for success using `plb configure-ai` status.
+  </Step>
+</Steps>
+
+### Advanced: Using a Custom or Self-Hosted Model
+
+This will be implemented.

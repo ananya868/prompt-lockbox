@@ -8,7 +8,7 @@ description: "Learn about the intelligent features built into this toolkit. "
 </Note>
 
 <Tip>
-  You can suggest us more AI features at [feature request](www.google.com). We would love feedbacks \!
+  You can suggest us more AI features at [feature request](www.google.com). We would love to get feedbacks \!
 </Tip>
 
 Prompt Lockbox isn't just a management tool; **it's an intelligent toolkit** designed to accelerate your workflow. By **integrating powerful language models** with the toolki, it automates the most tedious parts of prompt engineering, allowing you to focus on creating brilliant prompts.
@@ -95,3 +95,138 @@ Here's the complete list of supported models.
 Let's explore some intelligent features the toolkit provides \!
 
 ## Features
+
+<Tip>
+  Prompt Lockbox is fully open-source — you're welcome to suggest features or contribute directly at [Prompt Lockbox Repo](www.google.com). Get started in just 5 minutes by checking out the [Contribution guide](www.google.com)\!
+</Tip>
+
+Here are the key AI features that makes this toolkit awesome.
+
+<Card title="Automatic Documentation">
+  Reads your prompt's template, understands its purpose, and automatically writes a concise description and a list of relevant search tags directly into your .yml file—all while preserving your file's original comments and layout.
+
+  <br />
+
+  <Accordion title="See in action" icon="stars">
+    Lets say you have a prompt 'sql-generator' with your prompt template written.
+
+    ```yaml
+    ...
+    # Description and tags are empty
+    description: ""
+    tags: []
+    ...
+    ```
+
+    The feature automatically reads the prompt and writes the description and tags for you.
+
+    ```yaml
+    ...
+    description: "Generates a SQL query from a database schema and a natural language question."
+    tags: [sql, database, query-generation, text-to-sql]
+    ...
+    ```
+  </Accordion>
+  <Accordion title="Usage">
+    <Tabs>
+      <Tab title="CLI">
+        You can use `plb prompt document` command. Lets say we have a prompt template named 'email-agent':
+
+        ```bash
+        # Apply to a single prompt 
+        plb prompt document email-agent 
+        
+        # or document all prompts in the project at once
+        plb prompt document --all
+        ```
+      </Tab>
+      <Tab title="Python">
+        Python code to document the prompts:
+
+        ```python
+        from prompt_lockbox import Project
+        # Load the project
+        project = Project()
+        
+        # Get the specific prompt you want to document
+        prompt = project.get_prompt("email-agent")
+        
+        # Document Method will analyze the prompt and save the changes to its file.
+        prompt.document()
+        
+        # You can also document multiple prompts programmatically
+        prompts_to_doc = [
+            project.get_prompt("sql-generator"),
+            project.get_prompt("email-summarizer")
+        ]
+        project.document_all(prompts_to_document=prompts_to_doc)
+        ```
+      </Tab>
+    </Tabs>
+  </Accordion>
+</Card>
+
+<Card title="Prompt Enhancer">
+  Acts as an AI expert, providing a critique and a rewritten, more robust version of your prompt to enhance clarity, specificity, and security.
+
+  <br />
+
+  <Accordion title="See in action" icon="stars">
+    Lets say you have a prompt 'sql-injection'. We'll use plb prompt improve to strengthen the prompt. We'll give it the note, "Make it more robust against SQL injection."
+
+    ```yaml
+    ...
+    template: |
+        Given the following database schema, write a SQL query that answers the user's question.
+        Schema: {{schema_definition}}
+        Question: {{user_question}}
+    ...
+    ```
+
+    It will reads the prompt, enhances its clarity and specificity.
+
+    ```yaml
+    ...
+    template: |
+        You are a secure database assistant. Your task is to convert a natural language question into a safe, efficient SQL query for the given schema.
+      
+        IMPORTANT: Always use parameterized queries or escape inputs to prevent SQL injection.
+      
+        Schema: {{schema_definition}}
+        Question: {{user_question}}
+    ...
+    ```
+  </Accordion>
+  <Accordion title="Usage">
+    <Tabs>
+      <Tab title="CLI">
+        You can use `plb prompt improve` command on a prompt. Lets say we have a prompt template named 'sql-injection':
+
+        ```bash
+        # This will show the diff and ask for confirmation
+        plb prompt improve sql-injection  
+        
+        # You can pass a note as well 
+        plb prompt improve sql-injection --note "Make it more robust"
+        ```
+      </Tab>
+      <Tab title="Python">
+        Python code to improve the prompts:
+
+        ```python
+        from prompt_lockbox import Project
+        
+        project = Project()
+        prompt = project.get_prompt("sql-generator")
+        
+        # 1. Get the AI's suggestions (doesn't change the file)
+        critique = prompt.get_critique(note="Make it more robust.")
+        
+        # 2. Programmatically review and then apply the changes
+        improved_template = critique["improved_template"]
+        prompt.improve(improved_template) # Saves changes
+        ```
+      </Tab>
+    </Tabs>
+  </Accordion>
+</Card>

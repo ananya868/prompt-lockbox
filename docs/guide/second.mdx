@@ -1,0 +1,108 @@
+---
+title: "Finding Your Prompts: List, Tree, and Search"
+description: "Learn how can you navigate through your prompts."
+---
+
+As your library grows, finding the right prompt becomes critical. Prompt Lockbox provides several powerful tools to discover and navigate your collection.
+
+Methods:
+
+<Card title="List all Prompts">
+  The list command is perfect for getting a quick, high-level overview of your entire library. The default view is compact, while the `--wide` flag provides more detail.
+
+  <Tabs>
+    <Tab title="CLI">
+      ```bash
+        # For a compact view
+        plb list
+        
+        # For a more detailed view
+        plb list --wide
+      ```
+    </Tab>
+    <Tab title="Python">
+      ```python
+        from prompt_lockbox import Project
+        from rich import print
+        
+        project = Project()
+        
+        # The list_prompts() method returns a list of Prompt objects
+        all_prompts = project.list_prompts()
+        
+        for p in all_prompts:
+            print(
+              f"Name: {p.name}, Version: {p.version}, Status: {p.data.get('status')}"
+            )
+      ```
+    </Tab>
+  </Tabs>
+</Card>
+
+<br />
+
+<Card title="Search for a Specific Prompt">
+  When your library is large, direct search is the fastest way to find what you need. The default `fuzzy` search is fast, requires no setup, and intelligently searches `names`, `descriptions`, and `tags`.
+
+  <Tabs>
+    <Tab title="CLI">
+      ```bash
+      # Find any prompt that mentions "joke"
+      plb search fuzzy "joke"
+      ```
+    </Tab>
+    <Tab title="Python">
+      ```python
+      from prompt_lockbox.api import Project
+      from rich import print
+      
+      project = Project()
+      
+      # The search() method returns a list of result dictionaries
+      search_results = project.search(query="joke", method="fuzzy")
+      
+      print(search_results)
+      # [
+      #   {'score': 90, 'name': 'joke-generator', ...},
+      #   ...
+      # ]
+      ```
+    </Tab>
+  </Tabs>
+</Card>
+
+<br />
+
+<Card title="The Organized Tree">
+  If you've organized your prompts with `namespaces` (e.g., namespace: [agents, support]), the `tree` command visualizes your library in a familiar, folder-like structure. This is the best way to browse prompts by category.
+
+  <Tabs>
+    <Tab title="CLI">
+      ```bash
+      # Display the hierarchical tree
+      plb tree
+      ```
+    </Tab>
+  </Tabs>
+  Output:
+
+  ```shell
+  🥡 Prompt Library
+  ├── 🗂️ agents 
+  │   └── 🗂️ support
+  │       └── 📄 customer-support-agent.v1.0.0.yml
+  ├── 🗂️ generators
+  │   └── 📄 joke-generator.v1.0.0.yml
+  └── 📄 sql-generator.v1.0.0.yml (No Namespace)
+  ```
+
+  <Note>
+    The tree command is purely a CLI visualization tool and does not have a direct SDK equivalent, as the SDK's list_prompts() method provides the raw data needed to build any custom tree structure programmatically.
+  </Note>
+</Card>
+
+<Check>
+  You now know the three primary ways to find prompts in your library. You can get a quick overview with list, browse by category with tree, and pinpoint exactly what you need with search. A discoverable library is a reusable library.
+
+  **Next up**: [Learn how to take these prompts and actually use them in your Python code](/third).
+</Check>

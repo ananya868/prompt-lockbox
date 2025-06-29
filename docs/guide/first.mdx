@@ -1,0 +1,100 @@
+---
+title: "Create, Lock & Version"
+description: "Fundamental workflow of creating a prompt, securing it, and then iterating on it safely."
+icon: "code"
+---
+
+This is the core loop of using Prompt Lockbox. This guide will walk you through the entire lifecycle of a single prompt: from its initial creation as a draft, to securing it for production, and finally to creating a new version for safe iteration.
+
+<Steps>
+  <Step title="Create the Prompt">
+    We'll start by creating a new prompt for a "Joke Generator". The create command builds a new, compliant .yml file for you.
+
+    <Tabs>
+      <Tab title="CLI">
+        ```bash
+        # Interactive prompt creation
+        plb create
+        ```
+      </Tab>
+      <Tab title="Python">
+        ```python
+        from prompt_lockbox.api import Project
+        
+        project = Project()
+        # create_prompt() builds the file and returns a Prompt object
+        joke_prompt = project.create_prompt(
+            name="joke-generator",
+            description="Creates a dad joke on a given topic.",
+            tags=["humor", "dad-joke"]
+        )
+        print(f"Created: {joke_prompt.path}")
+        ```
+      </Tab>
+    </Tabs>
+  </Step>
+  <Step title="Edit and Finalize">
+    Now, open the newly created `prompts/joke-generator.v1.0.0.yml` file and add your template logic. This is the only manual step in the process.
+
+    ```yml
+    template: |
+      Tell me a dad joke about ${topic}.
+    ```
+  </Step>
+  <Step title="Lock for Production">
+    Once you're happy with v1.0.0, lock it. This marks the prompt as "production-ready," records its secure hash, and protects it from accidental changes.
+
+    <Tabs>
+      <Tab title="CLI">
+        ```bash
+        plb lock joke-generator
+        ```
+      </Tab>
+      <Tab title="Python">
+        ```python
+        from prompt_lockbox.api import Project
+        
+        project = Project()
+        prompt_to_lock = project.get_prompt("joke-generator")
+        
+        prompt_to_lock.lock()
+        print(f"Locked: {prompt_to_lock.name}")
+        ```
+      </Tab>
+    </Tabs>
+    <Info>
+      You can verify the prompt's new status by running `plb status`. You'll see joke-generator is now marked as `✔ Locked`.
+    </Info>
+  </Step>
+  <Step title="Create a New Version">
+    Let's say you want to improve the joke prompt. Instead of editing the locked file, you create a new version. This preserves the original v1.0.0 and gives you a safe, unlocked copy to work on.
+
+    <Tabs>
+      <Tab title="CLI">
+        ```bash
+        plb version joke-generator --minor
+        ```
+      </Tab>
+      <Tab title="Python">
+        ```python
+        from prompt_lockbox.api import Project
+        
+        project = Project()
+        source_prompt = project.get_prompt("joke-generator")
+        if source_prompt:
+            new_version_prompt = source_prompt.new_version(
+                bump_type="minor"
+            )
+            print(f"Created new version: {new_version_prompt.path}")
+        ```
+      </Tab>
+    </Tabs>
+    This creates a new file, `prompts/joke-generator.v1.1.0.yml`. You are now free to edit this new version without affecting the locked original.
+  </Step>
+</Steps>
+
+<Check>
+  You have now mastered the core lifecycle of a prompt: creating it, securing it for production with lock, and safely iterating on it with version. This workflow is fundamental to maintaining a reliable and organized prompt library.
+
+  **Next up**: [Learn how to find and navigate your growing collection of prompts](/second).
+</Check>

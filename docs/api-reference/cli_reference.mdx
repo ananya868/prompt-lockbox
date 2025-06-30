@@ -1,0 +1,293 @@
+---
+title: 'CLI Reference'
+description: 'A complete guide to all available plb CLI commands, their usage, arguments, and options.'
+---
+
+## Project & Integrity 
+Commands for initializing a project and managing its integrity.
+
+### init
+Initializes a new Prompt Lockbox project in the specified directory. This command creates the `prompts/` and `.plb/` directories, along with the `plb.toml` and `.plb.lock` configuration files.
+
+<Expandable title="Usage">
+```bash 
+plb init
+```
+</Expandable>
+
+<ParamField path="PATH" type="string" default=".">
+  The directory to initialize the project in. Defaults to the current directory.
+</ParamField>
+
+### status
+Displays a table showing the lock status and integrity of all prompts in the project. The output shows whether prompts are **Locked**, **Unlocked**, **TAMPERED**, or **MISSING**.
+
+<Expandable title="Usage">
+```bash 
+plb status
+```
+</Expandable>
+<ParamField path="">
+</ParamField>
+
+
+### lock
+Validates and locks a prompt to ensure its integrity. This records the prompt's secure hash in the `.plb.lock` file.
+
+<Expandable title="Usage">
+```bash 
+plb lock <IDENTIFIER>
+```
+</Expandable>
+
+<ParamField path="IDENTIFIER" type="string" required>
+  The name, ID, or file path of the prompt to lock.
+</ParamField>
+
+### unlock
+Unlocks a previously locked prompt, allowing it to be edited. This removes its entry from the `.plb.lock` file.
+
+<Expandable title="Usage">
+```bash 
+plb unlock <IDENTIFIER>
+```
+</Expandable>
+
+<ParamField path="IDENTIFIER" type="string" required>
+  The name, ID, or file path of the prompt to unlock.
+</ParamField>
+
+### verify
+Verifies the integrity of all locked prompts against the lockfile. Ideal for use in CI/CD pipelines.
+
+<Expandable title="Usage">
+```bash 
+plb verify
+```
+</Expandable>
+
+<Warning> 
+  This command will exit with a non-zero status code if any locked prompt is found to be tampered with or missing, causing a CI/CD job to fail.
+</Warning>
+<ParamField path="">
+</ParamField>
+
+### lint
+Validates all prompts in the project for schema compliance, correct syntax, and consistency.
+
+<Expandable title="Usage">
+```bash 
+plb lint
+```
+</Expandable>
+
+<ParamField path="">
+</ParamField>
+
+
+## Prompt Management
+Commands for creating, viewing, and managing individual prompts.
+
+### list
+Lists all prompts in a table format.
+
+<Expandable title="Usage">
+```bash 
+plb list [OPTIONS]
+```
+</Expandable>
+
+<ParamField query="--wide, -w" type="boolean">
+  Displays a wider table with more details, including intended model and default inputs.
+</ParamField>
+
+
+### show
+Displays the full metadata and template content for a single prompt.
+
+<Expandable title="Usage">
+```bash 
+plb show <IDENTIFIER>
+```
+</Expandable>
+
+<ParamField path="IDENTIFIER" type="string" required>
+  The name, ID, or file path of the prompt to display.
+</ParamField>
+
+
+### show
+Displays the full metadata and template content for a single prompt.
+
+<Expandable title="Usage">
+```bash 
+plb show <IDENTIFIER>
+```
+</Expandable>
+
+<ParamField path="IDENTIFIER" type="string" required>
+  The name, ID, or file path of the prompt to display.
+</ParamField>
+
+
+### create
+Interactively creates a new prompt file, or creates template files in bulk.
+
+<Expandable title="Usage">
+```bash 
+plb create [OPTIONS]
+```
+</Expandable>
+
+<ParamField query="--bulk <INTEGER>, -b <INTEGER>" type="integer">
+  If specified, creates a number of blank prompt template files non-interactively.
+  <Note>
+    When run without options, `plb create` starts an interactive wizard to guide you through creating a single, detailed prompt.
+  </Note>
+</ParamField>
+
+
+### run
+Renders a prompt with provided parameters and displays the final output.
+
+<Expandable title="Usage">
+```bash 
+plb run <IDENTIFIER> [OPTIONS]
+```
+</Expandable>
+
+<ParamField path="IDENTIFIER" type="string" required>
+  The name, ID, or path of the prompt to run.  
+
+  **Options**: 
+  <ParamField query="--var <KEY=VALUE>, -v <KEY=VALUE>" type="string">
+    Pre-sets a template variable. Can be used multiple times.
+  </ParamField>
+  <ParamField query="--edit, -e" type="boolean">
+    Opens your system's default text editor to fill in all required prompt inputs.
+  </ParamField>
+</ParamField>
+
+
+### version
+Creates a new, version-bumped copy of a prompt. Defaults to a minor bump.
+
+<Expandable title="Usage">
+```bash 
+plb version <IDENTIFIER> [OPTIONS]
+```
+</Expandable>
+
+<ParamField path="IDENTIFIER" type="string" required>
+  The name, ID, or file path of the prompt to display.
+  
+  **Options**: 
+  <ParamField query="--major, -M" type="boolean">
+    Performs a major version bump (e.g., 1.2.0 -> 2.0.0).
+  </ParamField>
+  <ParamField query="--patch, -P" type="boolean">
+    Performs a patch version bump (e.g., 1.2.0 -> 1.2.1).
+  </ParamField>
+</ParamField>
+
+
+### tree
+Displays a hierarchical tree of prompts based on their namespace.
+
+<Expandable title="Usage">
+```bash 
+plb tree
+```
+</Expandable>
+
+<ParamField path="">
+</ParamField>
+
+
+## Searching & Indexing 
+Commands for building search indexes and finding prompts.
+
+### index
+Builds a search index for all prompts to enable advanced search methods.
+
+<Expandable title="Usage">
+```bash 
+plb index [OPTIONS]
+```
+</Expandable>
+
+<ParamField query="--method <METHOD>" type="string" default="hybrid">
+   The indexing method to use. Choices are hybrid or splade.
+</ParamField>
+
+### search
+A command group for searching prompts using different methods.
+
+<Expandable title="Usage">
+```bash 
+plb search <METHOD> <QUERY> [OPTIONS]
+```
+</Expandable>
+
+**Subcommands (METHOD)**
+- `fuzzy`: Lightweight search. No index required.
+- `hybrid`: Balanced keyword and semantic search.
+- `splade`: State-of-the-art sparse vector search.
+  
+<ParamField path="QUERY" type="string" required>
+  The search query string.
+
+  **Options**: 
+  <ParamField query="--limit <INTEGER>, -l <INTEGER>" type="integer" default="10">
+    Number of results to return.
+  </ParamField>
+  <ParamField query="--alpha <FLOAT>" type="float" default="0.5">
+    (Hybrid only) Balances between semantic (1.0) and keyword (0.0) search.
+  </ParamField>
+</ParamField>
+
+
+## AI Features
+AI-powered commands for automating prompt engineering tasks.
+
+### prompt document 
+Automatically generates a description and tags for one or more prompts using an AI.
+
+<Expandable title="Usage">
+```bash 
+plb prompt document [IDENTIFIERS...] [OPTIONS]
+```
+</Expandable>
+
+<ParamField path="IDENTIFIERS..." type="string[]" required>
+  One or more prompt names, IDs, or paths to document.
+
+  **Options**: 
+  <ParamField query="--all, -a" type="boolean"> 
+    Document all prompts in the project. Overrides any specific identifiers.
+  </ParamField>
+</ParamField>
+
+
+### prompt improve
+Gets an AI-powered critique and suggested improvements for a prompt.
+
+<Expandable title="Usage">
+```bash 
+plb prompt improve <IDENTIFIER> [OPTIONS]
+```
+</Expandable>
+
+<ParamField path="IDENTIFIERS..." type="string[]" required>
+  The name, ID, or path of the prompt to improve.
+
+  **Options**: 
+  <ParamField query="--note <TEXT>" type="string"> 
+    A specific note to the AI on how to improve the prompt.
+  </ParamField>
+  <ParamField query="--apply" type="boolean"> 
+    Directly applies the AI's suggestions without asking for confirmation.
+  </ParamField>
+</ParamField>
+
+This concludes the CLI command reference for plb. For additional help, use `plb <command> --help`, or explore related [guides](/guides) in our documentation to deepen your understanding and streamline your workflow.

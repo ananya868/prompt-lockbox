@@ -13,6 +13,7 @@
         "rprint",
         "SPLADE",
         "tico",
+        "usecase",
         "venv"
     ]
 }

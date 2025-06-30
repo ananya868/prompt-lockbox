@@ -1,0 +1,110 @@
+---
+title: "CI/CD for Prompts (Automated Quality Gates)"
+description: "Learn how to automate prompt validation with GitHub Actions to protect your main branch."
+---
+
+As your prompt library becomes a critical part of your application, you need to treat it with the same rigor as your source code. Manually checking every prompt before deployment is tedious and error-prone.
+
+This guide will show you **how to build an automated quality gate for your prompts using GitHub Actions**. This workflow will automatically run on every Pull Request, ensuring that no broken, malformed, or tampered-with prompts can ever be merged into your main branch.
+
+<Info>
+  **The Goal**: To create a CI/CD pipeline that automatically:
+
+  1. Lints all prompts to check for syntax and schema errors.
+  2. Verifies the integrity of all locked prompts to prevent unauthorized changes.
+
+  If either of these checks fails, the pipeline will fail, blocking the Pull Request from being merged.
+</Info>
+
+## The Key Commands
+
+This entire workflow is powered by two key Prompt Lockbox commands that are designed for automation:
+
+<AccordionGroup>
+  <Accordion title="Lint">
+    The `plb lint` command scans every single .yml file in your `prompts/` directory. It checks for a wide range of issues, including:
+
+    - Invalid YAML syntax.
+    - Missing required fields (like `name` or `version`).
+    - Incorrect data types (e.g., a string where a list should be).
+    - Invalid `Jinja2` syntax in your templates.
+
+    If it finds any critical errors, it will exit with a non-zero status code `(1)`, which is the signal that tells a CI/CD system to fail the job.
+  </Accordion>
+  <Accordion title="Verify">
+    The `plb verify` command is your security guard. It reads your project's `.plb.lock` file and compares the stored secure hashes against the current hashes of the files on disk.
+
+    It specifically checks for two dangerous conditions:
+
+    - **A TAMPERED file**: A prompt that is locked but has been modified.
+    - **A MISSING file**: A prompt that is locked but has been deleted.
+
+    If it finds either of these issues, it will exit with a status code of `1`, failing the CI/CD job and protecting your production environment.
+  </Accordion>
+</AccordionGroup>
+
+## Setting Up the GitHub Workflow
+
+Now, let's put these commands together in an automated workflow.
+
+<Steps>
+  <Step title="Create the Workflow File">
+    In your project's root directory, create a new folder path: `.github/workflows/`. Inside that workflows folder, create a new file named `prompt_qa.yml`.
+  </Step>
+  <Step title="Add the Workflow Content">
+    Copy and paste the following content into your `prompt_qa.yml file`. This YAML **defines a GitHub Actions job** that will **run on every pull request** targeting your main branch.
+
+    <CodeGroup>
+
+    ```yaml .github/workflows/prompt_qa.yml
+    name: Prompt Quality Assurance
+    
+    # This workflow runs on every pull request that targets the 'main' branch
+    on:
+      pull_request:
+        branches: [ main ]
+      # Allows you to run this workflow manually from the Actions tab
+      workflow_dispatch:
+    
+    jobs:
+      validate-prompts:
+        runs-on: ubuntu-latest
+        steps:
+          # Step 1: Check out your repository's code
+          - name: Checkout code
+            uses: actions/checkout@v4
+    
+          # Step 2: Set up Python so we can install and run our tool
+          - name: Set up Python
+            uses: actions/setup-python@v5
+            with:
+              python-version: '3.11'
+    
+          # Step 3: Install Prompt Lockbox and any other dependencies
+          - name: Install dependencies
+            run: |
+              python -m pip install --upgrade pip
+              pip install prompt-lockbox
+    
+          # Step 4: Run the Linter
+            run: plb lint
+    
+          # Step 5: Verify Integrity of Locked Prompts
+          - name: Verify Locked Prompts
+            run: plb verify 
+    ```
+
+    </CodeGroup>
+  </Step>
+  <Step title="Commit and Push">
+    **Commit** the `prompt_qa.yml` file and **push** it to your repository.
+
+    <Check>
+      **Automation is Now Active\!**
+
+      That's it\! From now on, whenever someone opens a Pull Request, GitHub will automatically run these checks. You'll see a new "Prompt Quality Assurance" check on your PR page. If it passes, you'll get a `green checkmark`. If it fails, you'll get a `red "X"`, and you can click "Details" to see the output from `plb lint` or `plb verify` to understand what went wrong.
+    </Check>
+  </Step>
+</Steps>
+
+By integrating these simple commands into a CI/CD pipeline, you elevate your prompt management from a manual process to a professional, automated system. This provides a powerful safety net, giving your ensurance that your prompts remain stable, secure, and reliable.

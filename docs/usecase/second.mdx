@@ -1,0 +1,118 @@
+---
+title: "Managing a Team-Based Workflow"
+description: "Learn how to organize and manage team prompts."
+---
+
+When you're working on a team, managing a shared library of prompts can quickly become chaotic. Who wrote this prompt? Is it ready for production? Which prompts are for the billing system versus the support chatbot?
+
+This guide provides a blueprint for using Prompt Lockbox's organizational features to create a clean, collaborative, and easy-to-navigate prompt library for your team.
+
+<Info>
+  **The Goal**: To establish a clear, consistent, and scalable workflow for teams by leveraging:
+
+  Namespaces for organization.
+
+  - The **Status** field for tracking a prompt's lifecycle.
+  - The **Author** field for ownership.
+</Info>
+
+## Organizing Prompts with Namespaces
+
+The namespace field is a tool for bringing order to your library. Think of it like a folder path. By assigning a namespace to each prompt, you can group them by feature, domain, or team responsibility.
+
+### How to use ?
+
+When creating a prompt, just define its namespace as a list of strings in your `.yml` file.
+
+Example:
+
+<CodeGroup>
+
+```yml prompts/invoice-parser.v1.0.0.yml
+name: invoice-parser
+namespace: [billing, invoices]
+description: "Parses details from an uploaded invoice PDF."
+...
+```
+
+
+```yml prompts/triage-ticket.v1.2.0.yml
+name: triage-ticket
+namespace: [support, triage]
+description: "Categorizes an incoming support ticket."
+...
+```
+
+</CodeGroup>
+
+<Tip>
+  **Best Practice**: Establish a consistent naming convention for your namespaces early on. For example, [feature, sub-feature] or [domain, action].
+</Tip>
+
+### Visualizing the Structure with plb tree
+
+Once your prompts are namespaced, `the plb tree` command becomes incredibly useful. It displays your library in a clean, hierarchical view, making it easy for anyone on the team to find what they need.
+
+```bash
+plb tree
+```
+
+## Tracking the Prompt Lifecycle with status
+
+The **status** field helps your team understand the maturity and intended use of each prompt. It prevents a half-finished "draft" prompt from accidentally being used in production.
+
+### The Standard Lifecycle
+
+Here is a typical workflow using the status field:
+
+<Steps>
+  <Step title="1. Draft">
+    When a prompt is first created, its status is `Draft`. This means it's a work-in-progress and not ready for use.
+
+    ```yaml
+    status: "Draft"
+    ```
+  </Step>
+  <Step title="2. In-Review">
+    Once the author thinks the prompt is `ready`, they change the status to In-Review and open a Pull Request. This signals to other team members that it's ready for peer review.
+
+    ```yaml
+    status: "In-Review"
+    ```
+  </Step>
+  <Step title="3. Staging">
+    After the review is approved, the prompt might be moved to `Staging`. This means it's deployed to a testing or staging environment for final validation.
+
+    ```yaml
+    status: "Staging"
+    ```
+  </Step>
+  <Step title="4. Production">
+    Once it's validated in staging, the prompt is moved to `Production` status and locked using `plb lock`. This is the final, trusted version.
+
+    ```yaml
+    status: "Production"
+    ```
+  </Step>
+  <Step title="5. Deprecated/Archived">
+    If a prompt is no longer needed or has been replaced by a newer version, its status can be set to `Deprecated` or `Archived` to signal that it should not be used in new development.
+  </Step>
+</Steps>
+
+### Viewing Statuses at a Glance
+
+The `plb list --wide` command is perfect for getting a quick overview of the status of all prompts in the library.
+
+```bash
+plb list --wide 
+```
+
+### Set Author
+
+In a team setting, knowing who to talk to about a specific prompt is essential. The author field solves this. When you run `plb create` or `plb version` in a Git repository, Prompt Lockbox **automatically fills this field with your Git user name and email**. Example:
+
+```yaml
+author: "Ada lang <adalang@example.com" 
+```
+
+By combining namespaces for organization, the status field for lifecycle tracking, and the author field for ownership, these features provide the structure needed to manage prompts effectively as your projects.

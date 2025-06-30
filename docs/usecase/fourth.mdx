@@ -1,0 +1,151 @@
+---
+title: "AI-Based Prompt Iteration"
+description: "Transform rough prompt ideas into polished, versioned assets using AI-powered iteration."
+---
+
+<Tip>
+  **Got any cool idea?**
+
+  Share your idea via [Suggest Feature](/sf) or contribute directly—learn how at [Contribution Guide](/contri).
+</Tip>
+
+Great prompts are rarely written perfectly on the first try. They evolve through a cycle of drafting, testing, and refining. Prompt Lockbox's AI features are designed to supercharge this cycle, turning a slow, manual process into a rapid, intelligent workflow.
+
+This guide will walk you through a complete iteration loop. We'll start with a rough, undocumented prompt idea and, in just a few commands, **use AI to transform it into a documented, improved, and versioned asset ready for use.**
+
+<Info>
+  **The Goal**: To demonstrate a rapid development workflow:
+
+  Start with a basic prompt template.
+
+  - Use AI Documentation to create a baseline understanding.
+  - Use AI Improvement to refine and strengthen the prompt.
+  - Version the final, polished result.
+</Info>
+
+Here are the steps:
+
+<Steps>
+  <Step title="Create the Initial Draft">
+    First, let's create a new prompt. Imagine we need a prompt to summarize meeting transcripts. We'll start by creating a file with a name and a simple template, but leave the description and tags blank.
+
+    In your teminal, run the command:
+
+    ```bash
+    plb create
+    # Name: meeting-summarizer
+    # (Leave description and tags blank)
+    ```
+
+    Created prompt file:
+
+    ```yml prompts/meeting-summarizer.v1.0.0.yml
+    name: meeting-summarizer
+    version: "1.0.0"
+    description: ""
+    tags: []
+    ... 
+    template: |
+      Here is a meeting transcript. Please summarize it.
+    
+      TRANSCRIPT:
+      ${transcript_text}
+    ```
+
+    This prompt is functional, but it's vague and undocumented.
+  </Step>
+  <Step title="Generate Documentation with AI">
+    Instead of manually writing a description and thinking of tags, let's use the `document` command.
+
+    <CodeGroup>
+
+    ```bash CLI
+    plb prompt document meeting-summarizer
+    ```
+
+    
+    ```python Python
+    from prompt_lockbox import Project
+    
+    project = Project()
+    prompt = project.get_prompt("meeting-summarizer")
+    if prompt:
+        prompt.document()
+    ```
+
+    </CodeGroup>
+
+    **Result**: The AI analyzes the template and automatically updates the `.yml` file:
+
+    ```yml prompts/meeting-summarizer.v1.0.0.yml
+    ... 
+    description: "Summarizes a provided meeting transcript text into a concise overview."
+    tags: [summarization, meetings, transcription, nlp]
+    template: |
+      Here is a meeting transcript. Please summarize it.
+      
+      TRANSCRIPT:
+      ${transcript_text}
+    ```
+
+    Now our prompt is documented and discoverable, but the template itself can still be improved.
+  </Step>
+  <Step title="Improve the Prompt with AI">
+    Our current template is too generic. Let's ask the AI to make it more specific and structured. Optionally, you can provide notes to LLM using `note`.
+
+    <Note>
+      You can use the CLI or Python, but the **CLI is recommended** for clearer visibility into the changes.
+    </Note>
+    <CodeGroup>
+
+    ```bash CLI
+      plb prompt improve meeting-summarizer --note "Make it output action items and decisions separately."
+    ```
+
+    
+    ```python Python
+    # ... (get the prompt object as before) ...
+    if prompt:
+        critique = prompt.get_critique(
+            note="Make it output action items and decisions separately."
+        )
+        # Apply the improvement
+        prompt.improve(critique["improved_template"])
+    ```
+
+    </CodeGroup>
+
+    **Result**: The `improve` command will suggest a much more robust template. After you confirm the changes, your file will be updated. Here's the updated file:
+
+    <CodeGroup>
+
+    ```yml prompts/meeting-summarizer.v1.0.0.yml
+      template: |
+        You are an expert meeting assistant. Analyze the following meeting transcript and provide a structured summary.
+      
+        Your summary must contain two distinct sections:
+        1.  **Key Decisions:** A bulleted list of all decisions made during the meeting.
+        2.  **Action Items:** A bulleted list of all tasks assigned, including who is responsible if mentioned.
+        
+        If no decisions or action items are found, state "None".
+      
+        TRANSCRIPT:
+        ${transcript_text}
+    ```
+
+    </CodeGroup>
+  </Step>
+  <Step title="Version the Polished Prompt">
+    In just two commands, we've transformed our rough draft into a documented and structured prompt. The final step is to lock this polished version or create a new one to signify that it's a major improvement.
+
+    ```bash
+    # We can lock v1.0.0 now that it's complete
+    plb lock meeting-summarizer
+    
+    # Or, if we feel the change was significant, create v1.1.0
+    plb version meeting-summarizer --minor
+    ```
+  </Step>
+</Steps>
+
+This rapid iteration loop — **Create -\> Document -\> Improve -\> Version** —is at the heart of what makes the toolkit useful.

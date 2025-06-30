@@ -29,6 +29,15 @@
               "guide/second",
               "guide/third"
             ]
+          },
+          {
+            "group": "Use Cases", 
+            "pages": [
+              "usecase/first",
+              "usecase/second",
+              "usecase/third",
+              "usecase/fourth"
+            ]
           }
         ]
       },

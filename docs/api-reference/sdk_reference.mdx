@@ -1,0 +1,307 @@
+---
+title: "SDK Reference"
+description: "A complete guide to the Python SDK, covering all available classes, methods, usage patterns, and configuration options."
+---
+
+## Project Class 
+The `Project` class is the main entry point for interacting with a Prompt Lockbox project via the Python SDK. It represents your entire prompt library and provides methods for finding, creating, and managing all prompts within it.
+
+### Initialization 
+
+`Project(path=None)`
+Initializes the Project, finding its root directory and loading its configuration.
+
+**Parameters** 
+<ParamField body="path" type="str | Path | None">
+  An optional path to a directory within the project. If None, it searches upwards from the current working directory to find the project root.
+</ParamField> 
+
+**Raises** 
+<ResponseField name="FileNotFoundError" type="exception">
+  If no plb.toml file is found, indicating it's not a valid project.
+</ResponseField> 
+
+**Example**
+
+```python 
+from prompt_lockbox.api import Project
+
+# Initialize from anywhere inside the project
+project = Project()
+```
+
+### Properties 
+
+`.root`
+The root pathlib.Path object of the Prompt Lockbox project.
+
+**Returns** 
+<ResponseField name="root" type="pathlib.Path"> 
+  The absolute path to the project's root directory.
+</ResponseField> 
+
+
+### Methods
+
+`.get_prompt(identifier)`
+Finds a single prompt by its name, ID, or file path. If a name is provided, it returns the Prompt object for the latest version.
+
+**Parameters**
+<ParamField body="identifier" type="string" required> 
+  The name, ID, or file path string of the prompt to find.
+</ParamField>
+
+**Returns**
+<ResponseField name="prompt" type="Prompt | None"> 
+  A Prompt object if found, otherwise None.
+</ResponseField>
+
+<br />
+`.list_prompts()`
+Returns a list of all prompts found in the project.
+
+**Returns**
+<ResponseField name="prompts" type="List[Prompt]"> 
+  A list of Prompt objects for every valid prompt file found.
+</ResponseField>
+
+<br /> 
+`.create_prompt(...)`
+Creates a new prompt file on disk from the given metadata.
+
+<ParamField body="name" type="string" required> 
+  The name of the new prompt.
+</ParamField>
+<ParamField body="version" type="string" default="1.0.0"> 
+  The starting semantic version for the prompt.
+</ParamField>
+<ParamField body="author" type="str | None"> 
+  The author of the prompt. If not provided, it attempts to use the current Git user.
+</ParamField>
+<ParamField body="description" type="string"> 
+  A short, human-readable summary of the prompt's purpose.
+</ParamField>
+<ParamField body="namespace" type="str | List[str] | None"> 
+  A list of strings to organize the prompt in a hierarchy (e.g., ['billing', 'invoices']).
+</ParamField>
+<ParamField body="tags" type="List[str] | None"> 
+  A list of lowercase keywords for search and discovery.
+</ParamField>
+<ParamField body="intended_model" type="str"> 
+  The specific LLM this prompt is designed for (e.g., openai/gpt-4o-mini).
+</ParamField>
+<ParamField body="notes" type="str"> 
+  Any extra comments, warnings, or usage instructions.
+</ParamField>
+<ParamField body="model_parameters" type="Dict[str, Any] | None"> 
+  A dictionary of model parameters to be stored.
+</ParamField>
+<ParamField body="linked_prompts" type="List[str] | None"> 
+  A list of IDs of other prompts that are related to this one.
+</ParamField>
+
+**Returns** 
+<ResponseField name="new_prompt" type="Prompt">
+  A Prompt object representing the newly created file.
+</ResponseField>
+
+<br /> 
+`.get_prompt(identifier)`
+Finds a single prompt by its name, ID, or file path. If a name is provided, it returns the Prompt object for the latest version.
+
+**Parameters**
+<ParamField body="identifier" type="string" required>
+  The name, ID, or file path string of the prompt to find.
+</ParamField>
+
+**Returns**
+<ResponseField name="prompt" type="string" required>
+  A Prompt object if found, otherwise None.
+</ResponseField>
+
+<br /> 
+`.search(...)`
+Searches for prompts using a specified method.
+
+**Parameters**
+<ParamField body="query" type="str" required>
+  The search query string.
+</ParamField>
+<ParamField body="method" type="string" default="fuzzy">
+  The search method to use. Choices: fuzzy, hybrid, splade.
+</ParamField>
+<ParamField body="limit" type="int" default="10">
+  The maximum number of results to return.
+</ParamField>
+<ParamField body="alpha" type="float">
+  (Hybrid search only) A float between 0.0 (keyword) and 1.0 (semantic) to balance the search.
+</ParamField>
+
+**Returns**
+<ResponseField name="results" type="list[dict]">
+  A list of result dictionaries, sorted by relevance.
+</ResponseField>
+
+<br /> 
+`.index(method='hybrid')`
+Builds a search index for all prompts to enable advanced search.
+
+<ParamField body="method" type="str" default="hybrid">
+  The indexing method to use. Choices: hybrid or splade.
+</ParamField>
+
+<br /> 
+`.lint()`
+Validates all prompt files in the project for correctness and consistency.
+
+**Returns**
+<ResponseField name="report" type="dict">
+  A dictionary of results categorized by check type.
+</ResponseField>
+
+<br /> 
+`.get_status_report()`
+Generates a report of the lock status of all prompts.
+
+**Returns**
+<ResponseField name="report" type="dict">
+  A dictionary categorizing prompts into locked, unlocked, tampered, and missing.
+</ResponseField>
+
+<br />
+`.document_all(prompts_to_document=None)`
+Uses an AI to automatically document a list of prompts, or all prompts if none are provided.
+
+**Parameters**
+<ParamField body="prompts_to_document" type="List[Prompt] | None">
+  A specific list of Prompt objects to document. If None, all prompts in the project will be processed.
+</ParamField>
+
+<br />
+`.get_ai_config()`
+Retrieves the AI configuration from the project's plb.toml file.
+
+**Returns** 
+<ResponseField name="config" type="dict">
+  A dictionary with provider and model keys.
+</ResponseField>
+
+
+
+## Prompt Class 
+The `Prompt` class represents a single, versioned prompt file. It is the primary object you'll work with to render, validate, and manage an individual prompt. 
+
+### Properties 
+These are read-only attributes that provide quick access to the prompt's data.
+
+`.path`
+The absolute pathlib.Path to the prompt's .yml file.
+
+`.data`
+A dict containing all the parsed data from the YAML file.
+
+`.name`
+The name of the prompt as a string.
+
+`.version`
+The version of the prompt as a string (e.g., "1.0.0").
+
+`.description`
+The description of the prompt as a string.
+
+`.required_variables`
+A set of all undeclared template variables found in the template string (e.g., {'name', 'topic'}).
+
+### Methods 
+
+`.render(strict=True, **kwargs)`
+
+**Parameters**
+<ParamField body="strict" type="bool" default="True"> 
+  If True, the method will raise an `UndefinedError` for any missing variables. If False, it will render missing variables as `<<variable_name>>` in the output string.
+</ParamField>
+<ParamField body="**kwargs" type="any"> 
+  The key-value pairs to inject into the template. These will override any default_inputs specified in the prompt file.
+</ParamField>
+
+**Returns**
+<ResponseField name="rendered_text" type="str">
+  The final, rendered prompt text as a string.
+</ResponseField>
+
+<br />
+`.run(**kwargs**)`
+Renders the prompt, calls the configured LLM, and returns a structured result.
+
+**Parameters**
+<ParamField name="result" type="dict"> 
+  The key-value pairs to inject into the template before sending the prompt to the LLM.
+</ParamField>
+
+**Returns**
+<ResponseField name="rendered_text" type="str">
+  A dictionary containing the rendered prompt, LLM output, model details, and usage statistics.
+</ResponseField>
+
+<br /> 
+`.lock()`
+Creates a lock entry for this prompt in the project's lockfile. This records the file's current SHA256 hash and a timestamp, marking it as secure.
+
+<br /> 
+`.unlock()`
+Removes the lock entry for this prompt from the project's lockfile, allowing it to be edited.
+
+<br /> 
+`.verify()`
+Verifies the integrity of this prompt against the lockfile.
+
+**Returns**
+<ResponseField name="verification_status" type="tuple[bool, str]">
+  A tuple containing a boolean (True if secure) and a status string ('OK', 'UNLOCKED', 'TAMPERED').
+</ResponseField>
+
+<br /> 
+`.new_version(bump_type='minor', author=None)`
+Creates a new, version-bumped copy of this prompt file and returns a Prompt object for the new file.
+
+**Parameters**
+<ParamField body="bump_type" type="str" default="minor">
+  The type of version bump to perform. Choices: major, minor, patch.
+</ParamField>
+<ParamField body="author" type="str | None">
+  The author for the new version. If None, it defaults to the author of the source prompt or the current Git user.
+</ParamField>
+
+**Returns**
+<ResponseField name="new_prompt" type="Prompt">
+  A new Prompt object representing the newly created file.
+</ResponseField>
+
+<br />
+`.document()`
+Uses an AI to analyze the prompt's template and automatically generate and save a description and tags for it. The original file's comments and layout are preserved.
+
+<br />
+`.get_critique(note=...)`
+Gets an AI-powered critique and suggestions for improving the prompt. This method does not modify the file.
+
+**Parameters**
+<ParamField body="note" type="str">
+  A specific instruction for the AI on how to improve the prompt (e.g., "Make it more robust").
+</ParamField>
+
+**Returns**
+<ResponseField name="critique_data" type="dict">
+  A dictionary containing the 'critique', 'suggestions', and 'improved_template'.
+</ResponseField>
+
+<br />
+`.improve(improved_template)`
+Overwrites the prompt's template block with a new version and updates its last_update timestamp. The original file's comments and layout are preserved.
+
+**Parameters**
+<ParamField body="improved_template" type="str" required>
+  The new template string to write to the file. This is typically sourced from the result of .get_critique().
+</ParamField>
+
+Congo! Explore more.

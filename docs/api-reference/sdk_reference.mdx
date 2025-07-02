@@ -8,7 +8,7 @@ The `Project` class is the main entry point for interacting with a Prompt Lockbo
 
 ### Initialization 
 
-`Project(path=None)`
+#### Project(path=None)
 Initializes the Project, finding its root directory and loading its configuration.
 
 **Parameters** 
@@ -32,7 +32,7 @@ project = Project()
 
 ### Properties 
 
-`.root`
+#### .root
 The root pathlib.Path object of the Prompt Lockbox project.
 
 **Returns** 
@@ -43,7 +43,7 @@ The root pathlib.Path object of the Prompt Lockbox project.
 
 ### Methods
 
-`.get_prompt(identifier)`
+#### .get_prompt(identifier)
 Finds a single prompt by its name, ID, or file path. If a name is provided, it returns the Prompt object for the latest version.
 
 **Parameters**
@@ -57,7 +57,7 @@ Finds a single prompt by its name, ID, or file path. If a name is provided, it r
 </ResponseField>
 
 <br />
-`.list_prompts()`
+#### .list_prompts()
 Returns a list of all prompts found in the project.
 
 **Returns**
@@ -66,7 +66,7 @@ Returns a list of all prompts found in the project.
 </ResponseField>
 
 <br /> 
-`.create_prompt(...)`
+#### .create_prompt(...)
 Creates a new prompt file on disk from the given metadata.
 
 <ParamField body="name" type="string" required> 
@@ -106,7 +106,7 @@ Creates a new prompt file on disk from the given metadata.
 </ResponseField>
 
 <br /> 
-`.get_prompt(identifier)`
+#### .get_prompt(identifier)
 Finds a single prompt by its name, ID, or file path. If a name is provided, it returns the Prompt object for the latest version.
 
 **Parameters**
@@ -120,7 +120,7 @@ Finds a single prompt by its name, ID, or file path. If a name is provided, it r
 </ResponseField>
 
 <br /> 
-`.search(...)`
+#### .search(...)
 Searches for prompts using a specified method.
 
 **Parameters**
@@ -143,7 +143,7 @@ Searches for prompts using a specified method.
 </ResponseField>
 
 <br /> 
-`.index(method='hybrid')`
+#### .index(method='hybrid')
 Builds a search index for all prompts to enable advanced search.
 
 <ParamField body="method" type="str" default="hybrid">
@@ -151,7 +151,7 @@ Builds a search index for all prompts to enable advanced search.
 </ParamField>
 
 <br /> 
-`.lint()`
+#### .lint()
 Validates all prompt files in the project for correctness and consistency.
 
 **Returns**
@@ -160,7 +160,7 @@ Validates all prompt files in the project for correctness and consistency.
 </ResponseField>
 
 <br /> 
-`.get_status_report()`
+#### .get_status_report()
 Generates a report of the lock status of all prompts.
 
 **Returns**
@@ -169,7 +169,7 @@ Generates a report of the lock status of all prompts.
 </ResponseField>
 
 <br />
-`.document_all(prompts_to_document=None)`
+#### .document_all(prompts_to_document=None)
 Uses an AI to automatically document a list of prompts, or all prompts if none are provided.
 
 **Parameters**
@@ -178,7 +178,7 @@ Uses an AI to automatically document a list of prompts, or all prompts if none a
 </ParamField>
 
 <br />
-`.get_ai_config()`
+#### .get_ai_config()
 Retrieves the AI configuration from the project's plb.toml file.
 
 **Returns** 
@@ -194,27 +194,27 @@ The `Prompt` class represents a single, versioned prompt file. It is the primary
 ### Properties 
 These are read-only attributes that provide quick access to the prompt's data.
 
-`.path`
+#### .path
 The absolute pathlib.Path to the prompt's .yml file.
 
-`.data`
+#### .data
 A dict containing all the parsed data from the YAML file.
 
-`.name`
+#### .name
 The name of the prompt as a string.
 
-`.version`
+#### .version
 The version of the prompt as a string (e.g., "1.0.0").
 
-`.description`
+#### .description
 The description of the prompt as a string.
 
-`.required_variables`
+#### .required_variables
 A set of all undeclared template variables found in the template string (e.g., {'name', 'topic'}).
 
 ### Methods 
 
-`.render(strict=True, **kwargs)`
+#### .render(strict=True, **kwargs)
 
 **Parameters**
 <ParamField body="strict" type="bool" default="True"> 
@@ -230,7 +230,7 @@ A set of all undeclared template variables found in the template string (e.g., {
 </ResponseField>
 
 <br />
-`.run(**kwargs**)`
+#### .run(**kwargs**)
 Renders the prompt, calls the configured LLM, and returns a structured result.
 
 **Parameters**
@@ -244,15 +244,15 @@ Renders the prompt, calls the configured LLM, and returns a structured result.
 </ResponseField>
 
 <br /> 
-`.lock()`
+#### .lock()
 Creates a lock entry for this prompt in the project's lockfile. This records the file's current SHA256 hash and a timestamp, marking it as secure.
 
 <br /> 
-`.unlock()`
+#### .unlock()
 Removes the lock entry for this prompt from the project's lockfile, allowing it to be edited.
 
 <br /> 
-`.verify()`
+#### .verify()
 Verifies the integrity of this prompt against the lockfile.
 
 **Returns**
@@ -261,7 +261,7 @@ Verifies the integrity of this prompt against the lockfile.
 </ResponseField>
 
 <br /> 
-`.new_version(bump_type='minor', author=None)`
+#### .new_version(bump_type='minor', author=None)
 Creates a new, version-bumped copy of this prompt file and returns a Prompt object for the new file.
 
 **Parameters**
@@ -278,11 +278,11 @@ Creates a new, version-bumped copy of this prompt file and returns a Prompt obje
 </ResponseField>
 
 <br />
-`.document()`
+#### .document()
 Uses an AI to analyze the prompt's template and automatically generate and save a description and tags for it. The original file's comments and layout are preserved.
 
 <br />
-`.get_critique(note=...)`
+#### .get_critique(note=...)
 Gets an AI-powered critique and suggestions for improving the prompt. This method does not modify the file.
 
 **Parameters**
@@ -296,7 +296,7 @@ Gets an AI-powered critique and suggestions for improving the prompt. This metho
 </ResponseField>
 
 <br />
-`.improve(improved_template)`
+#### .improve(improved_template)
 Overwrites the prompt's template block with a new version and updates its last_update timestamp. The original file's comments and layout are preserved.
 
 **Parameters**

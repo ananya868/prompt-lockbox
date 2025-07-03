@@ -5,6 +5,7 @@ description: "Welcome to Prompt Lockbox! From chaotic text files to well kept pr
 
 <Warning> 
   **Project Under Development!**
+
   This project is currently in active development. You may experience occasional bugs or inconsistencies. Please report any issues on [Report Bugs](/some_bugs) section—your input is valuable.
 </Warning>
 
@@ -16,6 +17,7 @@ Prompt Lockbox is a **command-line tool** and **Python SDK** designed to fix thi
 
 <Tip>
   **Quick Tip!**
+
   As all project configuration and state are stored in centralized files, you can use the CLI or SDK interchangeably. Actions performed with one are immediately reflected when using the other.
 </Tip>
 
@@ -50,33 +52,36 @@ Here’s what it fixes for you -
 ### Prompt Format
 Let's have a quick look on how it creates an awesome prompt.
 
-```python
-project = Project()
+<Accordion title="Code to create prompt" icon="code">
+  ```python
+  from prompt_lockbox import Project
+  project = Project()
 
-new_prompt = project.create_prompt(
-  name="Email-agent",
-  version="1.0.0",
-  description="Create a persuasive email template for small tech business owners to promote a chatbot product.",
-  namespace=["email-tools", "ai-agent"],
-  tags=[
-      "email",
-      "persuasive",
-      "small business",
-      "tech industry",
-      "chatbot"
-  ],
-  author="ananya868 <ananya8154@gmail.com>",
-  intended_model="gpt-9",
-  model_parameters={
-      "temperature": 0.7
-  },
-  linked_prompts=[
-      "email-monitor-agent",
-      "client-scrapper-agent"
-  ],
-  notes="Do not use in production before testing!"
-)
+  new_prompt = project.create_prompt(
+    name="Email-agent",
+    version="1.0.0",
+    description="Create a persuasive email template for small tech business owners to promote a chatbot product.",
+    namespace=["email-tools", "ai-agent"],
+    tags=[
+        "email",
+        "persuasive",
+        "small business",
+        "tech industry",
+        "chatbot"
+    ],
+    author="ananya868 <ananya8154@gmail.com>",
+    intended_model="gpt-9",
+    model_parameters={
+        "temperature": 0.7
+    },
+    linked_prompts=[
+        "email-monitor-agent",
+        "client-scrapper-agent"
+    ],
+    notes="Do not use in production before testing!"
+  )
 ```
+</Accordion>
 We've created a prompt template with metadata. Go ahead and plug in your actual prompt—here’s what it looks like:
 
 <img 

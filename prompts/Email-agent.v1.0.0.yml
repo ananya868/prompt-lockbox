@@ -7,7 +7,7 @@ version: "1.0.0"
 # DOCUMENTATION
 description: Create a persuasive email template for small tech business owners to
   promote a chatbot product.
-namespace: []
+namespace: [email-tools, ai-agent]
 tags:
 - email
 - persuasive
@@ -30,8 +30,8 @@ model_parameters:
 
 # NOTES & LINKS
 # --------------------
-linked_prompts: []
-notes: ""
+linked_prompts: [email-monitor-agent, client-scrapper-agent]
+notes: "Do not use in production before testing!"
 
 # - - - 💖 THE PROMPT 💖 - - -
 # ---------------------------------
@@ -40,7 +40,7 @@ default_inputs:
   product: "chatbot"
 
 template: |
-  Draft a compelling email targeting small tech business owners (e.g., startups or established tech companies) to promote a specific product like a 'chatbot'. The email should maintain a friendly yet professional tone and focus on the advantages of the product. Incorporate the following structure:
+  Draft a compelling email targeting small tech business owners (e.g., startups or established tech companies) to promote a specific product like a {{product}}. The email should maintain a friendly yet professional tone and focus on the advantages of the product. Incorporate the following structure:
   1. Subject Line: Craft a catchy and relevant line, such as 'Transform Your Business with Our Cutting-Edge Chatbot' or 'Discover How Our Chatbot Can Engage Your Customers 24/7'.
   2. Opening: Start with a warm greeting and a brief introduction that addresses the reader’s industry and needs.
   3. Body: Clearly outline the benefits of the chatbot, addressing common pain points like customer engagement or operational efficiency. Include specific examples, statistics, and a success story or testimonial from a satisfied client who experienced tangible results after implementing the chatbot.

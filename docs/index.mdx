@@ -4,18 +4,19 @@ description: "Welcome to Prompt Lockbox! From chaotic text files to well kept pr
 ---
 
 <Warning> 
-  This project is currently under development. If you encounter any bugs, please report them in the 'Report' section.
+  **Project Under Development!**
+  This project is currently in active development. You may experience occasional bugs or inconsistencies. Please report any issues on [Report Bugs](/some_bugs) section—your input is valuable.
 </Warning>
 
 ### What is Prompt Lockbox ? 
 
-As language models become central to our applications, the prompts that control them are often treated as an afterthought—scattered across code, text files, and documents. This chaos leads to inconsistency, lost work, and a lack of security for your most critical AI assets.
+As language models become central to our applications, the prompts that control them are often treated as an afterthought—scattered across code, text files, and documents. This chaos leads to **inconsistency**, **lost work**, and a **lack of security** for your most critical AI assets.
 
 Prompt Lockbox is a **command-line tool** and **Python SDK** designed to fix this. It provides a professional framework for bringing **structure**, **security**, and **version-controlled** management to your entire prompt engineering workflow, transforming your prompts from simple text into robust, reliable, and manageable code.
 
 <Tip>
-Prompt Lockbox is available as both a command-line tool (plb) and a Python SDK. 
-Because all project configuration and state are stored in centralized files, you can use the two interchangeably. Actions performed with one are immediately reflected when using the other.
+  **Quick Tip!**
+  As all project configuration and state are stored in centralized files, you can use the CLI or SDK interchangeably. Actions performed with one are immediately reflected when using the other.
 </Tip>
 
 
@@ -29,7 +30,7 @@ Here’s what it fixes for you -
       - **Solution**: It creates a centralized and structured library, making it effortless for your entire team to find and use the correct prompt.
   </Accordion>
   <Accordion title="Which Version Was That? Problem">
-    - **Problem**: You tweak a great prompt and accidentally make it worse, with **no way to go back to the version that worked**.
+    - **Problem**: You tweak a great prompt and accidentally make it worse, with no way to go back to the version that worked.
     - **Solution**: It provides Git-like versioning for prompts. Safely create new versions and manage modifications, just like code.
   </Accordion>
   <Accordion title="Did Someone Change This? Problem">
@@ -46,11 +47,50 @@ Here’s what it fixes for you -
   </Accordion>
 </AccordionGroup>
 
+### Prompt Format
+Let's have a quick look on how it creates an awesome prompt.
+
+```python
+project = Project()
+
+new_prompt = project.create_prompt(
+  name="Email-agent",
+  version="1.0.0",
+  description="Create a persuasive email template for small tech business owners to promote a chatbot product.",
+  namespace=["email-tools", "ai-agent"],
+  tags=[
+      "email",
+      "persuasive",
+      "small business",
+      "tech industry",
+      "chatbot"
+  ],
+  author="ananya868 <ananya8154@gmail.com>",
+  intended_model="gpt-9",
+  model_parameters={
+      "temperature": 0.7
+  },
+  linked_prompts=[
+      "email-monitor-agent",
+      "client-scrapper-agent"
+  ],
+  notes="Do not use in production before testing!"
+)
+```
+We've created a prompt template with metadata. Go ahead and plug in your actual prompt—here’s what it looks like:
+
+<img 
+src="/images/prompt_template.png" 
+alt="Prompt Template"
+height="300"
+className="rounded-lg"
+/>
+
 ### Core Features in a nutshell 
 A brief look at what Prompt Lockbox can do for you.
 
 <Note>
-  This is just an overview of the features. Please checkout [CLI](www.google.com) or [Python SDK](www.google.com) for detailed usage !
+  This is just an overview of the features. Please checkout [Use Cases](/use_case) for detailed usage !
 </Note>
 
 <CardGroup col={3}>

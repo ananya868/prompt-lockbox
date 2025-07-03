@@ -5,7 +5,6 @@ name: "Email-agent"
 version: "1.0.0"
 
 # DOCUMENTATION
-# --------------------
 description: Create a persuasive email template for small tech business owners to
   promote a chatbot product.
 namespace: []

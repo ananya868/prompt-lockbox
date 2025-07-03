@@ -4,11 +4,11 @@ description: "Fundamental workflow of creating a prompt, securing it, and then i
 icon: "code"
 ---
 
-This is the core loop of using Prompt Lockbox. This guide will walk you through the entire lifecycle of a single prompt: from its initial creation as a draft, to securing it for production, and finally to creating a new version for safe iteration.
+This is the core loop of using Prompt Lockbox. This guide will walk you through the entire lifecycle of a single prompt: **from its initial creation as a draft, to securing it for production, and finally to creating a new version for safe iteration.**
 
 <Steps>
   <Step title="Create the Prompt">
-    We'll start by creating a new prompt for a "Joke Generator". The create command builds a new, compliant .yml file for you.
+    We'll start by creating a new prompt for a "Joke Generator". The create command builds a new, compliant `.yml` file for you.
 
     <Tabs>
       <Tab title="CLI">
@@ -34,15 +34,15 @@ This is the core loop of using Prompt Lockbox. This guide will walk you through 
     </Tabs>
   </Step>
   <Step title="Edit and Finalize">
-    Now, open the newly created `prompts/joke-generator.v1.0.0.yml` file and add your template logic. This is the only manual step in the process.
+    Now, open the newly created `prompts/joke-generator.v1.0.0.yml` file and **add your template content**. This is the only manual step in the process.
 
     ```yml
     template: |
-      Tell me a dad joke about ${topic}.
+      Tell me a dad joke about {{topic}}.
     ```
   </Step>
   <Step title="Lock for Production">
-    Once you're happy with v1.0.0, lock it. This marks the prompt as "production-ready," records its secure hash, and protects it from accidental changes.
+    Once you're happy with `v1.0.0`, **lock it**. This marks the prompt as "production-ready," records its secure hash, and protects it from accidental changes.
 
     <Tabs>
       <Tab title="CLI">
@@ -93,8 +93,8 @@ This is the core loop of using Prompt Lockbox. This guide will walk you through 
   </Step>
 </Steps>
 
-<Check>
-  You have now mastered the core lifecycle of a prompt: creating it, securing it for production with lock, and safely iterating on it with version. This workflow is fundamental to maintaining a reliable and organized prompt library.
+## Next Steps
 
-  **Next up**: [Learn how to find and navigate your growing collection of prompts](/second).
-</Check>
+You have now mastered the core lifecycle of a prompt: creating it, securing it for production with lock, and safely iterating on it with version. This workflow is fundamental to maintaining a reliable and organized prompt library.
+
+[Learn how to find and navigate your growing collection of prompts](/second).

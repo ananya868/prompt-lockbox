@@ -3,7 +3,7 @@ title: "Quickstart"
 description: "Here's how you can build your first prompt in 5 minutes !"
 ---
 
-**Prompt Lockbox is quite easy to install**. Its available on [pypi](https://pypi.org/) index, so all you need is a python package installer \!
+**Prompt Lockbox is quite easy to install**. Its available on [pypi](https://pypi.org/) index, so all you need is a python package installer [pip](https://pip.pypa.io/en/stable/installation/)\!
 
 <Note>
 **Supported Python version**: `> 3.10`
@@ -11,11 +11,13 @@ description: "Here's how you can build your first prompt in 5 minutes !"
 
 ## How to install ?
 
-You can directly install the toolkit using [pip](https://pip.pypa.io/en/stable/installation/) or from our github [prompt-lockbox](https://github.com/ananya868/prompt-lockbox/tree/main).
+You can directly install the toolkit using [pip](https://pip.pypa.io/en/stable/installation/) or from our [github repo](https://github.com/ananya868/prompt-lockbox/tree/main).
 
-**Note:** It is advised to **create a new virtual environment** to avoid any unnecessary package conflict.
+<Warning>
+  It is advised to **create a new virtual environment** to avoid any unnecessary package conflict.
+</Warning>
 
-Install using command
+Install using command -
 
 ```bash
 pip install prompt-lockbox
@@ -47,7 +49,7 @@ Setup is done. We can now create a new Prompt Lockbox Project \!
 
 The first step is to create a project, which is nothing but **setting up the necessary directories and configuration files** for you.
 
-To do this, **we will use CLI for this guide**. Well, you can also use the SDK for these tasks, checkout [SDK](www.google.com). In your project directory, run -
+To do this, **we will use CLI for this guide**. Well, you can also use the SDK for these tasks, checkout [SDK](/api-reference/sdk_reference). In your project directory, run -
 
 ```bash
 plb init . 
@@ -123,13 +125,13 @@ Here are two templates for your reference — one is blank, and the other is a c
     template: |
       You are a helpful assistant.
 
-  -- Now you can start writing your prompt template! --
-
-  How to use this template:
-  - To input a value: ${user_input}
-  - To add a comment: {# This is a comment #}
-
-  Create awesome prompts! :)
+      -- Now you can start writing your prompt template! --
+    
+      How to use this template:
+      - To input a value: ${user_input}
+      - To add a comment: {# This is a comment #}
+    
+      Create awesome prompts! :)
     ```
   </Accordion>
   <Accordion title="Filled Template" icon="calendar-range">
@@ -186,7 +188,7 @@ Here are two templates for your reference — one is blank, and the other is a c
   </Accordion>
 </AccordionGroup>
 
-The `create` command builds an empty template. Open the prompts/Customer-support-agent.v1.0.0.yml file in your code editor. **Find the template: key and replace the placeholder content with the filled example above or write your own !** 
+The `create` command builds an empty template. Open the `prompts/Customer-support-agent.v1.0.0.yml` file in your code editor. **Find the template: key and replace the placeholder content with the filled example above or write your own !** 
 
 
 ### Run the prompt

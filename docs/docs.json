@@ -77,8 +77,8 @@
     }
   },
   "logo": {
-    "light": "/logo/plb_logo.png",
-    "dark": "/logo/plb_logo.png"
+    "light": "/logo/logo.png",
+    "dark": "/logo/logo.png"
   },
   "navbar": {
     "links": [

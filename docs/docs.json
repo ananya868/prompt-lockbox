@@ -3,9 +3,9 @@
   "theme": "mint",
   "name": "Prompt Lockbox",
   "colors": {
-    "primary": "#16A34A",
-    "light": "#07C983",
-    "dark": "#15803D"
+    "primary": "#0077b6",
+    "light": "#00b4d8",
+    "dark": "#023e8a"
   },
   "favicon": "/favicon.svg",
   "navigation": {

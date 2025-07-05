@@ -1,5 +1,4 @@
-# prompt-lockbox
-<img src="docs/logo/logo.png" align="centre" alt="Logo">
+<img src="docs/logo/logo.png" align="centre" alt="Logo" width=800>
 
 ***Brings structure and reproducibility to prompt engineering***
 

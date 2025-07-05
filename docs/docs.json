@@ -80,6 +80,9 @@
     "light": "/logo/logo.png",
     "dark": "/logo/logo.png"
   },
+  "background": {
+    "decoration": "gradient"
+  },
   "navbar": {
     "links": [
       {

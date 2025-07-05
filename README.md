@@ -1,12 +1,10 @@
 # prompt-lockbox
-<img src="learn/a_logo.gif" align="left" alt="Demo" width="150">
+<img src="docs/logo/logo.png" align="centre" alt="Logo">
 
-&nbsp;&nbsp;&nbsp; ***Brings structure and reproducibility to prompt engineering***
+***Brings structure and reproducibility to prompt engineering***
 
-&nbsp;&nbsp;&nbsp; `Local-First & Filesystem-Native` `Prompts-as-Code` `Open Source & Extensible`
+`Local-First & Filesystem-Native` `Prompts-as-Code` `Open Source & Extensible`
+`Integrity Locking` `Developer-Centric CLI` `LLM-based tools (ollama Support)`
 
-&nbsp;&nbsp;&nbsp; `Integrity Locking` `Developer-Centric CLI` `LLM-based tools (ollama Support)`
-<br></br>
-<br></br>
 ### **Introduction**
 

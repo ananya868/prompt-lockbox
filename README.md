@@ -1,4 +1,4 @@
-<img src="docs/logo/logo.png" align="centre" alt="Logo" width=800>
+<img src="docs/logo/logo.png" align="center" alt="Logo" width=500>
 
 ***Brings structure and reproducibility to prompt engineering***
 

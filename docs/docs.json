@@ -16,7 +16,7 @@
           {
             "group": "Get Started",
             "pages": [
-              "index",
+              "introduction",
               "quickstart",
               "configure_llms",
               "ai_features"

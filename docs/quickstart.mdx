@@ -13,11 +13,11 @@ description: "Here's how you can build your first prompt in 5 minutes !"
 
 You can directly install the toolkit using [pip](https://pip.pypa.io/en/stable/installation/) or from our [github repo](https://github.com/ananya868/prompt-lockbox/tree/main).
 
-<Warning>
+<Info>
   It is advised to **create a new virtual environment** to avoid any unnecessary package conflict.
-</Warning>
+</Info>
 
-Install using command -
+**Install using command** -  
 
 ```bash
 pip install prompt-lockbox
@@ -25,7 +25,7 @@ pip install prompt-lockbox
 
 This will setup Prompt Lockbox and all related dependencies.
 
-Alternatively -
+Alternatively - 
 
 <Accordion title="Install from GitHub repo" icon="github">
   Navigate to your local directory, open command pallete and **clone the repo using** -
@@ -64,7 +64,7 @@ This command will initialize a Prompt Lockbox project and build these files -
 
 We have created a Project. Now we can start building prompts \!
 
-### Create a Prompt
+## Create a Prompt
 
 Now that we have our project, let's create our first prompt. We'll use the interactive `create` command, which guides you through setting up all the required metadata.
 
@@ -74,7 +74,7 @@ In your terminal, run -
 plb create 
 ```
 
-Answer the entries as required. For most, you can just press Enter to accept the default value.
+Answer the entries as required. For most, you can just **press Enter to accept the default value**.
 
 Let's say prompt name is **'Customer-support-agent'**. The `create` command creates a new file named `prompts/Customer-support-agent.v1.0.0.yml`.
 
@@ -90,7 +90,7 @@ Here are two templates for your reference — one is blank, and the other is a c
     # PROMPT IDENTITY
     # --------------------
     id: prm_524a1cb9cccd4129b57db8b2f3d9a291
-    name: "Email-customer-support-agent"
+    name: "Customer-support-agent"
     version: "1.0.0"
     
     # DOCUMENTATION
@@ -191,15 +191,15 @@ Here are two templates for your reference — one is blank, and the other is a c
 The `create` command builds an empty template. Open the `prompts/Customer-support-agent.v1.0.0.yml` file in your code editor. **Find the template: key and replace the placeholder content with the filled example above or write your own !** 
 
 
-### Run the prompt
+## Run the prompt
 
 <Warning>
-  LLM configuration is required for this step. While the toolkit itself is not LLM-dependent, some features rely on it. Please [configure LLM](www.google.com) before proceeding.
+  LLM configuration is required for this step. While the toolkit itself is not LLM-dependent, some features rely on it. Please [configure LLM](/configure_llms) before proceeding.
 </Warning>
 
 Let's execute our prompt using the `run` command. The command will see the required variables and ask you for them.
 
-**It will run the prompt against a LLM of your choice**. Checkout [LLMs](www.google.com) to find a list of supported models. 
+**It will run the prompt against a LLM of your choice**. Checkout [LLMs](/ai_features) to find a list of supported models. 
 
 In your terminal, run -
 
@@ -208,15 +208,15 @@ plb run Customer-support-agent gpt-4.1-nano
 ```
 It will render the filled prompt and the output generated using the specified LLM.
 
-### Next Steps ? 
+## Next Steps
 
-Explore AI based features in the toolkit. 
+Discover AI-Powered Features Available After LLM Setup. 
 
 <CardGroup cols={2}>
-  <Card title="Introduction" icon="book" href="/essentials/markdown">
-    Get a quick introduction for this toolkit.
+  <Card title="Configure LLM" icon="pencil" href="/configure_llms">
+    Setup your LLM.
   </Card>
-  <Card title="AI Features" icon="stars" href="/essentials/code">
+  <Card title="AI Features" icon="stars" href="/ai_features">
     Get a quick look on AI features.
   </Card>
 </CardGroup>

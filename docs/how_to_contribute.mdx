@@ -1,0 +1,116 @@
+---
+title: "How to Contribute"
+description: "This guide provides a set of guidelines for contributing to the project."
+---
+
+Thank you for your interest in contributing to Prompt Lockbox! We're thrilled that you want to help make this tool better. Every contribution, from a simple typo fix to a major new feature, is incredibly valuable and appreciated.
+
+<Note> 
+  **Code of Conduct** 
+
+  All participants are expected to follow our [Code of Conduct](/coc). Please be respectful and considerate in all your interactions within the community.
+</Note> 
+
+## How Can I Help ? 
+There are many ways to contribute to Prompt Lockbox. Here are some of the most common ones:
+
+<Card title="Reporting Bugs" icon="bug">
+  If you find a bug or encounter unexpected behavior, please let us know! A well-written bug report helps us fix issues faster.
+
+  **Before submitting a bug report**:
+  
+  - Check the existing [GitHub Issues](/git_issues) to see if the bug has already been reported.
+  
+  **When creating a new bug report, please include**:
+  - A clear and descriptive title (e.g., "plb lock fails on prompts with special characters in the name").
+  - A step-by-step description of how to reproduce the issue.
+  - What you expected to happen.
+  - What actually happened, including any error messages or logs.
+  - Your environment details (e.g., Prompt Lockbox version, Python version, Operating System).
+</Card>
+<br />
+
+<Card title="Suggesting Features or Enhancements" icon="lightbulb"> 
+  We love hearing new ideas for how to make Prompt Lockbox more powerful and user-friendly. This is the best way to suggest a new feature.
+
+  <Tip>
+    **Where to Suggest**: [Start a New Feature Suggestion on GitHub Discussions](feature_suggestion_github)
+  </Tip>
+
+  **Before submitting a feature request**:
+  - Check the [GitHub Issues](hego) and [Discussions](some_link) to see if your idea has already been suggested.
+
+  **When creating a new feature request, please explain**:
+  - **The Problem**: Describe the pain point or use case that this feature would solve. Why is it needed?
+
+  - **The Proposed Solution**: A clear description of how the feature would work from a user's perspective.
+
+  - **Alternatives Considered (Optional)**: If you've thought about other ways to solve the problem, let us know.
+</Card>
+<br />
+
+<Card title="Improving the Documentation" icon="file-lines"> 
+  Great documentation is the key to a great project. If you find a typo, a confusing explanation, or feel that a guide is missing, your help is welcome!
+
+  - **For small changes (like typos)**: The easiest way is to click the "Edit this page on GitHub" link, which should be available on every documentation page.
+
+  - **For larger changes (like rewriting a section or adding a new guide)**: Please follow the code contribution process below and submit a Pull Request.
+</Card>
+
+
+
+## Your First Code Contribution (Pull Requests)
+If you're ready to contribute code, we've tried to make the process as straightforward as possible.
+
+<Steps>
+  <Step title="Fork & Clone the Repository">
+    First, [fork the repository](fork) to your own GitHub account. Then, clone your fork to your local machine.
+    ```bash
+    git clone https://github.com/YOUR_USERNAME/prompt-lockbox.git
+    cd prompt-lockbox
+    ```
+  </Step>
+  <Step title="Set Up Your Local Environment">
+    We use **Poetry** for dependency management. After installing Poetry, set up your environment by running:
+    
+    ```bash
+    poetry install
+    ```
+    This will create a virtual environment and install all the necessary development dependencies.
+  </Step>
+  <Step title="Create a New Branch">
+    It's important to create a new branch for your changes. Use a descriptive name.
+    
+    ```bash
+    # For a new feature
+    git checkout -b feature/my-amazing-feature
+    
+    # For a bug fix
+    git checkout -b fix/resolve-that-tricky-bug
+    ```
+  </Step>
+  <Step title="Make Your Changes">
+    Now you can start writing code! Make your changes, add your tests, and ensure everything is working as expected.
+  </Step>
+  <Step title="Commit Your Changes">
+    Use clear and concise commit messages to describe your work.
+
+    ```bash
+    git add .
+    git commit -m "feat: Add new command for XYZ"
+    ```
+  </Step>
+  <Step title="Push and Open a Pull Request">
+    Push your branch to your fork on GitHub and then **open a Pull Request** against the main branch of the original Prompt Lockbox repository.
+    ```bash
+    git push origin feature/my-amazing-feature
+    ```
+    In your Pull Request description, please link to the issue it resolves (e.g., "Closes #42").
+  </Step>
+</Steps>
+
+<Check> 
+  **Thank You!**
+
+  Once you've opened a Pull Request, a team member will review it as soon as possible. Thank you again for your contribution!
+</Check>

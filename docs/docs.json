@@ -38,6 +38,12 @@
               "usecase/third",
               "usecase/fourth"
             ]
+          },
+          {
+            "group": "Use Cases", 
+            "pages": [
+              "how_to_contribute"
+            ]
           }
         ]
       },

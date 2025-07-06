@@ -1,12 +1,12 @@
 ---
 title: "Automated CI/CD for Prompts"
 description: "Learn how to automate prompt validation with GitHub Actions to protect your main branch."
-icon: "circle-dot"
+icon: "circle-small"
 ---
 
 As your prompt library becomes a critical part of your application, you need to treat it with the same rigor as your source code. Manually checking every prompt before deployment is tedious and error-prone.
 
-This guide will show you **how to build an automated quality gate for your prompts using GitHub Actions**. This workflow will automatically run on every Pull Request, ensuring that no broken, malformed, or tampered-with prompts can ever be merged into your main branch.
+This guide will show you **how to build an automated quality gate for your prompts using GitHub Actions. This workflow will automatically run on every Pull Request, ensuring that no broken, malformed, or tampered-with prompts can ever be merged into your main branch**.
 
 <Info>
   **The Goal**: To create a CI/CD pipeline that automatically:
@@ -103,7 +103,7 @@ Now, let's put these commands together in an automated workflow.
     <Check>
       **Automation is Now Active\!**
 
-      That's it\! From now on, whenever someone opens a Pull Request, GitHub will automatically run these checks. You'll see a new "Prompt Quality Assurance" check on your PR page. If it passes, you'll get a `green checkmark`. If it fails, you'll get a `red "X"`, and you can click "Details" to see the output from `plb lint` or `plb verify` to understand what went wrong.
+      That's it\! From now on, whenever someone opens a Pull Request, GitHub will automatically run these checks. You'll see a new "**Prompt Quality Assurance**" check on your PR page. If it passes, you'll get a `green checkmark`. If it fails, you'll get a `red "X"`, and you can click "Details" to see the output from `plb lint` or `plb verify` to understand what went wrong.
     </Check>
   </Step>
 </Steps>

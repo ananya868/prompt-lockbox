@@ -1,7 +1,7 @@
 ---
 title: "Advanced Search & Discovery"
 description: "Learn how to enable fast, intent-based prompt discovery using advanced search and indexing."
-icon: "circle-dot"
+icon: "circle-small"
 ---
 
 When your project has dozens or even hundreds of prompts, finding the exact one you need with grep or a simple file search becomes impossible. You need a search that understands intent, not just keywords.
@@ -14,7 +14,7 @@ This guide will walk you through Prompt Lockbox's advanced search capabilities. 
   Build a dedicated search index for your project.
 
   - Use **Hybrid** Search for a balance of keyword and semantic matching.
-  - Use **SPLADE** Search for the highest-quality conceptual matching.
+  - Use **SPLADE** Search for the a balanced mix of keyword and conceptual matching.
 </Info>
 
 ## Building Your Search Index
@@ -22,7 +22,9 @@ This guide will walk you through Prompt Lockbox's advanced search capabilities. 
 To enable advanced search, you first need to **create an index**. This is a **one-time process** that scans all your prompts and creates optimized files for fast lookups. The `plb index` command handles this for you.
 
 <Warning>
-  **Dependencies**: Advanced search methods require extra Python libraries. If you haven't installed them, the command will guide you. You can pre-install them with:
+  **Dependencies!**
+  
+  Advanced search methods require extra Python libraries. If you haven't installed them, the command will guide you. You can pre-install them with:
   pip install prompt-lockbox[search]
 </Warning>
 
@@ -66,20 +68,26 @@ Now that your index is built, you can use the advanced search commands. Which on
   <Accordion title="Hybrid (TF-IDF + Embeddings)">
     `plb search hybrid "query"`
 
-    **How it Works**: Combines classic keyword search (TF-IDF) with modern semantic search (FAISS).
-    **Pros**: The best of both worlds. It finds prompts that contain your exact keywords and prompts that are just conceptually similar.
-    **Best For**: General-purpose, high-quality searching in any prompt library. This is the recommended "power search" for most users.
+    - **How it Works**: Combines classic keyword search (TF-IDF) with modern semantic search (FAISS).
+    - **Pros**: The best of both worlds. It finds prompts that contain your exact keywords and prompts that are just conceptually similar.
+    - **Best For**: General-purpose, high-quality searching in any prompt library. This is the recommended "power search" for most users.
   </Accordion>
   <Accordion title="SPLADE Search">
     `plb search splade "query"`
 
-    **How it Works**: Uses a state-of-the-art "sparse vector" model that is exceptionally good at understanding the context and importance of words.
-    **Pros**: Often provides the most relevant results, especially for complex or vague queries.
-    **Best For**: When you need the absolute highest quality results and want to find prompts based on their meaning, even if they don't share any keywords.
+    - **How it Works**: Uses a state-of-the-art "sparse vector" model that is exceptionally good at understanding the context and importance of words.
+    - **Pros**: Often provides the most relevant results, especially for complex or vague queries.
+    - **Best For**: When you need the absolute highest quality results and want to find prompts based on their meaning, even if they don't share any keywords.
   </Accordion>
 </AccordionGroup>
 
 ## Performing an Advanced Search
+
+<Note> 
+  **Note**
+
+  Search index needs to be built before using search! 
+</Note>
 
 Now that your index is built, you can use the advanced search methods through the `search()` method in the SDK or the `plb search` command.
 
@@ -144,7 +152,7 @@ results = project.search(
 print(results)
 ```
 
-## Tuning your Search
+### Tuning your Search
 
 A unique feature of the hybrid search method is the ability to **balance between keyword and semantic matching** using the `alpha` parameter.
 

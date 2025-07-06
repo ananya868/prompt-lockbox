@@ -1,33 +1,33 @@
 ---
 title: 'Introduction'
-description: 'Example section for showcasing API endpoints'
+description: 'Explore technical documentation for the CLI & SDK'
 ---
 
-<Note>
-  If you're not looking to build API reference documentation, you can delete
-  this section by removing the api-reference folder.
-</Note>
+<Info> 
+  **Documentation Version**
+  
+  The documentation on this page corresponds to the latest stable release of Prompt Lockbox. For details on previous versions or to see what's new, please check the [Releases page on GitHub](https://github.com/ananya868/prompt-lockbox).
+</Info>
+Welcome to the API References for Prompt Lockbox. **This section provides detailed, technical documentation for both the command-line interface (CLI) and the Python Software Development Kit (SDK).**
 
-## Welcome
+This is the place to look when you know what you want to do and need to find the exact command, parameter, class, or method to do it.
 
-There are two ways to build API documentation: [OpenAPI](https://mintlify.com/docs/api-playground/openapi/setup) and [MDX components](https://mintlify.com/docs/api-playground/mdx/configuration). For the starter kit, we are using the following OpenAPI specification.
+<Card title="CLI Command Interface" icon="terminal" href="/cli_reference">
+  The CLI Reference is a comprehensive guide to every `plb` command available in your terminal. It's designed for quick lookups of commands, arguments, and options.
 
-<Card
-  title="Plant Store Endpoints"
-  icon="leaf"
-  href="https://github.com/mintlify/starter/blob/main/api-reference/openapi.json"
->
-  View the OpenAPI specification file
+  This reference is organized into a single, searchable page covering all command groups:
+  - Project & Integrity
+  - Prompt Management
+  - Search & Indexing
+  - AI Superpowers
+</Card>
+<br />
+
+<Card title="Python SDK Reference" icon="code" href="/sdk_reference">
+  The SDK Reference provides detailed documentation for the public Python classes and methods you can use to integrate Prompt Lockbox into your own applications.
+
+  It is organized by the two core classes of the SDK:
+  - **The Project Class**: Your main entry point for managing the entire prompt library.
+  - **The Prompt Class**: Represents a single prompt file and its methods for rendering, locking, and more.
 </Card>
 
-## Authentication
-
-All API endpoints are authenticated using Bearer tokens and picked up from the specification file.
-
-```json
-"security": [
-  {
-    "bearerAuth": []
-  }
-]
-```

@@ -4,6 +4,7 @@
         "dotenv",
         "faiss",
         "gigi",
+        "Huggingface",
         "lastrowid",
         "llms",
         "mirascope",

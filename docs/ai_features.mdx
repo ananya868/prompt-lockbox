@@ -26,19 +26,19 @@ Here's the complete list of supported models.
 
     <AccordionGroup>
       <Accordion title="OpenAI">
-        - **Models**: `gpt-4.1`, `gpt-4.1-nano`, `gpt-4o-mini`
+        - **Models**: `gpt-4.1`, `gpt-4.1-nano`, `gpt-4o-mini` and [more](https://platform.openai.com/docs/models).
         - **Api key config**: `OPENAI_API_KEY`
       </Accordion>
       <Accordion title="Google">
-        - **Models**: `gemini-2.5-pro` `gemini-2.0-flash`
+        - **Models**: `gemini-2.5-flash-lite` `gemini-2.0-flash` and [more](https://cloud.google.com/vertex-ai/generative-ai/docs/models).
         - **Api key config**: `GOOGLE_API_KEY`
       </Accordion>
       <Accordion title="Mistral">
-        - **Models**: `mistral-3b` `mistral-8b`
+        - **Models**: `mistral-3b` `mistral-8b` and [more](https://docs.mistral.ai/getting-started/models/models_overview/).
         - **Api key config**: `MISTRAL_API_KEY`
       </Accordion>
       <Accordion title="Anthropic">
-        - **Models**: `claude-3.5-sonnet` `claude-3.7-sonnet` `claude-4`
+        - **Models**: `claude-3.5-sonnet` `claude-3.7-sonnet` `claude-4` and [more](https://docs.anthropic.com/en/docs/about-claude/models/overview)
         - **Api key config**: `ANTHROPIC_API_KEY`
       </Accordion>
     </AccordionGroup>
@@ -48,11 +48,11 @@ Here's the complete list of supported models.
 
     <AccordionGroup>
       <Accordion title="Groq">
-        - **Models**: `a`
+        - **Models**: `gemma2-9b-it` `llama-3.1-8b-instant` `llama-3.3-70b-versatile` and [more](https://console.groq.com/docs/models). 
         - **Api key config**: `GROQ_API_KEY`
       </Accordion>
       <Accordion title="Cohere">
-        - **Models**: `b`, `c`
+        - **Models**: `command-a-03-2025` `command-r7b-12-2024` `command-r-plus` and [more](https://docs.cohere.com/docs/models).
         - **Api key config**: `COHERE_API_KEY`
       </Accordion>
       <Accordion title="LiteLLM">
@@ -62,7 +62,9 @@ Here's the complete list of supported models.
     </AccordionGroup>
   </Tab>
   <Tab title="Huggingface">
-    To use Hf models, please checkout the guide \!
+    Checkout [Huggingface models](https://huggingface.co/models) for complete list of models. 
+
+    For configuration, checkout [guide](/configure_llms).
   </Tab>
   <Tab title="Cloud">
     Fully managed, scalable LLMs hosted by cloud platforms for seamless integration.
@@ -88,7 +90,7 @@ Here's the complete list of supported models.
     **Models**: Checkout the complete list at [ollama library](https://ollama.com/library)
 
     <Warning>
-      Local models require few additional configuration steps before it can be used. Checkout [Local LLM Configuration](/configure_llm#local-model-configuration-ollama)
+      Local models require few additional configuration steps before it can be used. Checkout [Local LLM Configuration](/configure_llms#local-model-configuration-ollama)
     </Warning>
   </Tab>
 </Tabs>

@@ -1,16 +1,14 @@
 ---
-title: "List, Tree, and Search"
+title: "List, Tree and Search"
 description: "Learn how can you navigate through your prompts."
 icon: "list-check" 
 ---
 
 As your library grows, finding the right prompt becomes critical. Prompt Lockbox provides several powerful tools to discover and navigate your collection.
 
-Methods:
-
 ### List all Prompts
 
-The list command is perfect for getting a quick, high-level overview of your entire library. The default view is compact, while the `--wide` flag provides more detail.
+The `list` command is perfect for getting a quick, high-level overview of your entire library. The default view is compact, while the `--wide` flag provides more detail.
 
 <Tabs>
   <Tab title="CLI">
@@ -43,6 +41,8 @@ The list command is perfect for getting a quick, high-level overview of your ent
 ### Search for a Specific Prompt
 
 When your library is large, direct search is the fastest way to find what you need. The default `fuzzy` search is fast, requires no setup, and intelligently searches `names`, `descriptions`, and `tags`.
+
+Checkout advanced searching methods like Semantic or Fuzzy based at [Advanced Search & Discovery](usecase/third).
 
 <Tabs>
   <Tab title="CLI">
@@ -96,11 +96,18 @@ Output:
 ```
 
 <Note>
-  The tree command is purely a CLI visualization tool and does not have a direct SDK equivalent, as the SDK's list_prompts() method provides the raw data needed to build any custom tree structure programmatically.
+  **Note** 
+
+  The tree command is purely a **CLI visualization tool** and does not have a direct SDK equivalent, as the SDK's **list_prompts() method provides the raw data needed to build any custom tree structure programmatically**.
 </Note>
 
 ### Next Steps
 
-You now know the three primary ways to find prompts in your library. You can get a quick overview with list, browse by category with tree, and pinpoint exactly what you need with search. A discoverable library is a reusable library.
+You now know the three primary ways to find prompts in your library.
 
-[Learn how to take these prompts and actually use them in your Python code](/third).
+<CardGroup>
+  <Card title="Fetch and Run" icon="briefcase" href="/guide/third">
+    Learn how pick up a prompt and test it quickly.
+  </Card>
+</CardGroup>
+

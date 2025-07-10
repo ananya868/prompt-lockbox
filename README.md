@@ -9,7 +9,7 @@
 </div>
 
 <br></br>
-📑 **Explore the Full Documentation at [![Docs](https://img.shields.io/badge/Docs-Prompt%20Lockbox-white?style=flat-square&labelColor=black)](https://prompt-lockbox.mintlify.app)**
+📑 **Explore the full Documenentation here - [Docs](https://prompt-lockbox.mintlify.app)**
 >
 > *(This README provides an overview. The full site contains detailed guides, API references, and advanced tutorials.)*
 

@@ -28,7 +28,7 @@
 
 ## Why use it ?
 
-Managing prompts across a team or a large project can be chaotic. Plain text files lack versioning, are prone to accidental changes, and have no built-in quality control. **Prompt Lockbox** brings the discipline of software engineering to your prompt development workflow, turning your prompts from fragile text files into robust, versioned assets.
+Managing prompts across a team or a large project can be chaotic. Plain text files lack versioning, are prone to accidental changes, and have no built-in quality control. **Prompt Lockbox** turns your prompts from fragile text files into versioned assets.
 
 Here’s a summary of the common pain points it solves:
 

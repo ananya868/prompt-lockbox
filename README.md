@@ -28,33 +28,17 @@
 
 ## Why use it ?
 
-Managing prompts across a team or a large project can be chaotic. Plain text files lack versioning, are prone to accidental changes, and have no built-in quality control. **Prompt Lockbox** brings the discipline of software engineering to your prompt development workflow.
+Managing prompts across a team or a large project can be chaotic. Plain text files lack versioning, are prone to accidental changes, and have no built-in quality control. **Prompt Lockbox** brings the discipline of software engineering to your prompt development workflow, turning your prompts from fragile text files into robust, versioned assets.
 
-**Scattered Prompts**
-> **Problem:** Your team’s best prompts are lost in a chaotic mess of text files, Slack messages, and Google Docs. No one knows where the “official” version is, leading to confusion and duplicated effort.
->
-> ✅ **Solution:** Prompt Lockbox creates a centralized and structured library, making it effortless for your entire team to find and use the correct prompt.
+Here’s a summary of the common pain points it solves:
 
-**Untracked Versions**
-> **Problem:** You tweak a great prompt and accidentally make it worse, with no way to go back to the version that worked.
->
-> ✅ **Solution:** Prompt Lockbox provides Git-like versioning for prompts. Safely create new versions and manage modifications with `plb version`, just like code.
-
-**Accidental Production Changes**
-> **Problem:** A critical prompt is changed without approval, breaking your application and causing unpredictable outputs.
->
-> ✅ **Solution:** Prompt Lockbox lets you lock and secure key prompts with `plb lock`. The system instantly detects any unauthorized edits with `plb verify`, ensuring production reliability.
-
-**Reinventing the Wheel**
-> **Problem:** Your team wastes time building prompts that already exist because they’re impossible to find.
->
-> ✅ **Solution:** Prompt Lockbox makes your entire library instantly searchable. Find what you need in seconds with powerful, context-aware search (`fuzzy`, `hybrid`, `splade`).
-
-**Poor Documentation**
-> **Problem:** You write a brilliant prompt but have no time to document it, making it unusable for others (or your future self).
->
-> ✅ **Solution:** Prompt Lockbox uses AI to automate documentation. One command (`plb prompt document`) generates a clear description and search tags, turning your prompts into reusable assets.
----
+| The Pain Point                                                                       | The Prompt Lockbox Solution                                                                  | Key Command(s)                                   |
+| ------------------------------------------------------------------------------------ | -------------------------------------------------------------------------------------------- | ------------------------------------------------ |
+| **Scattered Prompts**<br/>Prompts are lost across text files, Slack, and Google Docs. | Provides a centralized, version-controlled library for all prompts.                          | `plb init`, `plb list`, `plb tree`               |
+| **Untracked Changes**<br/>A great prompt is made worse with no easy way to revert.    | Treats prompts like code with built-in semantic versioning.                                  | `plb version`                                    |
+| **Unsafe Edits**<br/>Critical production prompts are modified without approval.       | Locks production-ready prompts to prevent unauthorized edits and detects tampering.          | `plb lock`, `plb unlock`, `plb verify`           |
+| **Hard to Discover**<br/>Teams waste time reinventing prompts that are hard to find.  | Makes the entire library instantly searchable with fuzzy, hybrid, and sparse-vector search. | `plb index`, `plb search <method>`               |
+| **Poor Documentation**<br/>Writing and maintaining documentation is tedious and skipped. | Uses AI to automate documentation, generating descriptions and tags in seconds.                | `plb prompt document`                            |
 
 ## Features
 

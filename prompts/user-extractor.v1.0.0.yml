@@ -1,0 +1,60 @@
+# PROMPT IDENTITY
+# --------------------
+id: prm_20c7e1e95aa24989843c0912d0bfb43c
+name: "user-extractor"
+version: "1.0.0"
+
+# DOCUMENTATION
+# --------------------
+description: "Extracts user details from a block of text."
+namespace: ["data-extraction"]
+tags: ["parser", "json", "ner"]
+
+# OWNERSHIP & STATUS
+# --------------------
+status: "Draft"
+author: "ananya868 <ananya8154@gmail.com>"
+last_update: "2025-07-09T16:30:37.253940+00:00"
+
+# CONFIGURATION
+# --------------------
+intended_model: ""
+model_parameters:
+  temperature: 0.7
+
+
+# NOTES & LINKS
+# --------------------
+linked_prompts: []
+notes: ""
+
+# - - - 💖 THE PROMPT 💖 - - -
+# ---------------------------------
+# NOTE - Comments inside the prompt are automatically removed on prompt call.
+default_inputs:
+  user_text: "Please register John Doe. His email is john.doe@example.com."
+
+output_schema:
+  type: object
+  required:
+    - name
+    - email
+  properties:
+    name:
+      type: string
+      description: "The full name of the user."
+    email:
+      type: string
+      description: "The user's email address."
+    company:
+      type: string
+      description: "The company the user works for, if mentioned."
+
+template: |
+  From the text below, extract the user's name, email, and company.
+  If a field is not present, omit it from the JSON output.
+
+  Text:
+  """
+  ${user_text}
+  """

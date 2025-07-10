@@ -22,6 +22,7 @@ from .project import init, status, lock, unlock, verify, lint
 from .manage import list_prompts, show, create, run, version, tree
 from .search import index, search_app
 from ._ai import prompt_app
+from .configure import configure_ai # Import the function directly
 
 # Initialize the main Typer application.
 app = typer.Typer(
@@ -51,13 +52,15 @@ app.command(rich_help_panel="Prompt Management")(run)
 app.command(rich_help_panel="Prompt Management")(version)
 app.command(rich_help_panel="Prompt Management")(tree)
 
-# Group 3: Search and indexing commands.
+# Group 3: Configuration commands for AI and other settings.
+app.command("configure-ai", rich_help_panel="Setup & Configuration")(configure_ai)
+
+# Group 4: Search and indexing commands.
 # Add the standalone `index` command.
 app.command(rich_help_panel="Search & Indexing")(index)
 # Add the `search` command group (which contains subcommands like 'fuzzy', 'hybrid').
 app.add_typer(search_app, name="search", rich_help_panel="Search & Indexing")
-
-# Group 4: AI-powered commands.
+# Group 5: AI-powered commands.
 # Add the `prompt` command group (which contains subcommands like 'document', 'improve').
 app.add_typer(prompt_app, name="prompt", rich_help_panel="AI Superpowers")
 

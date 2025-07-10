@@ -1,0 +1,38 @@
+# PROMPT IDENTITY
+# --------------------
+id: prm_a8196af5741f48a0a3ac6b716dea4a2c
+name: "capital-finder"
+version: "1.0.0"
+
+# DOCUMENTATION
+# --------------------
+description: "Finds the capital of a given country"
+namespace: ["geography", "facts"]
+tags: ["capitals", "geography"]
+
+# OWNERSHIP & STATUS
+# --------------------
+status: "Draft"
+author: "ananya868 <ananya8154@gmail.com>"
+last_update: "2025-07-09T16:29:19.471706+00:00"
+
+# CONFIGURATION
+# --------------------
+intended_model: ""
+model_parameters:
+  temperature: 0.7
+
+
+# NOTES & LINKS
+# --------------------
+linked_prompts: []
+notes: ""
+
+# - - - 💖 THE PROMPT 💖 - - -
+# ---------------------------------
+# NOTE - Comments inside the prompt are automatically removed on prompt call.
+default_inputs:
+  country: "Japan"
+
+template: |
+  What is the capital of ${country}? Answer with only the name of the city.

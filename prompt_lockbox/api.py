@@ -482,6 +482,15 @@ class Project:
         """Provides a developer-friendly string representation of the Project."""
         return f"<Project root='{self.root}'>"
 
+    def write_config(self, config: Dict[str, Any]):
+        """
+        A pass-through method to write to the project's config file.
+        
+        Args:
+            config: The dictionary object to be written.
+        """
+        core_project.write_config(config, self.root)
+
     def document_all(self, prompts_to_document: Optional[List[Prompt]] = None):
         """Uses an AI to automatically generate and save documentation for multiple prompts.
 

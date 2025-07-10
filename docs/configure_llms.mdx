@@ -4,16 +4,28 @@ description: "Step-by-step guide to LLM configuration"
 icon: "pencil"
 ---
 
-This guide will walk you through setting up LLMs for use within the toolkit. Whether you're connecting to a popular **cloud-based provider**, **running a local model**, or **integrating your own custom model** (checkout list at [supported models](/ai_features#supported-models)). Follow the steps below to get started with the setup that best fits your workflow.
+<Info>
+  This is a must-to-do setup to use any AI feature in the toolkit.
+</Info>
+
+This guide will walk you through setting up LLMs for use within the toolkit. Whether you're connecting to a popular **cloud-based provider**, **running a local model**, or **integrating your own custom model**. Follow the steps below to get started with the setup that best fits your workflow.
 
 <Note>
-  This is a must-to-do setup to use any AI feature in the toolkit.
+  **Install Provider Libraries**
+
+  Before configuring a provider, make sure you have its Python library installed.
+
+  - For **OpenAI**: `pip install openai`
+  - For **Anthropic**: `pip install anthropic`
+  - For **HuggingFace**: `pip install transformers torch litellm`
+  - For **Ollama**: `pip install ollama`
+  - ...
 </Note>
 
 There are two ways you can configure LLMs in this toolkit -
 
 1. **Automated Setup (Recommended)**: Use the interactive `plb configure-ai` command.
-2. **Mannual Setup**: Manually create a `.env` file for secrets and edit your `plb.toml` for settings.
+2. **Manual Setup**: Manually create a `.env` file for secrets and edit your `plb.toml` for settings.
 
 We recommend using the command for a guided, error-free experience.
 

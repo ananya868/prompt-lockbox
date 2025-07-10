@@ -11,6 +11,7 @@ from rich import print
 from rich.markup import escape
 from rich.panel import Panel
 from rich.text import Text
+from rich.syntax import Syntax
 import textwrap
 
 import json
@@ -19,6 +20,7 @@ from typing import List
 import jinja2
 import yaml
 
+from prompt_lockbox.ai import executor as ai_executor
 from prompt_lockbox.api import Project
 from prompt_lockbox.ui import display
 from prompt_lockbox.core import prompt as core_prompt
@@ -130,7 +132,8 @@ def create(
 def run(
     identifier: str = typer.Argument(..., help="Name, ID, or path of the prompt to run."),
     vars: List[str] = typer.Option(None, "--var", "-v", help="Pre-set a template variable, e.g., --var name=Alex"),
-    edit: bool = typer.Option(False, "--edit", "-e", help="Open an editor to fill in variables.", is_flag=True)
+    edit: bool = typer.Option(False, "--edit", "-e", help="Open an editor to fill in variables.", is_flag=True),
+    execute: bool = typer.Option(False, "--execute", help="Execute the rendered prompt with an AI.")
 ):
     """Renders a prompt with provided parameters and displays the output.
 
@@ -142,6 +145,7 @@ def run(
         identifier: The name, ID, or file path of the prompt to run.
         vars: A list of key=value pairs to pre-set template variables.
         edit: If True, opens the default system editor to fill in variables.
+        execute: If True, executes the rendered prompt with an AI model.
     """
     try:
         project = Project()
@@ -214,21 +218,56 @@ def run(
         # variable was skipped and had no default.
         rendered_prompt = prompt.render(strict=False, **template_vars)
 
-        # Optional: Add a warning if placeholders are still present in the output.
-        if "<<_input>>" in rendered_prompt.replace("user_input", "_input"): # Avoid <<user_input>> trigger
-             if "<<user_input>>" not in rendered_prompt: # Check again
-                print("🟡 [yellow]Warning:[/yellow] Some inputs were not filled and have no defaults.")
+        # NEW LOGIC STARTS HERE
+        if execute:
+            print("\n🤖 [bold]Executing prompt with AI...[/bold]")
+            try:
+                # Get the AI config and the optional output schema from the prompt
+                ai_config = project.get_ai_config()
+                output_schema = prompt.data.get("output_schema")
 
-        # Display the final rendered output in a styled panel.
-        print(Panel(
-            rendered_prompt,
-            title=f"Rendered Prompt: [cyan]{escape(prompt.path.name)}[/cyan]",
-            border_style="blue", expand=False
-        ))
+                # Call the centralized executor
+                ai_result = ai_executor.execute_prompt(
+                    rendered_prompt=rendered_prompt,
+                    ai_config=ai_config,
+                    project_root=project.root,
+                    output_schema=output_schema
+                )
+
+                # Display the result nicely
+                if isinstance(ai_result, dict):
+                    # For structured output, use Rich's Syntax for pretty JSON
+                    import json
+                    result_str = json.dumps(ai_result, indent=2)
+                    print(Panel(
+                        Syntax(result_str, "json", theme="default", word_wrap=True),
+                        title="[green]Structured AI Response (JSON)[/green]",
+                        border_style="green"
+                    ))
+                else:
+                    # For general output, just print the text in a panel
+                    print(Panel(
+                        ai_result,
+                        title="[green]AI Response[/green]",
+                        border_style="green"
+                    ))
+
+            except Exception as e:
+                print(f"❌ [bold red]AI Execution Failed:[/bold red] {e}")
+                raise typer.Exit(code=1)
+
+        else:
+            # The original behavior: just display the rendered template
+            print(Panel(
+                rendered_prompt,
+                title=f"Rendered Prompt: [cyan]{escape(prompt.path.name)}[/cyan]",
+                border_style="blue", expand=False
+            ))
 
     except FileNotFoundError:
         print("❌ [bold red]Error:[/bold red] Not a PromptLockbox project.")
         raise typer.Exit(code=1)
+
     except jinja2.exceptions.TemplateSyntaxError as e:
         print(f"❌ [bold red]Template Error:[/bold red] {e}")
         raise typer.Exit(code=1)

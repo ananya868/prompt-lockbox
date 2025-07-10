@@ -1,24 +1,30 @@
 # PROMPT IDENTITY
 # --------------------
-id: prm_0b02e53f21304ad293343223ef0eb0d3
-name: "Customer-support-agent"
+id: prm_a05628238fcf46ecae764a3e96f3cda6
+name: "Query-chatbot"
 version: "1.0.0"
 
 # DOCUMENTATION
 # --------------------
-description: ""
-namespace: []
-tags: []
+description: A template for creating prompts that encourages helpful assistance in
+  generating responses.
+namespace: ["Chatbots"]
+tags:
+- prompt template
+- assistance
+- helpful
+- user input
+- comment
 
 # OWNERSHIP & STATUS
 # --------------------
 status: "Draft"
 author: "ananya868 <ananya8154@gmail.com>"
-last_update: "2025-06-27T17:52:10.233477+00:00"
+last_update: "2025-07-10T13:33:08.011653+00:00"
 
 # CONFIGURATION
 # --------------------
-intended_model: ""
+intended_model: "gpt-4.1-nano"
 model_parameters:
   temperature: 0.7
 
@@ -26,7 +32,7 @@ model_parameters:
 # NOTES & LINKS
 # --------------------
 linked_prompts: []
-notes: ""
+notes: "Use in production"
 
 # - - - 💖 THE PROMPT 💖 - - -
 # ---------------------------------

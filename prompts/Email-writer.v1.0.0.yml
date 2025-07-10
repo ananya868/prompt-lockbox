@@ -1,0 +1,50 @@
+# PROMPT IDENTITY
+# --------------------
+id: prm_70f4b1de5be04a94b90af579fa536c54
+name: "Email-writer"
+version: "1.0.0"
+
+# DOCUMENTATION
+# --------------------
+description: A template for creating prompts that guide users to interact with a helpful
+  assistant.
+namespace: ["Email-tools"]
+tags:
+- prompt
+- template
+- assistant
+- user interaction
+- guidance
+
+# OWNERSHIP & STATUS
+# --------------------
+status: "Draft"
+author: "ananya868 <ananya8154@gmail.com>"
+last_update: "2025-07-10T13:38:12.238742+00:00"
+
+# CONFIGURATION
+# --------------------
+intended_model: "llama3.2"
+model_parameters:
+  temperature: 0.7
+
+
+# NOTES & LINKS
+# --------------------
+linked_prompts: []
+notes: "Use only for testing"
+
+# - - - 💖 THE PROMPT 💖 - - -
+# ---------------------------------
+# NOTE - Comments inside the prompt are automatically removed on prompt call.
+default_inputs:
+  purpose: "a professional email to a colleague about an upcoming project deadline."
+
+template: |
+  You are an expert email-writing assistant. 
+  - Write a clear, professional, and concise email based on the purpose given below. 
+  - Include a subject line and a suitable closing. Do not ask for any clarification.
+
+  Email Purpose: ${purpose}
+
+

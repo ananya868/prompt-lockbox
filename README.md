@@ -3,12 +3,20 @@
 </div>
 <div align="center">
   <h5>Brings structure and reproducibility to prompt engineering</h5>
+
+  <!-- Badges -->
+  <a href="https://badge.fury.io/py/prompt-lockbox">
+    <img src="https://badge.fury.io/py/prompt-lockbox.svg" alt="PyPI version">
+  </a>
+  <a href="https://opensource.org/licenses/MIT">
+    <img src="https://img.shields.io/badge/License-MIT-yellow.svg" alt="License: MIT">
+  </a>
+  <a href="https://pypi.org/project/prompt-lockbox/">
+    <img src="https://img.shields.io/pypi/pyversions/prompt-lockbox.svg" alt="Python versions">
+  </a>
 </div>
 
-[![PyPI version](https://badge.fury.io/py/prompt-lockbox.svg)](https://badge.fury.io/py/prompt-lockbox)
-[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
-[![Python versions](https://img.shields.io/pypi/pyversions/prompt-lockbox.svg)](https://pypi.org/project/prompt-lockbox/)
-
+<br />
 A powerful CLI toolkit and Python SDK to secure, manage, and develop your LLM prompts like reusable code.
 
 > 📑 **Explore the Full Documentation at [Prompt Lockbox Documentation](https://prompt-lockbox.mintlify.app)**

@@ -1,6 +1,6 @@
 [tool.poetry]
 name = "prompt-lockbox"
-version = "0.1.1"
+version = "0.1.2"
 description = "An AI toolkit to supercharge your prompts."
 authors = ["ananya868 <ananya8154@gmail.com>"]
 readme = "README.md"
@@ -9,7 +9,7 @@ readme = "README.md"
 # --- CORE DEPENDENCIES ---
 # These are the essential packages needed for the toolkit to run.
 python = ">=3.10,<4.0"
-typer = {extras = ["all"], version = "^0.12.3"}
+typer = {extras = ["all"], version = "^0.9.0"}
 rich = "^13.7.0"
 python-dotenv = "^1.0.0"
 questionary = "^2.0.1"

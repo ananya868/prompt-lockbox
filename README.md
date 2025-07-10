@@ -57,7 +57,7 @@ Managing prompts across a team or a large project can be chaotic. Plain text fil
 > ✅ **Solution:** Prompt Lockbox uses AI to automate documentation. One command (`plb prompt document`) generates a clear description and search tags, turning your prompts into reusable assets.
 ---
 
-## Key Features
+## Features
 
 *   **🔒 Integrity & Security:** Lock prompts to generate a checksum. The `plb verify` command ensures that production prompts haven't been tampered with since they were last approved.
 

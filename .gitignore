@@ -11,6 +11,9 @@ __pycache__/
 .venv/
 .plb/
 
+# Core 
+.plb.lock
+
 # Distribution / packaging
 .Python
 build/

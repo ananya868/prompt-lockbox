@@ -3,23 +3,13 @@
 </div>
 <div align="center">
   <h5>Brings structure and reproducibility to prompt engineering</h5>
+  <a href="https://badge.fury.io/py/prompt-lockbox"><img src="https://badge.fury.io/py/prompt-lockbox.svg" alt="PyPI version"/></a><a href="https://opensource.org/licenses/MIT"><img src="https://img.shields.io/badge/License-MIT-yellow.svg" alt="License: MIT"/></a><a href="https://pypi.org/project/prompt-lockbox/"><img src="https://img.shields.io/pypi/pyversions/prompt-lockbox.svg" alt="Python versions"/></a>
 
-  <!-- Badges -->
-  <a href="https://badge.fury.io/py/prompt-lockbox">
-    <img src="https://badge.fury.io/py/prompt-lockbox.svg" alt="PyPI version">
-  </a>
-  <a href="https://opensource.org/licenses/MIT">
-    <img src="https://img.shields.io/badge/License-MIT-yellow.svg" alt="License: MIT">
-  </a>
-  <a href="https://pypi.org/project/prompt-lockbox/">
-    <img src="https://img.shields.io/pypi/pyversions/prompt-lockbox.svg" alt="Python versions">
-  </a>
+  A powerful CLI toolkit and Python SDK to secure, manage, and develop your LLM prompts like reusable code.
 </div>
 
-<br />
-A powerful CLI toolkit and Python SDK to secure, manage, and develop your LLM prompts like reusable code.
-
-> 📑 **Explore the Full Documentation at [Prompt Lockbox Documentation](https://prompt-lockbox.mintlify.app)**
+<br></br>
+📑 **Explore the Full Documentation at - [![Docs](https://img.shields.io/badge/Docs-Prompt%20Lockbox-green?style=for-the-badge)](https://prompt-lockbox.mintlify.app)**
 >
 > *(This README provides an overview. The full site contains detailed guides, API references, and advanced tutorials.)*
 

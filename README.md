@@ -58,18 +58,18 @@ Managing prompts across a team or a large project can be chaotic. Plain text fil
 
 ## Features
 
-*   **🔒 Integrity & Security:** Lock prompts to generate a checksum. The `plb verify` command ensures that production prompts haven't been tampered with since they were last approved.
+*   **Integrity & Security:** Lock prompts to generate a checksum. The `plb verify` command ensures that production prompts haven't been tampered with since they were last approved.
 
-*   **📂 Version Control First:** Automatically create new, semantically versioned prompt files with `plb version`, making it easy to iterate and experiment safely without breaking existing implementations.
+*   **Version Control First:** Automatically create new, semantically versioned prompt files with `plb version`, making it easy to iterate and experiment safely without breaking existing implementations.
 
-*   **🤖 AI Superpowers:**
+*   **AI features:**
     *   **Auto-Documentation:** `plb prompt document` uses an AI to analyze your prompt and generate a concise description and relevant search tags.
     *   **Auto-Improvement:** `plb prompt improve` provides an expert critique and a suggested, improved version of your prompt template, showing you a diff of the changes.
     *   **Direct Execution:** Execute prompts directly against your configured LLMs (OpenAI, Anthropic, Ollama, HuggingFace) right from the CLI.
 
-*   **🔎 Advanced Search:** Don't just `grep`. Build a local search index (`hybrid` TF-IDF + FAISS or `splade`) to find the right prompt instantly using natural language queries.
+*   **Advanced Search:** Don't just `grep`. Build a local search index (`hybrid` TF-IDF + FAISS or `splade`) to find the right prompt instantly using natural language queries.
 
-*   **⚙️ Flexible Configuration:** An interactive wizard (`plb configure-ai`) makes it trivial to set up any provider and model, securely storing API keys in a local `.env` file.
+*   **Flexible Configuration:** An interactive wizard (`plb configure-ai`) makes it trivial to set up any provider and model, securely storing API keys in a local `.env` file.
 
 ## Installation
 

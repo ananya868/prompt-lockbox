@@ -2,7 +2,7 @@
   <img src="docs/logo/logo.png" alt="Logo" width=700>  
 </div>
 <div align="center">
-  <h5>Brings structure and reproducibility to prompt engineering</h5>
+  <h5>Brings structure and reproducibility to your prompts</h5>
   <a href="https://badge.fury.io/py/prompt-lockbox"><img src="https://badge.fury.io/py/prompt-lockbox.svg?v=1?" alt="PyPI version"/></a><a href="https://opensource.org/licenses/MIT"><img src="https://img.shields.io/badge/License-MIT-yellow.svg" alt="License: MIT"/></a><a href="https://pypi.org/project/prompt-lockbox/"><img src="https://img.shields.io/pypi/pyversions/prompt-lockbox.svg" alt="Python versions"/></a>
 
   A lightweight CLI toolkit and Python SDK to secure, manage, and develop your LLM prompts like reusable code.
@@ -12,17 +12,6 @@
 📑 **Explore the full Documenentation here - [Docs](https://prompt-lockbox.mintlify.app)**
 >
 > *(This README provides an overview. The full site contains detailed guides, API references, and advanced tutorials.)*
-
-<br/>
-
-
-<div align="center">
-
-**[-- YOUR VIDEO DEMO WILL GO HERE --]**
-
-*A brief video showcasing the core workflow from initialization to AI-powered improvement.*
-
-</div>
 
 <br/>
 
@@ -184,7 +173,7 @@ prompt-lockbox/
 - pyproject.toml & poetry.lock: These files manage the project's dependencies and packaging configuration, controlled by Poetry.
 - README.md, CONTRIBUTING.md, LICENSE: Standard repository files for community engagement, contribution guidelines, and legal information.
     
-### High-Level Directory Purpose
+**Package Breakdown**: 
 
 Here is a high-level breakdown of the purpose of each main directory within the package:
 

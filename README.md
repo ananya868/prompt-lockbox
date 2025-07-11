@@ -83,7 +83,7 @@ pip install git+https://github.com/ananya868/prompt-lockbox.git
 pip install "prompt-lockbox[openai,search] @ git+https://github.com/ananya868/prompt-lockbox.git"
 ```
 
-## Quickstart: Your First 5 Minutes
+## Quickstart
 
 This guide takes you from an empty directory to executing your first AI-powered prompt.
 
@@ -121,6 +121,73 @@ plb run email-formatter --var user_request="draft a polite follow-up email"
 
 # Send the rendered prompt to your configured AI for a response
 plb run email-formatter --var user_request="draft a polite follow-up email" --execute
+```
+### **SDK Quickstart (Python)**
+
+You can also use Prompt Lockbox programmatically in your Python applications. Here’s a quickstart for the SDK.
+
+```python
+import os
+from prompt_lockbox.api import Project
+
+# --- 1. Initialization ---
+# Assuming you've already run 'plb init' in your directory.
+# This finds the project by locating the 'plb.toml' file.
+project = Project()
+
+# --- 2. Configuration (Managed via plb.toml and .env) ---
+# The SDK automatically uses the configuration set by `plb configure-ai`.
+# Ensure your OPENAI_API_KEY (or other provider key) is in your .env file.
+# For example:
+# os.environ["OPENAI_API_KEY"] = "sk-..." 
+
+# --- 3. Create a New Prompt ---
+print("Creating a new prompt...")
+try:
+    new_prompt = project.create_prompt(
+        name="daily-summary-generator",
+        version="1.0.0",
+        description="Generates a daily summary from a list of tasks.",
+        tags=["summarization", "daily", "reporting"],
+        notes="Template for creating end-of-day reports."
+    )
+    print(f"✅ Successfully created prompt: {new_prompt.path.name}")
+
+    # You would typically edit the template in the .yml file,
+    # but for this example, we'll modify it programmatically.
+    new_prompt.data['template'] = "Summarize these tasks into a single paragraph for a status report:\n${task_list}"
+    
+    # --- 4. Auto-Document the Prompt ---
+    # Let's say we want to improve the initial description and tags using AI.
+    print("\n📄 Running AI-powered auto-documentation...")
+    new_prompt.document()
+    print("✅ Documentation updated by AI.")
+    
+    # Reload the prompt to see the new AI-generated description
+    updated_prompt = project.get_prompt("daily-summary-generator")
+    print(f"   New Description: {updated_prompt.description}")
+    print(f"   New Tags: {updated_prompt.data['tags']}")
+
+    # --- 5. Get AI Critique and Improve the Prompt ---
+    print("\n🤖 Getting AI critique to improve the prompt...")
+    critique = updated_prompt.get_critique(note="Make it sound more professional and output in markdown bullet points.")
+    
+    print(f"   AI Critique: {critique['critique']}")
+
+    # Apply the AI's suggested improvements
+    updated_prompt.improve(critique['improved_template'])
+    print("✅ Prompt template has been updated with AI suggestions.")
+    
+    # --- 6. Execute the Final Prompt ---
+    print("\n🚀 Executing the final, improved prompt...")
+    final_result = updated_prompt.execute(task_list="- Coded new feature\n- Attended team meeting\n- Fixed bug #123")
+    print("\n--- Final AI Output ---")
+    print(final_result)
+    
+except FileExistsError as e:
+    print(f"🟡 Warning: {e}")
+except Exception as e:
+    print(f"❌ An error occurred: {e}")
 ```
 
 ## Project Structure
